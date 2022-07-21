@@ -27,6 +27,9 @@
       "name": "Category"
     },
     {
+      "name": "PurchaseOrder"
+    },
+    {
       "name": "Sms"
     },
     {
@@ -105,39 +108,6 @@
         ]
       }
     },
-    "/v1/account/tokens/refresh": {
-      "post": {
-        "summary": "刷新令牌 如果原来的令牌过期了或者活李过期时间还差15分钟，则返回一个新的令牌，否则什么也不返回",
-        "operationId": "Token_Refresh",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1RefreshReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1RefreshRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Token"
-        ]
-      }
-    },
     "/v1/accounts": {
       "get": {
         "summary": "列表",
@@ -174,7 +144,7 @@
             "format": "int32"
           },
           {
-            "name": "phone_no",
+            "name": "phoneNo",
             "in": "query",
             "required": false,
             "type": "string"
@@ -224,7 +194,7 @@
     },
     "/v1/accounts/{id}": {
       "get": {
-        "summary": "获取",
+        "summary": "详情",
         "operationId": "Account_Get",
         "responses": {
           "200": {
@@ -328,6 +298,22 @@
             "required": true,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -361,6 +347,22 @@
             "required": true,
             "type": "string",
             "format": "int64"
+          },
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
           }
         ],
         "tags": [
@@ -401,15 +403,15 @@
         ]
       }
     },
-    "/v1/accounts/{id}/tokens": {
+    "/v1/accounts/{id}/receive/samples": {
       "get": {
-        "summary": "我的登录记录",
-        "operationId": "Token_ListByAccount",
+        "summary": "我收到的分享样品列表",
+        "operationId": "Sample_ListReceive",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListByAccountReply"
+              "$ref": "#/definitions/v1ListShareReply"
             }
           },
           "default": {
@@ -428,16 +430,289 @@
             "format": "int64"
           },
           {
-            "name": "page",
+            "name": "pagination.page",
+            "description": "页数",
             "in": "query",
-            "required": false,
+            "required": true,
             "type": "integer",
             "format": "int32"
           },
           {
-            "name": "page_size",
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
             "in": "query",
-            "required": false,
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/refresh-token": {
+      "put": {
+        "summary": "刷新令牌",
+        "operationId": "Token_Refresh",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1RefreshReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "账号id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refreshToken": {
+                  "type": "string",
+                  "title": "刷新令牌"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Token"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/samples/{sampleId}/favorite": {
+      "delete": {
+        "summary": "取消收藏",
+        "operationId": "Sample_Unfavorite",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SampleReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "账号id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      },
+      "post": {
+        "summary": "收藏样品",
+        "operationId": "Sample_Favorite",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SampleReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "账号id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/samples/{sampleId}/share": {
+      "delete": {
+        "summary": "取消分享",
+        "operationId": "Sample_CancelShare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/share/samples": {
+      "get": {
+        "summary": "我主动分享的样品列表",
+        "operationId": "Sample_ListShare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListShareReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/tokens": {
+      "get": {
+        "summary": "我的登录日志",
+        "operationId": "Token_ListByAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apitokenv1ListReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
             "type": "integer",
             "format": "int32"
           }
@@ -449,7 +724,7 @@
     },
     "/v1/captcha": {
       "get": {
-        "summary": "获取图形验证码",
+        "summary": "获取",
         "operationId": "Captcha_Get",
         "responses": {
           "200": {
@@ -679,16 +954,16 @@
             "schema": {
               "type": "object",
               "properties": {
-                "scope_name": {
+                "scopeName": {
                   "type": "string",
                   "title": "正则 ^\\\\S{2,10}$",
                   "required": [
-                    "scope_name"
+                    "scopeName"
                   ]
                 }
               },
               "required": [
-                "scope_name"
+                "scopeName"
               ]
             }
           }
@@ -698,7 +973,7 @@
         ]
       }
     },
-    "/v1/categories/{id}/scopes/{scope_name}": {
+    "/v1/categories/{id}/scopes/{scopeName}": {
       "delete": {
         "summary": "删除适用范围",
         "operationId": "Category_DeleteScope",
@@ -726,7 +1001,7 @@
             "format": "int64"
           },
           {
-            "name": "scope_name",
+            "name": "scopeName",
             "description": "正则 ^\\\\S{2,10}$",
             "in": "path",
             "required": true,
@@ -924,7 +1199,7 @@
     },
     "/v1/channel-groups/{id}/accounts": {
       "post": {
-        "summary": "新增账号",
+        "summary": "添加账号",
         "operationId": "ChannelGroup_CreateAccount",
         "responses": {
           "200": {
@@ -955,7 +1230,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "account_id": {
+                "accountId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -968,7 +1243,7 @@
         ]
       }
     },
-    "/v1/channel-groups/{id}/accounts/{account_id}": {
+    "/v1/channel-groups/{id}/accounts/{accountId}": {
       "delete": {
         "summary": "删除账号",
         "operationId": "ChannelGroup_DeleteAccount",
@@ -996,7 +1271,7 @@
             "format": "int64"
           },
           {
-            "name": "account_id",
+            "name": "accountId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -1010,7 +1285,7 @@
     },
     "/v1/channel-groups/{id}/channels": {
       "post": {
-        "summary": "新增渠道",
+        "summary": "添加渠道",
         "operationId": "ChannelGroup_CreateChannel",
         "responses": {
           "200": {
@@ -1041,7 +1316,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "channel_id": {
+                "channelId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -1054,7 +1329,7 @@
         ]
       }
     },
-    "/v1/channel-groups/{id}/channels/{channel_id}": {
+    "/v1/channel-groups/{id}/channels/{channelId}": {
       "delete": {
         "summary": "删除渠道",
         "operationId": "ChannelGroup_DeleteChannel",
@@ -1082,7 +1357,7 @@
             "format": "int64"
           },
           {
-            "name": "channel_id",
+            "name": "channelId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -1096,7 +1371,7 @@
     },
     "/v1/channels": {
       "get": {
-        "summary": "渠道列表(全量返回)",
+        "summary": "列表(全量返回)",
         "operationId": "Channel_List",
         "responses": {
           "200": {
@@ -1365,15 +1640,69 @@
         ]
       }
     },
-    "/v1/items/{id}/modifications": {
-      "get": {
-        "summary": "修改记录 不支持分页",
-        "operationId": "Item_GetModification",
+    "/v1/items/{id}/duplicate": {
+      "post": {
+        "summary": "复制创建新宝贝",
+        "operationId": "Item_Duplicate",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiitemv1GetModificationReply"
+              "$ref": "#/definitions/v1ItemReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "宝贝id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "channelId": {
+                  "type": "string",
+                  "format": "int64",
+                  "title": "渠道id",
+                  "required": [
+                    "channelId"
+                  ]
+                }
+              },
+              "required": [
+                "channelId"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "Item"
+        ]
+      }
+    },
+    "/v1/items/{id}/update-logs": {
+      "get": {
+        "summary": "修改记录 不支持分页",
+        "operationId": "Item_GetUpdateLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiitemv1GetUpdateLogReply"
             }
           },
           "default": {
@@ -1583,7 +1912,7 @@
     },
     "/v1/price-groups/{id}/accounts": {
       "post": {
-        "summary": "新增账号",
+        "summary": "添加账号",
         "operationId": "PriceGroup_CreateAccount",
         "responses": {
           "200": {
@@ -1614,7 +1943,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "account_id": {
+                "accountId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -1627,7 +1956,7 @@
         ]
       }
     },
-    "/v1/price-groups/{id}/accounts/{account_id}": {
+    "/v1/price-groups/{id}/accounts/{accountId}": {
       "delete": {
         "summary": "删除账号",
         "operationId": "PriceGroup_DeleteAccount",
@@ -1655,7 +1984,7 @@
             "format": "int64"
           },
           {
-            "name": "account_id",
+            "name": "accountId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -1669,7 +1998,7 @@
     },
     "/v1/price-groups/{id}/prices": {
       "post": {
-        "summary": "新增价格",
+        "summary": "添加价格",
         "operationId": "PriceGroup_CreatePrice",
         "responses": {
           "200": {
@@ -1700,7 +2029,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "price_id": {
+                "priceId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -1713,7 +2042,7 @@
         ]
       }
     },
-    "/v1/price-groups/{id}/prices/{price_id}": {
+    "/v1/price-groups/{id}/prices/{priceId}": {
       "delete": {
         "summary": "删除价格",
         "operationId": "PriceGroup_DeletePrice",
@@ -1741,7 +2070,7 @@
             "format": "int64"
           },
           {
-            "name": "price_id",
+            "name": "priceId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -1812,13 +2141,7 @@
             "format": "int32"
           },
           {
-            "name": "visibility",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "supplier_id",
+            "name": "supplierId",
             "description": "供应商id",
             "in": "query",
             "required": false,
@@ -1826,7 +2149,7 @@
             "format": "int64"
           },
           {
-            "name": "warehouse_id",
+            "name": "warehouseId",
             "description": "仓库id",
             "in": "query",
             "required": false,
@@ -1848,7 +2171,7 @@
             "type": "string"
           },
           {
-            "name": "class_path",
+            "name": "categoryPath",
             "description": "类目路径",
             "in": "query",
             "required": false,
@@ -1956,7 +2279,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "category_id": {
+                "categoryId": {
                   "type": "string",
                   "format": "int64",
                   "title": "类目 ID"
@@ -1969,7 +2292,7 @@
                   "type": "string",
                   "title": "文案 1-30"
                 },
-                "image_urls": {
+                "imageUrls": {
                   "type": "array",
                   "items": {
                     "type": "string"
@@ -1987,7 +2310,7 @@
                   "type": "string",
                   "title": "规格 1-30"
                 },
-                "specification_code": {
+                "specificationCode": {
                   "type": "string",
                   "title": "规格码 1-30"
                 },
@@ -2010,7 +2333,7 @@
                   "format": "double",
                   "title": "高度 cm 0-1000"
                 },
-                "net_weight": {
+                "netWeight": {
                   "type": "number",
                   "format": "double",
                   "title": "净重 g 0 -100000"
@@ -2051,12 +2374,12 @@
                   "type": "string",
                   "title": "状态 1-10"
                 },
-                "cost_price": {
+                "costPrice": {
                   "type": "number",
                   "format": "double",
                   "title": "成本价 0-1000000"
                 },
-                "suggested_retail_price": {
+                "suggestedRetailPrice": {
                   "type": "number",
                   "format": "double",
                   "title": "建议售价 0-1000000"
@@ -2146,39 +2469,6 @@
         ]
       }
     },
-    "/v1/products/{id}/modifications": {
-      "get": {
-        "summary": "修改记录 不支持分页",
-        "operationId": "Product_GetModification",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiproductv1GetModificationReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "产品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Product"
-        ]
-      }
-    },
     "/v1/products/{id}/move-to-composite-zone": {
       "post": {
         "summary": "移到合成区",
@@ -2258,6 +2548,196 @@
         ],
         "tags": [
           "Product"
+        ]
+      }
+    },
+    "/v1/products/{id}/update-logs": {
+      "get": {
+        "summary": "修改记录 不支持分页",
+        "operationId": "Product_GetUpdateLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiproductv1GetUpdateLogReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "产品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/purchase-orders": {
+      "get": {
+        "summary": "列表",
+        "operationId": "PurchaseOrder_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apipurchaseorderv1ListReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "PurchaseOrder"
+        ]
+      },
+      "post": {
+        "summary": "创建",
+        "operationId": "PurchaseOrder_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PurchaseOrderReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apipurchaseorderv1CreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      }
+    },
+    "/v1/purchase-orders/{id}": {
+      "get": {
+        "summary": "详情",
+        "operationId": "PurchaseOrder_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PurchaseOrderReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      },
+      "patch": {
+        "summary": "更新",
+        "operationId": "PurchaseOrder_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      }
+    },
+    "/v1/purchase-orders/{id}/update-logs": {
+      "get": {
+        "summary": "修改记录 全量返回",
+        "operationId": "PurchaseOrder_GetUpdateLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apipurchaseorderv1GetUpdateLogReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
         ]
       }
     },
@@ -2468,7 +2948,7 @@
         ]
       }
     },
-    "/v1/roles/{id}/accounts/{account_id}": {
+    "/v1/roles/{id}/accounts/{accountId}": {
       "delete": {
         "summary": "删除账号",
         "operationId": "Role_DeleteAccount",
@@ -2496,7 +2976,7 @@
             "format": "int64"
           },
           {
-            "name": "account_id",
+            "name": "accountId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -2508,7 +2988,7 @@
         ]
       },
       "post": {
-        "summary": "新增账号",
+        "summary": "添加账号",
         "operationId": "Role_CreateAccount",
         "responses": {
           "200": {
@@ -2533,7 +3013,7 @@
             "format": "int64"
           },
           {
-            "name": "account_id",
+            "name": "accountId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -2553,7 +3033,7 @@
         ]
       }
     },
-    "/v1/roles/{id}/resources/{resource_id}/permissions": {
+    "/v1/roles/{id}/resources/{resourceId}/permissions": {
       "put": {
         "summary": "更新权限",
         "operationId": "Role_PutPermission",
@@ -2581,7 +3061,7 @@
             "format": "int64"
           },
           {
-            "name": "resource_id",
+            "name": "resourceId",
             "in": "path",
             "required": true,
             "type": "string"
@@ -2593,19 +3073,19 @@
             "schema": {
               "type": "object",
               "properties": {
-                "allow_query": {
+                "allowQuery": {
                   "type": "boolean"
                 },
-                "allow_create": {
+                "allowCreate": {
                   "type": "boolean"
                 },
-                "allow_update": {
+                "allowUpdate": {
                   "type": "boolean"
                 },
-                "allow_delete": {
+                "allowDelete": {
                   "type": "boolean"
                 },
-                "allow_export": {
+                "allowExport": {
                   "type": "boolean"
                 }
               }
@@ -2679,7 +3159,7 @@
             "default": "PENDING"
           },
           {
-            "name": "supplier_id",
+            "name": "supplierId",
             "description": "供应商id",
             "in": "query",
             "required": false,
@@ -2701,7 +3181,7 @@
             "type": "string"
           },
           {
-            "name": "class_path",
+            "name": "categoryPath",
             "description": "分类路径",
             "in": "query",
             "required": false,
@@ -2877,19 +3357,22 @@
                   "$ref": "#/definitions/v1UpdateRequestDetail",
                   "title": "商品详细"
                 },
-                "source_type": {
+                "sourceType": {
                   "$ref": "#/definitions/SampleReplySourceType",
                   "title": "来源"
                 },
                 "tags": {
-                  "type": "string",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
                   "title": "标签"
                 },
-                "select_date": {
+                "selectDate": {
                   "type": "string",
                   "title": "选品日期 YYYY-MM-DD"
                 },
-                "arrival_date": {
+                "arrivalDate": {
                   "type": "string",
                   "title": "到样日期 YYYY-MM-DD"
                 },
@@ -2897,20 +3380,15 @@
                   "type": "string",
                   "title": "拿货目的"
                 },
-                "price_range": {
+                "priceRange": {
                   "$ref": "#/definitions/v1UpdateRequestRange",
                   "title": "价位段"
                 },
-                "sales_price_range": {
+                "salesPriceRange": {
                   "$ref": "#/definitions/v1UpdateRequestRange",
                   "title": "售价段"
                 },
-                "cost_price": {
-                  "type": "number",
-                  "format": "double",
-                  "title": "成本价"
-                },
-                "expected_shelf_month": {
+                "expectedShelfMonth": {
                   "type": "string",
                   "title": "期望上架月份 YYYY-MM"
                 },
@@ -2933,7 +3411,7 @@
     },
     "/v1/samples/{id}/attachments": {
       "post": {
-        "summary": "新增附件",
+        "summary": "添加附件",
         "operationId": "Product_CrateAttachment",
         "responses": {
           "200": {
@@ -3033,111 +3511,6 @@
         ]
       }
     },
-    "/v1/samples/{id}/favorite": {
-      "delete": {
-        "summary": "取消收藏",
-        "operationId": "Sample_Unfavorite",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1SampleReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      },
-      "post": {
-        "summary": "收藏样品",
-        "operationId": "Sample_Favorite",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1SampleReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      }
-    },
-    "/v1/samples/{id}/modifications": {
-      "get": {
-        "summary": "修改记录 不支持分页",
-        "operationId": "Sample_GetModification",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apisamplev1GetModificationReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      }
-    },
     "/v1/samples/{id}/move-to-composite-zone": {
       "post": {
         "summary": "移到合成区",
@@ -3179,6 +3552,103 @@
         ]
       }
     },
+    "/v1/samples/{id}/share": {
+      "post": {
+        "summary": "分享样品  公共权限",
+        "operationId": "Sample_Share",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "editable": {
+                  "type": "boolean",
+                  "title": "是否可编辑",
+                  "required": [
+                    "editable"
+                  ]
+                },
+                "receiverId": {
+                  "type": "string",
+                  "format": "int64",
+                  "title": "接收人id",
+                  "required": [
+                    "receiverId"
+                  ]
+                }
+              },
+              "title": "分享样品请求",
+              "required": [
+                "editable",
+                "receiverId"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/samples/{id}/update-logs": {
+      "get": {
+        "summary": "修改记录",
+        "operationId": "Sample_ListUpdateLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListUpdateLogReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
     "/v1/skus": {
       "get": {
         "summary": "列表",
@@ -3206,7 +3676,7 @@
             "format": "int32"
           },
           {
-            "name": "page_size",
+            "name": "pageSize",
             "in": "query",
             "required": false,
             "type": "integer",
@@ -3399,39 +3869,6 @@
         ]
       }
     },
-    "/v1/skus/{id}/modifications": {
-      "get": {
-        "summary": "修改记录 不支持分页",
-        "operationId": "Sku_GetModification",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiskuv1GetModificationReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "sku id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Sku"
-        ]
-      }
-    },
     "/v1/skus/{id}/move-to-composite-zone": {
       "post": {
         "summary": "移到合成区",
@@ -3466,6 +3903,39 @@
             "schema": {
               "type": "object"
             }
+          }
+        ],
+        "tags": [
+          "Sku"
+        ]
+      }
+    },
+    "/v1/skus/{id}/update-logs": {
+      "get": {
+        "summary": "修改记录",
+        "operationId": "Sku_GetUpdateLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiskuv1GetUpdateLogReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "sku id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -3690,7 +4160,7 @@
     },
     "/v1/supplier-groups/{id}/accounts": {
       "post": {
-        "summary": "新增账号",
+        "summary": "添加账号",
         "operationId": "SupplierGroup_CreateAccount",
         "responses": {
           "200": {
@@ -3721,7 +4191,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "account_id": {
+                "accountId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -3734,7 +4204,7 @@
         ]
       }
     },
-    "/v1/supplier-groups/{id}/accounts/{account_id}": {
+    "/v1/supplier-groups/{id}/accounts/{accountId}": {
       "delete": {
         "summary": "删除账号",
         "operationId": "SupplierGroup_DeleteAccount",
@@ -3762,7 +4232,7 @@
             "format": "int64"
           },
           {
-            "name": "account_id",
+            "name": "accountId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -3776,7 +4246,7 @@
     },
     "/v1/supplier-groups/{id}/suppliers": {
       "post": {
-        "summary": "增加供应商",
+        "summary": "添加供应商",
         "operationId": "SupplierGroup_CreateSupplier",
         "responses": {
           "200": {
@@ -3807,7 +4277,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "supplier_id": {
+                "supplierId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -3820,7 +4290,7 @@
         ]
       }
     },
-    "/v1/supplier-groups/{id}/suppliers/{supplier_id}": {
+    "/v1/supplier-groups/{id}/suppliers/{supplierId}": {
       "delete": {
         "summary": "删除供应商",
         "operationId": "SupplierGroup_DeleteSupplier",
@@ -3848,7 +4318,7 @@
             "format": "int64"
           },
           {
-            "name": "supplier_id",
+            "name": "supplierId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -4003,11 +4473,11 @@
             "schema": {
               "type": "object",
               "properties": {
-                "phone_no": {
+                "phoneNo": {
                   "type": "string",
                   "title": "手机号"
                 },
-                "follower_name": {
+                "followerName": {
                   "type": "string",
                   "title": "跟进人"
                 },
@@ -4067,7 +4537,7 @@
     },
     "/v1/tokens": {
       "get": {
-        "summary": "登录记录",
+        "summary": "登录日志",
         "operationId": "Token_List",
         "responses": {
           "200": {
@@ -4085,16 +4555,18 @@
         },
         "parameters": [
           {
-            "name": "page",
+            "name": "pagination.page",
+            "description": "页数",
             "in": "query",
-            "required": false,
+            "required": true,
             "type": "integer",
             "format": "int32"
           },
           {
-            "name": "page_size",
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
             "in": "query",
-            "required": false,
+            "required": true,
             "type": "integer",
             "format": "int32"
           }
@@ -4104,7 +4576,7 @@
         ]
       },
       "post": {
-        "summary": "通过",
+        "summary": "创建（登录）",
         "operationId": "Token_Create",
         "responses": {
           "200": {
@@ -4352,7 +4824,7 @@
     },
     "/v1/warehouse-groups/{id}/accounts": {
       "post": {
-        "summary": "新增账号",
+        "summary": "添加账号",
         "operationId": "WarehouseGroup_CreateAccount",
         "responses": {
           "200": {
@@ -4383,7 +4855,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "account_id": {
+                "accountId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -4396,7 +4868,7 @@
         ]
       }
     },
-    "/v1/warehouse-groups/{id}/accounts/{account_id}": {
+    "/v1/warehouse-groups/{id}/accounts/{accountId}": {
       "delete": {
         "summary": "删除账号",
         "operationId": "WarehouseGroup_DeleteAccount",
@@ -4424,7 +4896,7 @@
             "format": "int64"
           },
           {
-            "name": "account_id",
+            "name": "accountId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -4438,7 +4910,7 @@
     },
     "/v1/warehouse-groups/{id}/warehouses": {
       "post": {
-        "summary": "新增仓库",
+        "summary": "添加仓库",
         "operationId": "WarehouseGroup_CreateWarehouse",
         "responses": {
           "200": {
@@ -4469,7 +4941,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "warehouse_id": {
+                "warehouseId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -4482,7 +4954,7 @@
         ]
       }
     },
-    "/v1/warehouse-groups/{id}/warehouses/{warehouse_id}": {
+    "/v1/warehouse-groups/{id}/warehouses/{warehouseId}": {
       "delete": {
         "summary": "删除仓库",
         "operationId": "WarehouseGroup_DeleteWarehouse",
@@ -4510,7 +4982,7 @@
             "format": "int64"
           },
           {
-            "name": "warehouse_id",
+            "name": "warehouseId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -4641,17 +5113,17 @@
             "schema": {
               "type": "object",
               "properties": {
-                "shipping_cost": {
+                "shippingCost": {
                   "type": "number",
                   "format": "double",
                   "title": "运费"
                 },
-                "operating_cost": {
+                "operatingCost": {
                   "type": "number",
                   "format": "double",
                   "title": "操作费"
                 },
-                "packaging_cost": {
+                "packagingCost": {
                   "type": "number",
                   "format": "double",
                   "title": "包装费"
@@ -4692,35 +5164,39 @@
     "AccountReplyRolePermission": {
       "type": "object",
       "properties": {
-        "allow_query": {
+        "allowQuery": {
           "type": "boolean"
         }
       }
     },
-    "CreateRequestClient": {
+    "CreateRequestAccountType": {
       "type": "string",
       "enum": [
-        "MDZF_WEB_ERP",
-        "MDZF_WEB_SUPPLIER"
+        "ERP",
+        "SUPPLIER"
       ],
-      "default": "MDZF_WEB_ERP"
+      "default": "ERP",
+      "title": "- ERP: ERP 账号\n - SUPPLIER: 供应商账号"
     },
     "CreateRequestDingtalk": {
       "type": "object",
       "properties": {
-        "auth_code": {
-          "type": "string"
+        "authCode": {
+          "type": "string",
+          "title": "授权码"
         }
       }
     },
     "CreateRequestMobile": {
       "type": "object",
       "properties": {
-        "phone_no": {
-          "type": "string"
+        "phoneNo": {
+          "type": "string",
+          "title": "手机号 ^1[0-9]{10}$"
         },
         "sms": {
-          "type": "string"
+          "type": "string",
+          "title": "验证码 ^[\\\\d]{4,4}$"
         }
       }
     },
@@ -4764,7 +5240,7 @@
         "purchaser": {
           "$ref": "#/definitions/apicommonv1Account"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         }
       }
@@ -4772,51 +5248,51 @@
     "ProductProductSupplier": {
       "type": "object",
       "properties": {
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "supplier": {
           "$ref": "#/definitions/commonv1Supplier",
           "title": "供应商信息"
         },
-        "article_no": {
+        "articleNo": {
           "type": "string",
           "title": "货号"
         },
-        "unit_price": {
+        "unitPrice": {
           "type": "number",
           "format": "double",
           "title": "单价"
         },
-        "control_price": {
+        "controlPrice": {
           "type": "number",
           "format": "double",
           "title": "控价"
         },
-        "list_price": {
+        "listPrice": {
           "type": "number",
           "format": "double",
           "title": "建议零售价"
         },
-        "quantity_per_box": {
+        "quantityPerBox": {
           "type": "integer",
           "format": "int32",
           "title": "装箱率"
         },
-        "production_cycle": {
+        "productionCycle": {
           "type": "integer",
           "format": "int32",
           "title": "生产周期"
         },
-        "min_order_quantity": {
+        "minOrderQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "起订量"
         },
-        "quality_report_no": {
+        "qualityReportNo": {
           "type": "string",
           "title": "质检报告编号"
         }
@@ -4825,20 +5301,20 @@
     "ProductProductWarehouse": {
       "type": "object",
       "properties": {
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "warehouse": {
           "$ref": "#/definitions/commonv1Warehouse"
         },
-        "sale_stat": {
+        "saleStat": {
           "$ref": "#/definitions/ProductWarehouseSaleStat",
           "title": "销售统计"
         },
-        "purchase_stat": {
+        "purchaseStat": {
           "$ref": "#/definitions/ProductWarehousePurchaseStat",
           "title": "采购统计"
         }
@@ -4847,22 +5323,22 @@
     "ProductWarehousePurchaseStat": {
       "type": "object",
       "properties": {
-        "received_quantity": {
+        "receivedQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "采购到货量"
         },
-        "in_transit_quantity": {
+        "inTransitQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "采购在途量"
         },
-        "exchange_quantity": {
+        "exchangeQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "采购换货量"
         },
-        "return_quantity": {
+        "returnQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "采购退货量"
@@ -4943,40 +5419,40 @@
     "SampleReplyOwnerType": {
       "type": "string",
       "enum": [
-        "FOR_INTERNAL",
-        "FOR_SUPPLIER"
+        "ERP",
+        "SUPPLIER"
       ],
-      "default": "FOR_INTERNAL",
-      "title": "- FOR_INTERNAL: 内部\n - FOR_SUPPLIER: 供应商"
+      "default": "ERP",
+      "title": "- ERP: ERP 账号\n - SUPPLIER: 供应商"
     },
     "SampleReplySourceType": {
       "type": "string",
       "enum": [
-        "COMPETITOR",
+        "COMPETITOR_PRODUCT",
         "PLANNING"
       ],
-      "default": "COMPETITOR",
-      "title": "- COMPETITOR: 竞店\n - PLANNING: 规划"
+      "default": "COMPETITOR_PRODUCT",
+      "title": "- COMPETITOR_PRODUCT: 竞店新品\n - PLANNING: 规划"
     },
     "apiaccountv1CreateRequest": {
       "type": "object",
       "properties": {
-        "phone_no": {
+        "phoneNo": {
           "type": "string",
           "title": "正则^1[0-9]{10}$",
           "required": [
-            "phone_no"
+            "phoneNo"
           ]
         }
       },
       "required": [
-        "phone_no"
+        "phoneNo"
       ]
     },
     "apiaccountv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5003,7 +5479,7 @@
     "apicategoryv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5048,11 +5524,11 @@
     "apichannelgroupv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
-        "channel_groups": {
+        "channelGroups": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1ChannelGroupReply"
@@ -5063,7 +5539,7 @@
     "apichannelv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5080,28 +5556,33 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64"
+          "format": "int64",
+          "title": "账号ID"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "姓名"
         }
       }
     },
-    "apicommonv1Modification": {
+    "apicommonv1UpdateLog": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
-          "type": "string"
+        "createTime": {
+          "type": "string",
+          "title": "修改时间"
         },
         "modifier": {
-          "$ref": "#/definitions/apicommonv1Account"
+          "$ref": "#/definitions/apicommonv1Account",
+          "title": "修改人"
         },
         "description": {
-          "type": "string"
+          "type": "string",
+          "title": "修改描述"
         }
       }
     },
@@ -5150,13 +5631,17 @@
         "quantity"
       ]
     },
-    "apiitemv1GetModificationReply": {
+    "apiitemv1GetUpdateLogReply": {
       "type": "object",
       "properties": {
-        "modifications": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updateLogs": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/apicommonv1Modification"
+            "$ref": "#/definitions/apicommonv1UpdateLog"
           }
         }
       }
@@ -5197,11 +5682,11 @@
     "apipricegroupv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
-        "price_groups": {
+        "priceGroups": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1PriceGroupReply"
@@ -5212,7 +5697,7 @@
     "apipricev1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5227,7 +5712,7 @@
     "apiproductv1CreateRequest": {
       "type": "object",
       "properties": {
-        "sample_ids": {
+        "sampleIds": {
           "type": "array",
           "items": {
             "type": "string",
@@ -5235,7 +5720,7 @@
           },
           "title": "产品ID集合",
           "required": [
-            "sample_ids"
+            "sampleIds"
           ]
         },
         "no": {
@@ -5247,17 +5732,17 @@
         }
       },
       "required": [
-        "sample_ids",
+        "sampleIds",
         "no"
       ]
     },
-    "apiproductv1GetModificationReply": {
+    "apiproductv1GetUpdateLogReply": {
       "type": "object",
       "properties": {
-        "modifications": {
+        "updateLogs": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/apicommonv1Modification"
+            "$ref": "#/definitions/apicommonv1UpdateLog"
           }
         }
       }
@@ -5265,6 +5750,10 @@
     "apiproductv1ListFavoriteReply": {
       "type": "object",
       "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
         "products": {
           "type": "array",
           "items": {
@@ -5276,7 +5765,7 @@
     "apiproductv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5287,6 +5776,66 @@
           }
         }
       }
+    },
+    "apipurchaseorderv1CreateRequest": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apipurchaseorderv1CreateRequestProduct"
+          },
+          "required": [
+            "products"
+          ]
+        }
+      },
+      "required": [
+        "products"
+      ]
+    },
+    "apipurchaseorderv1CreateRequestProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "产品id",
+          "required": [
+            "id"
+          ]
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "数量 1-100",
+          "required": [
+            "quantity"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "quantity"
+      ]
+    },
+    "apipurchaseorderv1GetUpdateLogReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updateLogs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apicommonv1UpdateLog"
+          }
+        }
+      }
+    },
+    "apipurchaseorderv1ListReply": {
+      "type": "object"
     },
     "apiresourcev1ListReply": {
       "type": "object",
@@ -5333,7 +5882,7 @@
     "apirolev1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5348,46 +5897,144 @@
     "apisamplev1CreateRequest": {
       "type": "object",
       "properties": {
-        "detail": {
-          "$ref": "#/definitions/v1CreateRequestDetail",
-          "title": "样品明细"
-        },
-        "source_type": {
-          "$ref": "#/definitions/SampleReplySourceType",
-          "title": "来源"
-        },
-        "comment": {
+        "name": {
           "type": "string",
-          "title": "备注 ^\\\\S{1,50}$"
-        }
-      }
-    },
-    "apisamplev1GetModificationReply": {
-      "type": "object",
-      "properties": {
-        "modifications": {
+          "title": "名称 1-30"
+        },
+        "copywriting": {
+          "type": "string",
+          "title": "文案 1-30"
+        },
+        "no": {
+          "type": "string",
+          "title": "编码 1-30"
+        },
+        "imageUrls": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/apicommonv1Modification"
-          }
+            "type": "string"
+          },
+          "title": "图片 1-100张",
+          "required": [
+            "imageUrls"
+          ]
+        },
+        "categoryId": {
+          "type": "string",
+          "format": "int64",
+          "title": "类别"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "适用范围 0-20"
+        },
+        "specification": {
+          "type": "string",
+          "title": "规格"
+        },
+        "specificationCode": {
+          "type": "string",
+          "title": "规格码"
+        },
+        "barcode": {
+          "type": "string",
+          "title": "条形码"
+        },
+        "length": {
+          "type": "number",
+          "format": "double",
+          "title": "长度 cm 0-1000"
+        },
+        "width": {
+          "type": "number",
+          "format": "double",
+          "title": "宽度 cm 0-1000"
+        },
+        "height": {
+          "type": "number",
+          "format": "double",
+          "title": "高度 cm 0-1000"
+        },
+        "netWeight": {
+          "type": "number",
+          "format": "double",
+          "title": "净重 g 0 -100000"
+        },
+        "capacity": {
+          "type": "number",
+          "format": "double",
+          "title": "容量"
+        },
+        "unit": {
+          "type": "string",
+          "title": "单位"
+        },
+        "material": {
+          "type": "string",
+          "title": "材质"
+        },
+        "craftsmanship": {
+          "type": "string",
+          "title": "工艺"
+        },
+        "color": {
+          "type": "string",
+          "title": "颜色"
+        },
+        "package": {
+          "type": "string",
+          "title": "包装"
+        },
+        "supplierId": {
+          "type": "string",
+          "format": "int64",
+          "title": "供应商id"
+        },
+        "articleNo": {
+          "type": "string",
+          "title": "货号"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "单价"
+        },
+        "controlPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "工厂控价"
+        },
+        "quantityPerBox": {
+          "type": "integer",
+          "format": "int32",
+          "title": "装箱率：单箱可装件数 0-999999999"
+        },
+        "productionCycle": {
+          "type": "integer",
+          "format": "int32",
+          "title": "生产周期 0 -1000 天"
+        },
+        "minOrderQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "最小起订量 0- 999999999"
+        },
+        "qualityReportNo": {
+          "type": "string",
+          "title": "质检报告编号"
         }
-      }
+      },
+      "required": [
+        "imageUrls"
+      ]
     },
     "apisamplev1ListFavoriteReply": {
       "type": "object",
       "properties": {
-        "samples": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1SampleReply"
-          }
-        }
-      }
-    },
-    "apisamplev1ListReply": {
-      "type": "object",
-      "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5399,15 +6046,18 @@
         }
       }
     },
-    "apiskuv1Account": {
+    "apisamplev1ListReply": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
         },
-        "name": {
-          "type": "string"
+        "samples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SampleReply"
+          }
         }
       }
     },
@@ -5430,7 +6080,7 @@
     "apiskuv1CreateRequestProduct": {
       "type": "object",
       "properties": {
-        "product_id": {
+        "productId": {
           "type": "string",
           "format": "int64",
           "title": "产品id"
@@ -5442,13 +6092,13 @@
         }
       }
     },
-    "apiskuv1GetModificationReply": {
+    "apiskuv1GetUpdateLogReply": {
       "type": "object",
       "properties": {
-        "modifications": {
+        "updateLogs": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/apiskuv1Modification"
+            "$ref": "#/definitions/apicommonv1UpdateLog"
           }
         }
       }
@@ -5485,7 +6135,7 @@
           "type": "integer",
           "format": "int32"
         },
-        "page_size": {
+        "pageSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5493,27 +6143,9 @@
           "type": "integer",
           "format": "int32"
         },
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "apiskuv1Modification": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "create_time": {
-          "type": "string"
-        },
-        "modifier": {
-          "$ref": "#/definitions/apiskuv1Account"
-        },
-        "description": {
-          "type": "string"
         }
       }
     },
@@ -5528,14 +6160,14 @@
     "apismsv1CreateRequest": {
       "type": "object",
       "properties": {
-        "phone_no": {
+        "phoneNo": {
           "type": "string"
         },
-        "captcha_id": {
+        "captchaId": {
           "type": "string",
           "title": "CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart\n(全自动区分计算机和人类的图灵测试)"
         },
-        "input_captcha_code": {
+        "inputCaptchaCode": {
           "type": "string",
           "title": "用户输入的验证码"
         }
@@ -5566,11 +6198,11 @@
     "apisuppliergroupv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
-        "supplier_groups": {
+        "supplierGroups": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1SupplierGroupReply"
@@ -5585,11 +6217,11 @@
           "type": "string",
           "title": "编码 长度不能超过10位  否则采购单将超过20位数字，旺店通限制"
         },
-        "phone_no": {
+        "phoneNo": {
           "type": "string",
           "title": "手机号"
         },
-        "follower_name": {
+        "followerName": {
           "type": "string",
           "title": "跟进人"
         }
@@ -5598,7 +6230,7 @@
     "apisupplierv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5613,7 +6245,7 @@
     "apisynclogv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5628,68 +6260,59 @@
     "apitokenv1CreateReply": {
       "type": "object",
       "properties": {
-        "access_token": {
-          "type": "string"
-        },
-        "expires_in": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "refresh_token": {
-          "type": "string"
-        },
-        "account_id": {
+        "tokenType": {
           "type": "string",
-          "format": "int64"
+          "title": "Cookie 类型，固定为Bearer"
+        },
+        "accessToken": {
+          "type": "string",
+          "title": "Cookie 令牌：Header['Authorization'] = token_type + ' '+ access_token"
+        },
+        "expiresIn": {
+          "type": "integer",
+          "format": "int32",
+          "title": "Cookie 有效期"
+        },
+        "refreshToken": {
+          "type": "string",
+          "title": "Cookie 刷新令牌"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "int64",
+          "title": "Cookie 账号id"
         }
       }
     },
     "apitokenv1CreateRequest": {
       "type": "object",
       "properties": {
-        "client": {
-          "$ref": "#/definitions/CreateRequestClient"
+        "accountType": {
+          "$ref": "#/definitions/CreateRequestAccountType",
+          "title": "账号类型"
         },
         "dingtalk": {
-          "$ref": "#/definitions/CreateRequestDingtalk"
+          "$ref": "#/definitions/CreateRequestDingtalk",
+          "title": "钉钉扫码"
         },
         "mobile": {
-          "$ref": "#/definitions/CreateRequestMobile"
+          "$ref": "#/definitions/CreateRequestMobile",
+          "title": "手机号"
         }
       }
     },
     "apitokenv1ListReply": {
       "type": "object",
       "properties": {
-        "paging": {
-          "$ref": "#/definitions/apitokenv1ListReplyPaging"
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
         },
         "tokens": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v1ListReplyToken"
+            "$ref": "#/definitions/v1TokenReply"
           }
-        }
-      }
-    },
-    "apitokenv1ListReplyPaging": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "size": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "total_size": {
-          "type": "integer",
-          "format": "int32"
         }
       }
     },
@@ -5750,11 +6373,11 @@
     "apiwarehousegroupv1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
-        "warehouse_groups": {
+        "warehouseGroups": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1WarehouseGroupReply"
@@ -5765,7 +6388,7 @@
     "apiwarehousev1ListReply": {
       "type": "object",
       "properties": {
-        "total_size": {
+        "totalSize": {
           "type": "integer",
           "format": "int32"
         },
@@ -5782,10 +6405,12 @@
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64"
+          "format": "int64",
+          "title": "id"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "渠道名称"
         }
       }
     },
@@ -5817,10 +6442,10 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "category": {
@@ -5835,7 +6460,7 @@
         "no": {
           "type": "string"
         },
-        "image_urls": {
+        "imageUrls": {
           "type": "array",
           "items": {
             "type": "string"
@@ -5850,7 +6475,7 @@
         "specification": {
           "type": "string"
         },
-        "specification_code": {
+        "specificationCode": {
           "type": "string"
         },
         "barcode": {
@@ -5868,7 +6493,7 @@
           "type": "number",
           "format": "double"
         },
-        "net_weight": {
+        "netWeight": {
           "type": "number",
           "format": "double"
         },
@@ -5906,17 +6531,17 @@
         "status": {
           "type": "string"
         },
-        "cost_price": {
+        "costPrice": {
           "type": "number",
           "format": "double",
           "title": "成本价"
         },
-        "min_control_price": {
+        "minControlPrice": {
           "type": "number",
           "format": "double",
           "title": "最低控价"
         },
-        "suggested_retail_price": {
+        "suggestedRetailPrice": {
           "type": "number",
           "format": "double",
           "title": "建议售价"
@@ -5925,7 +6550,7 @@
           "type": "string",
           "title": "备注"
         },
-        "purchase_plan": {
+        "purchasePlan": {
           "$ref": "#/definitions/ProductProductPurchasePlan"
         },
         "suppliers": {
@@ -5969,6 +6594,17 @@
         }
       }
     },
+    "googleprotobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string",
+          "description": "A URL/resource name that uniquely identifies the type of the serialized\nprotocol buffer message. This string must contain at least\none \"/\" character. The last segment of the URL's path must represent\nthe fully qualified name of the type (as in\n`path/google.protobuf.Duration`). The name should be in a canonical form\n(e.g., leading \".\" is not accepted).\n\nIn practice, teams usually precompile into the binary all types that they\nexpect it to use in the context of Any. However, for URLs which use the\nscheme `http`, `https`, or no scheme, one can optionally set up a type\nserver that maps type URLs to message definitions as follows:\n\n* If no scheme is provided, `https` is assumed.\n* An HTTP GET on the URL must yield a [google.protobuf.Type][]\n  value in binary format, or produce an error.\n* Applications are allowed to cache lookup results based on the\n  URL, or have them precompiled into a binary to avoid any\n  lookup. Therefore, binary compatibility needs to be preserved\n  on changes to types. (Use versioned type names to manage\n  breaking changes.)\n\nNote: this functionality is not currently available in the official\nprotobuf release, and it is not used for type URLs beginning with\ntype.googleapis.com.\n\nSchemes other than `http`, `https` (or the empty scheme) might be\nused with implementation specific semantics."
+        }
+      },
+      "additionalProperties": {},
+      "description": "`Any` contains an arbitrary serialized protocol buffer message along with a\nURL that describes the type of the serialized message.\n\nProtobuf library provides support to pack/unpack Any values in the form\nof utility functions or additional generated methods of the Any type.\n\nExample 1: Pack and unpack a message in C++.\n\n    Foo foo = ...;\n    Any any;\n    any.PackFrom(foo);\n    ...\n    if (any.UnpackTo(\u0026foo)) {\n      ...\n    }\n\nExample 2: Pack and unpack a message in Java.\n\n    Foo foo = ...;\n    Any any = Any.pack(foo);\n    ...\n    if (any.is(Foo.class)) {\n      foo = any.unpack(Foo.class);\n    }\n\nExample 3: Pack and unpack a message in Python.\n\n    foo = Foo(...)\n    any = Any()\n    any.Pack(foo)\n    ...\n    if any.Is(Foo.DESCRIPTOR):\n      any.Unpack(foo)\n      ...\n\nExample 4: Pack and unpack a message in Go\n\n     foo := \u0026pb.Foo{...}\n     any, err := anypb.New(foo)\n     if err != nil {\n       ...\n     }\n     ...\n     foo := \u0026pb.Foo{}\n     if err := any.UnmarshalTo(foo); err != nil {\n       ...\n     }\n\nThe pack methods provided by protobuf library will by default use\n'type.googleapis.com/full.type.name' as the type URL and the unpack\nmethods only use the fully qualified type name after the last '/'\nin the type URL, for example \"foo.bar.com/x/y.z\" will yield type\nname \"y.z\".\n\n\nJSON\n\nThe JSON representation of an `Any` value uses the regular\nrepresentation of the deserialized, embedded message, with an\nadditional field `@type` which contains the type URL. Example:\n\n    package google.profile;\n    message Person {\n      string first_name = 1;\n      string last_name = 2;\n    }\n\n    {\n      \"@type\": \"type.googleapis.com/google.profile.Person\",\n      \"firstName\": \u003cstring\u003e,\n      \"lastName\": \u003cstring\u003e\n    }\n\nIf the embedded message type is well-known and has a custom JSON\nrepresentation, that representation will be embedded adding a field\n`value` which holds the custom JSON in addition to the `@type`\nfield. Example (for message [google.protobuf.Duration][]):\n\n    {\n      \"@type\": \"type.googleapis.com/google.protobuf.Duration\",\n      \"value\": \"1.212s\"\n    }"
+    },
     "googlerpcStatus": {
       "type": "object",
       "properties": {
@@ -5982,19 +6618,10 @@
         "details": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/protobufAny"
+            "$ref": "#/definitions/googleprotobufAny"
           }
         }
       }
-    },
-    "protobufAny": {
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": {}
     },
     "v1AccountReply": {
       "type": "object",
@@ -6003,10 +6630,10 @@
           "type": "string",
           "format": "int64"
         },
-        "created_time": {
+        "createdTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "super": {
@@ -6015,7 +6642,7 @@
         "name": {
           "type": "string"
         },
-        "phone_no": {
+        "phoneNo": {
           "type": "string"
         },
         "disabled": {
@@ -6123,7 +6750,7 @@
         "url": {
           "type": "string"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         }
       }
@@ -6136,13 +6763,16 @@
           "format": "int64"
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "title": "分类名称"
         },
         "path": {
-          "type": "string"
+          "type": "string",
+          "title": "分类路径"
         },
-        "is_leaf": {
-          "type": "boolean"
+        "isLeaf": {
+          "type": "boolean",
+          "title": "是否为叶子级"
         }
       }
     },
@@ -6153,7 +6783,7 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
         "name": {
@@ -6197,138 +6827,6 @@
           }
         }
       }
-    },
-    "v1CreateRequestDetail": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "名称 1-30"
-        },
-        "copywriting": {
-          "type": "string",
-          "title": "文案 1-30"
-        },
-        "no": {
-          "type": "string",
-          "title": "编码 1-30"
-        },
-        "image_urls": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "图片 1-100张",
-          "required": [
-            "image_urls"
-          ]
-        },
-        "category_id": {
-          "type": "string",
-          "format": "int64",
-          "title": "类别"
-        },
-        "scopes": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "title": "适用范围 0-20"
-        },
-        "specification": {
-          "type": "string",
-          "title": "规格"
-        },
-        "specification_code": {
-          "type": "string",
-          "title": "规格码"
-        },
-        "barcode": {
-          "type": "string",
-          "title": "条形码"
-        },
-        "length": {
-          "type": "number",
-          "format": "double",
-          "title": "长度 cm 0-1000"
-        },
-        "width": {
-          "type": "number",
-          "format": "double",
-          "title": "宽度 cm 0-1000"
-        },
-        "height": {
-          "type": "number",
-          "format": "double",
-          "title": "高度 cm 0-1000"
-        },
-        "net_weight": {
-          "type": "number",
-          "format": "double",
-          "title": "净重 g 0 -100000"
-        },
-        "capacity": {
-          "type": "number",
-          "format": "double",
-          "title": "容量"
-        },
-        "unit": {
-          "type": "string",
-          "title": "单位"
-        },
-        "material": {
-          "type": "string",
-          "title": "材质"
-        },
-        "craftsmanship": {
-          "type": "string",
-          "title": "工艺"
-        },
-        "color": {
-          "type": "string",
-          "title": "颜色"
-        },
-        "package": {
-          "type": "string",
-          "title": "包装"
-        },
-        "article_no": {
-          "type": "string",
-          "title": "货号"
-        },
-        "unit_price": {
-          "type": "number",
-          "format": "double",
-          "title": "单价"
-        },
-        "control_price": {
-          "type": "number",
-          "format": "double",
-          "title": "工厂控价"
-        },
-        "quantity_per_box": {
-          "type": "integer",
-          "format": "int32",
-          "title": "装箱率：单箱可装件数 0-999999999"
-        },
-        "production_cycle": {
-          "type": "integer",
-          "format": "int32",
-          "title": "生产周期 0 -1000 天"
-        },
-        "min_order_quantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "最小起订量 0- 999999999"
-        },
-        "quality_report_no": {
-          "type": "string",
-          "title": "质检报告编号"
-        }
-      },
-      "required": [
-        "image_urls"
-      ]
     },
     "v1CreateScopeReply": {
       "type": "object",
@@ -6381,7 +6879,7 @@
         "id": {
           "type": "string"
         },
-        "base64_image": {
+        "base64Image": {
           "type": "string",
           "title": "basse64 编码的图片数据"
         }
@@ -6400,68 +6898,6 @@
     },
     "v1ItemReply": {
       "type": "object"
-    },
-    "v1ListByAccountReply": {
-      "type": "object",
-      "properties": {
-        "paging": {
-          "$ref": "#/definitions/v1ListByAccountReplyPaging"
-        },
-        "tokens": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1ListByAccountReplyToken"
-          }
-        }
-      }
-    },
-    "v1ListByAccountReplyPaging": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "page_size": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "size": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "total_size": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "v1ListByAccountReplyToken": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "created_time": {
-          "type": "string"
-        },
-        "device": {
-          "type": "string"
-        },
-        "client": {
-          "type": "string"
-        },
-        "ip": {
-          "type": "string"
-        },
-        "account_id": {
-          "type": "string"
-        },
-        "account_name": {
-          "type": "string"
-        }
-      }
     },
     "v1ListReplyAction": {
       "type": "object",
@@ -6497,30 +6933,33 @@
         }
       }
     },
-    "v1ListReplyToken": {
+    "v1ListShareReply": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
         },
-        "created_time": {
-          "type": "string"
+        "shares": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Share"
+          }
+        }
+      }
+    },
+    "v1ListUpdateLogReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
         },
-        "device": {
-          "type": "string"
-        },
-        "client": {
-          "type": "string"
-        },
-        "ip": {
-          "type": "string"
-        },
-        "account_id": {
-          "type": "string"
-        },
-        "account_name": {
-          "type": "string"
+        "updateLogs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apicommonv1UpdateLog"
+          }
         }
       }
     },
@@ -6530,7 +6969,7 @@
         "msg_signature": {
           "type": "string"
         },
-        "timestamp": {
+        "timeStamp": {
           "type": "string"
         },
         "nonce": {
@@ -6573,7 +7012,7 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
         "name": {
@@ -6596,14 +7035,25 @@
         }
       }
     },
-    "v1RefreshReply": {
+    "v1PurchaseOrderReply": {
       "type": "object"
     },
-    "v1RefreshRequest": {
+    "v1RefreshReply": {
       "type": "object",
       "properties": {
-        "refresh_token": {
+        "accessToken": {
           "type": "string"
+        },
+        "expiresIn": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "accountId": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -6613,7 +7063,7 @@
         "id": {
           "type": "string"
         },
-        "base64_image": {
+        "base64Image": {
           "type": "string",
           "title": "basse64 编码的图片数据"
         }
@@ -6657,23 +7107,29 @@
           "type": "string",
           "format": "int64"
         },
-        "allow_query": {
-          "type": "boolean"
+        "allowQuery": {
+          "type": "boolean",
+          "title": "查询"
         },
-        "allow_create": {
-          "type": "boolean"
+        "allowCreate": {
+          "type": "boolean",
+          "title": "新增"
         },
-        "allow_update": {
-          "type": "boolean"
+        "allowUpdate": {
+          "type": "boolean",
+          "title": "修改"
         },
-        "allow_delete": {
-          "type": "boolean"
+        "allowDelete": {
+          "type": "boolean",
+          "title": "删除"
         },
-        "allow_export": {
-          "type": "boolean"
+        "allowExport": {
+          "type": "boolean",
+          "title": "导出"
         },
         "resource": {
-          "$ref": "#/definitions/v1ResourceGroupResource"
+          "$ref": "#/definitions/v1ResourceGroupResource",
+          "title": "资源"
         }
       }
     },
@@ -6698,7 +7154,7 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
         "name": {
@@ -6713,7 +7169,7 @@
             "$ref": "#/definitions/apicommonv1Account"
           }
         },
-        "resource_groups": {
+        "resourceGroups": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/v1ResourceGroup"
@@ -6728,19 +7184,19 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "owner": {
           "$ref": "#/definitions/apicommonv1Account",
           "title": "拥有人"
         },
-        "owner_type": {
+        "ownerType": {
           "$ref": "#/definitions/SampleReplyOwnerType",
-          "title": "拥有人类型 内部/供应商"
+          "title": "拥有人类型 ERP/供应商"
         },
         "demand": {
           "$ref": "#/definitions/v1SampleReplyDemand",
@@ -6750,23 +7206,26 @@
           "$ref": "#/definitions/v1SampleReplyDetail",
           "title": "商品详细"
         },
-        "source_type": {
+        "sourceType": {
           "$ref": "#/definitions/SampleReplySourceType",
           "title": "来源"
         },
         "tags": {
-          "type": "string",
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
           "title": "标签"
         },
         "status": {
           "$ref": "#/definitions/v1SampleReplyStatus",
           "title": "状态 PENDING/COMPOSITE/COMPLETED/DEPRECATED"
         },
-        "select_date": {
+        "selectDate": {
           "type": "string",
           "title": "选品日期"
         },
-        "arrival_date": {
+        "arrivalDate": {
           "type": "string",
           "title": "到样日期"
         },
@@ -6774,15 +7233,15 @@
           "type": "string",
           "title": "拿货目的"
         },
-        "price_range": {
+        "priceRange": {
           "$ref": "#/definitions/v1SampleReplyRange",
           "title": "价位段"
         },
-        "sales_price_range": {
+        "salesPriceRange": {
           "$ref": "#/definitions/v1SampleReplyRange",
           "title": "售价段"
         },
-        "expected_shelf_month": {
+        "expectedShelfMonth": {
           "type": "string",
           "title": "期望上架月份"
         },
@@ -6793,6 +7252,13 @@
         "comment": {
           "type": "string",
           "title": "备注"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Attachment"
+          },
+          "title": "附件 最多100个附件"
         }
       }
     },
@@ -6828,7 +7294,7 @@
           "type": "string",
           "title": "编码 1-30"
         },
-        "image_urls": {
+        "imageUrls": {
           "type": "array",
           "items": {
             "type": "string"
@@ -6850,7 +7316,7 @@
           "type": "string",
           "title": "规格"
         },
-        "specification_code": {
+        "specificationCode": {
           "type": "string",
           "title": "规格码"
         },
@@ -6873,7 +7339,7 @@
           "format": "double",
           "title": "高度 cm 0-1000"
         },
-        "net_weight": {
+        "netWeight": {
           "type": "number",
           "format": "double",
           "title": "净重 g 0 -100000"
@@ -6903,74 +7369,67 @@
           "type": "string",
           "title": "包装"
         },
-        "article_no": {
+        "articleNo": {
           "type": "string",
           "title": "货号"
         },
-        "unit_price": {
+        "unitPrice": {
           "type": "number",
           "format": "double",
           "title": "单价"
         },
-        "control_price": {
+        "controlPrice": {
           "type": "number",
           "format": "double",
           "title": "工厂控价"
         },
-        "quantity_per_box": {
+        "quantityPerBox": {
           "type": "integer",
           "format": "int32",
           "title": "装箱率：单箱可装件数 0-999999999"
         },
-        "production_cycle": {
+        "productionCycle": {
           "type": "integer",
           "format": "int32",
           "title": "生产周期 0 -1000 天"
         },
-        "min_order_quantity": {
+        "minOrderQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "最小起订量 0- 999999999"
         },
-        "quality_report_no": {
+        "qualityReportNo": {
           "type": "string",
           "title": "质检报告编号"
-        },
-        "attachments": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1Attachment"
-          },
-          "title": "附件 最多100个附件"
         }
       }
     },
     "v1SampleReplyPurchase": {
       "type": "object",
       "properties": {
-        "Purchaser": {
+        "purchaser": {
           "$ref": "#/definitions/apicommonv1Account",
           "title": "采购人"
         },
-        "cost_price": {
+        "costPrice": {
           "type": "number",
           "format": "double",
           "title": "成本"
         },
-        "is_arrived": {
+        "isArrived": {
           "type": "boolean",
           "title": "是否到样"
         },
-        "is_in_stock": {
+        "isInStock": {
           "type": "boolean",
           "title": "是否现货"
         },
-        "arrival_quantity": {
+        "arrivalQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "到样数量"
         },
-        "is_sample_returned": {
+        "isSampleReturned": {
           "type": "boolean",
           "title": "样品是否要退"
         },
@@ -7006,6 +7465,19 @@
       "default": "PENDING",
       "title": "- PENDING: 待处理\n - COMPOSITE: 合成区\n - COMPLETED: 已完成\n - DEPRECATED: 已废弃"
     },
+    "v1Share": {
+      "type": "object",
+      "properties": {
+        "editable": {
+          "type": "boolean",
+          "title": "是否可以编辑"
+        },
+        "sample": {
+          "$ref": "#/definitions/v1SampleReply",
+          "title": "样品信息"
+        }
+      }
+    },
     "v1SkuProduct": {
       "type": "object",
       "properties": {
@@ -7039,17 +7511,17 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "no": {
           "type": "string",
           "title": "编码"
         },
-        "image_url": {
+        "imageUrl": {
           "type": "string",
           "title": "图片"
         },
@@ -7060,47 +7532,47 @@
           },
           "title": "产品"
         },
-        "total_cost_price": {
+        "totalCostPrice": {
           "type": "number",
           "format": "double",
           "title": "总成本价：多产品同步过来总和（按数量）不可修改！"
         },
-        "suggested_retail_price": {
+        "suggestedRetailPrice": {
           "type": "number",
           "format": "double",
           "title": "建议售价:多产品同步过来总和（按数量）"
         },
-        "fixed_price": {
+        "fixedPrice": {
           "type": "number",
           "format": "double",
           "title": "一口价"
         },
-        "guide_price": {
+        "guidePrice": {
           "type": "number",
           "format": "double",
           "title": "指导价"
         },
-        "guide_price_gross_profit_rate": {
+        "guidePriceGrossProfitRate": {
           "type": "number",
           "format": "double",
           "title": "指导价毛利率"
         },
-        "activity_price": {
+        "activityPrice": {
           "type": "number",
           "format": "double",
           "title": "活动价"
         },
-        "activity_price_gross_profit_rate": {
+        "activityPriceGrossProfitRate": {
           "type": "number",
           "format": "double",
           "title": "活动价毛利率"
         },
-        "clearance_price": {
+        "clearancePrice": {
           "type": "number",
           "format": "double",
           "title": "清仓价"
         },
-        "clearance_price_gross_profit_rate": {
+        "clearancePriceGrossProfitRate": {
           "type": "number",
           "format": "double",
           "title": "清仓价毛利率"
@@ -7114,7 +7586,7 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
         "name": {
@@ -7144,22 +7616,22 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "no": {
           "type": "string"
         },
-        "follower_name": {
+        "followerName": {
           "type": "string"
         },
         "status": {
           "type": "string"
         },
-        "third_party_id": {
+        "thirdPartyId": {
           "type": "string",
           "format": "int64"
         }
@@ -7172,10 +7644,10 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "resource": {
@@ -7191,29 +7663,72 @@
         "status": {
           "type": "string"
         },
-        "update_count": {
+        "updateCount": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "v1TokenReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdTime": {
+          "type": "string",
+          "title": "登录时间"
+        },
+        "device": {
+          "type": "string",
+          "title": "设备"
+        },
+        "client": {
+          "type": "string",
+          "title": "客户端"
+        },
+        "ip": {
+          "type": "string",
+          "title": "ip"
+        },
+        "accountId": {
+          "type": "string",
+          "title": "账号"
+        },
+        "accountName": {
+          "type": "string",
+          "title": "账号名"
         }
       }
     },
     "v1UpdateRequestDemand": {
       "type": "object",
       "properties": {
-        "demander_id": {
+        "demanderId": {
           "type": "string",
           "format": "int64",
-          "title": "需求人ID"
+          "title": "需求人ID",
+          "required": [
+            "demanderId"
+          ]
         },
         "level": {
-          "type": "string",
+          "$ref": "#/definitions/v1DemandLevel",
           "title": "需求等级 A/S/D"
         },
         "date": {
           "type": "string",
-          "title": "需求日期 YYYY-MM-DD"
+          "title": "需求日期 YYYY-MM-DD",
+          "required": [
+            "date"
+          ]
         }
-      }
+      },
+      "required": [
+        "demanderId",
+        "date"
+      ]
     },
     "v1UpdateRequestDetail": {
       "type": "object",
@@ -7230,17 +7745,17 @@
           "type": "string",
           "title": "编码 1-30"
         },
-        "image_urls": {
+        "imageUrls": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "title": "图片 1-100张",
           "required": [
-            "image_urls"
+            "imageUrls"
           ]
         },
-        "category_id": {
+        "categoryId": {
           "type": "string",
           "format": "int64",
           "title": "类别"
@@ -7256,7 +7771,7 @@
           "type": "string",
           "title": "规格"
         },
-        "specification_code": {
+        "specificationCode": {
           "type": "string",
           "title": "规格码"
         },
@@ -7279,7 +7794,7 @@
           "format": "double",
           "title": "高度 cm 0-1000"
         },
-        "net_weight": {
+        "netWeight": {
           "type": "number",
           "format": "double",
           "title": "净重 g 0 -100000"
@@ -7305,94 +7820,99 @@
           "type": "string",
           "title": "颜色"
         },
+        "supplierId": {
+          "type": "string",
+          "format": "int64",
+          "title": "供应商id"
+        },
         "package": {
           "type": "string",
           "title": "包装"
         },
-        "article_no": {
+        "articleNo": {
           "type": "string",
           "title": "货号"
         },
-        "unit_price": {
+        "unitPrice": {
           "type": "number",
           "format": "double",
           "title": "单价"
         },
-        "control_price": {
+        "controlPrice": {
           "type": "number",
           "format": "double",
           "title": "工厂控价"
         },
-        "quantity_per_box": {
+        "quantityPerBox": {
           "type": "integer",
           "format": "int32",
           "title": "装箱率：单箱可装件数 0-999999999"
         },
-        "production_cycle": {
+        "productionCycle": {
           "type": "integer",
           "format": "int32",
           "title": "生产周期 0 -1000 天"
         },
-        "min_order_quantity": {
+        "minOrderQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "最小起订量 0- 999999999"
         },
-        "quality_report_no": {
+        "qualityReportNo": {
           "type": "string",
           "title": "质检报告编号"
         }
       },
       "required": [
-        "image_urls"
+        "imageUrls"
       ]
     },
     "v1UpdateRequestPurchase": {
       "type": "object",
       "properties": {
-        "purchaser_id": {
+        "purchaserId": {
           "type": "string",
           "format": "int64",
           "title": "采购人",
           "required": [
-            "purchaser_id"
+            "purchaserId"
           ]
         },
-        "cost_price": {
+        "costPrice": {
           "type": "number",
           "format": "double",
           "title": "成本",
           "required": [
-            "cost_price"
+            "costPrice"
           ]
         },
-        "is_arrived": {
+        "isArrived": {
           "type": "boolean",
           "title": "是否到样",
           "required": [
-            "is_arrived"
+            "isArrived"
           ]
         },
-        "is_in_stock": {
+        "isInStock": {
           "type": "boolean",
           "title": "是否现货",
           "required": [
-            "is_in_stock"
+            "isInStock"
           ]
         },
-        "arrival_quantity": {
+        "arrivalQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "到样数量",
           "required": [
-            "arrival_quantity"
+            "arrivalQuantity"
           ]
         },
-        "is_sample_returned": {
+        "isSampleReturned": {
           "type": "boolean",
           "title": "样品是否要退",
           "required": [
-            "is_sample_returned"
+            "isSampleReturned"
           ]
         },
         "result": {
@@ -7404,12 +7924,12 @@
         }
       },
       "required": [
-        "purchaser_id",
-        "cost_price",
-        "is_arrived",
-        "is_in_stock",
-        "arrival_quantity",
-        "is_sample_returned",
+        "purchaserId",
+        "costPrice",
+        "isArrived",
+        "isInStock",
+        "arrivalQuantity",
+        "isSampleReturned",
         "result"
       ]
     },
@@ -7419,14 +7939,24 @@
         "start": {
           "type": "number",
           "format": "double",
-          "title": "开始 0-9999999999"
+          "title": "开始 0-9999999999",
+          "required": [
+            "start"
+          ]
         },
         "end": {
           "type": "number",
           "format": "double",
-          "title": "结束 0-9999999999"
+          "title": "结束 0-9999999999",
+          "required": [
+            "end"
+          ]
         }
-      }
+      },
+      "required": [
+        "start",
+        "end"
+      ]
     },
     "v1UpdateRequestStatus": {
       "type": "string",
@@ -7443,7 +7973,7 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
         "name": {
@@ -7473,10 +8003,10 @@
           "type": "string",
           "format": "int64"
         },
-        "create_time": {
+        "createTime": {
           "type": "string"
         },
-        "update_time": {
+        "updateTime": {
           "type": "string"
         },
         "name": {
@@ -7503,28 +8033,28 @@
         "contact": {
           "type": "string"
         },
-        "phone_no": {
+        "phoneNo": {
           "type": "string"
         },
-        "tel_no": {
+        "telNo": {
           "type": "string"
         },
         "comment": {
           "type": "string"
         },
-        "third_party_id": {
+        "thirdPartyId": {
           "type": "string",
           "format": "int64"
         },
-        "shipping_cost": {
+        "shippingCost": {
           "type": "number",
           "format": "double"
         },
-        "operating_cost": {
+        "operatingCost": {
           "type": "number",
           "format": "double"
         },
-        "packaging_cost": {
+        "packagingCost": {
           "type": "number",
           "format": "double"
         }
