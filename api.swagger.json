@@ -321,15 +321,16 @@
         ]
       }
     },
-    "/v1/accounts/{id}/favorite/samples": {
-      "get": {
-        "summary": "收藏列表",
-        "operationId": "Sample_ListFavorite",
+    "/v1/accounts/{id}/favorite/samples/{sampleId}": {
+      "put": {
+        "summary": "收藏样品",
+        "operationId": "Sample_Favorite",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apisamplev1ListFavoriteReply"
+              "type": "object",
+              "properties": {}
             }
           },
           "default": {
@@ -342,6 +343,14 @@
         "parameters": [
           {
             "name": "id",
+            "description": "账号id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
             "description": "样品id",
             "in": "path",
             "required": true,
@@ -349,20 +358,12 @@
             "format": "int64"
           },
           {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
+            "name": "body",
+            "in": "body",
             "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 20/30/50/100",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
+            "schema": {
+              "type": "object"
+            }
           }
         ],
         "tags": [
@@ -403,15 +404,16 @@
         ]
       }
     },
-    "/v1/accounts/{id}/receive/samples": {
-      "get": {
-        "summary": "我收到的分享样品列表",
-        "operationId": "Sample_ListReceive",
+    "/v1/accounts/{id}/favorited/samples/{sampleId}": {
+      "delete": {
+        "summary": "取消收藏",
+        "operationId": "Sample_Unfavorite",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListShareReply"
+              "type": "object",
+              "properties": {}
             }
           },
           "default": {
@@ -424,26 +426,19 @@
         "parameters": [
           {
             "name": "id",
+            "description": "账号id",
             "in": "path",
             "required": true,
             "type": "string",
             "format": "int64"
           },
           {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
             "required": true,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 20/30/50/100",
-            "in": "query",
-            "required": true,
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -498,137 +493,9 @@
         ]
       }
     },
-    "/v1/accounts/{id}/samples/{sampleId}/favorite": {
-      "delete": {
-        "summary": "取消收藏",
-        "operationId": "Sample_Unfavorite",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1SampleReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "账号id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "sampleId",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      },
-      "post": {
-        "summary": "收藏样品",
-        "operationId": "Sample_Favorite",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1SampleReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "账号id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "sampleId",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      }
-    },
-    "/v1/accounts/{id}/samples/{sampleId}/share": {
-      "delete": {
-        "summary": "取消分享",
-        "operationId": "Sample_CancelShare",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "sampleId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      }
-    },
-    "/v1/accounts/{id}/share/samples": {
+    "/v1/accounts/{id}/shared/samples": {
       "get": {
-        "summary": "我主动分享的样品列表",
+        "summary": "我的分享记录",
         "operationId": "Sample_ListShare",
         "responses": {
           "200": {
@@ -667,6 +534,120 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/shared/samples/{sampleId}": {
+      "put": {
+        "summary": "分享样品",
+        "operationId": "Sample_Share",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "账号id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "receiverId": {
+                  "type": "string",
+                  "format": "int64",
+                  "title": "接收人id",
+                  "required": [
+                    "receiverId"
+                  ]
+                }
+              },
+              "title": "分享样品请求",
+              "required": [
+                "receiverId"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/accounts/{id}/shared/samples/{sampleId}/receivers/{receiverId}": {
+      "delete": {
+        "summary": "取消分享",
+        "operationId": "Sample_CancelShare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "分享人id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "receiverId",
+            "description": "接收人id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -1477,6 +1458,18 @@
             "required": true,
             "type": "integer",
             "format": "int32"
+          },
+          {
+            "name": "mode",
+            "description": " - LIST: 列表\n - CREATE: 创建",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "LIST",
+              "CREATE"
+            ],
+            "default": "LIST"
           }
         ],
         "tags": [
@@ -3134,15 +3127,25 @@
           },
           {
             "name": "visibility",
-            "description": " - PUBLIC: 公开\n - PRIVATE: 私有",
+            "description": " - PUBLIC: 公开\n - PRIVATE: 私有\n - FAVORITED: 收藏\n - RECEIVED: 分享",
             "in": "query",
             "required": false,
             "type": "string",
             "enum": [
               "PUBLIC",
-              "PRIVATE"
+              "PRIVATE",
+              "FAVORITED",
+              "RECEIVED"
             ],
             "default": "PUBLIC"
+          },
+          {
+            "name": "id",
+            "description": "ID",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           },
           {
             "name": "status",
@@ -3216,67 +3219,6 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/apisamplev1CreateRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      }
-    },
-    "/v1/samples/{id_1}/attachments": {
-      "post": {
-        "summary": "新增附件",
-        "operationId": "Sample_CrateAttachment",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1Attachment"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id_1",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "title": "附件名 1-30",
-                  "required": [
-                    "name"
-                  ]
-                },
-                "url": {
-                  "type": "string",
-                  "title": "附件地址",
-                  "required": [
-                    "url"
-                  ]
-                }
-              },
-              "required": [
-                "name",
-                "url"
-              ]
             }
           }
         ],
@@ -3388,7 +3330,7 @@
                   "$ref": "#/definitions/v1UpdateRequestRange",
                   "title": "售价段"
                 },
-                "expectedShelfMonth": {
+                "expectedListMonth": {
                   "type": "string",
                   "title": "期望上架月份 YYYY-MM"
                 },
@@ -3401,6 +3343,68 @@
                   "title": "备注"
                 }
               }
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/samples/{id}/add-attachments": {
+      "put": {
+        "summary": "添加附件",
+        "operationId": "Sample_AddAttachment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "title": "附件名 1-30",
+                  "required": [
+                    "name"
+                  ]
+                },
+                "url": {
+                  "type": "string",
+                  "title": "附件地址",
+                  "required": [
+                    "url"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "url"
+              ]
             }
           }
         ],
@@ -3471,14 +3475,15 @@
       }
     },
     "/v1/samples/{id}/deprecate": {
-      "post": {
+      "put": {
         "summary": "废弃样品",
         "operationId": "Sample_Deprecate",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1SampleReply"
+              "type": "object",
+              "properties": {}
             }
           },
           "default": {
@@ -3512,14 +3517,15 @@
       }
     },
     "/v1/samples/{id}/move-to-composite-zone": {
-      "post": {
-        "summary": "移到合成区",
-        "operationId": "Sample_MoveToCompositeZone",
+      "delete": {
+        "summary": "移出合成区",
+        "operationId": "Sample_MoveFromCompositeZone",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1SampleReply"
+              "type": "object",
+              "properties": {}
             }
           },
           "default": {
@@ -3537,25 +3543,15 @@
             "required": true,
             "type": "string",
             "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object"
-            }
           }
         ],
         "tags": [
           "Sample"
         ]
-      }
-    },
-    "/v1/samples/{id}/share": {
-      "post": {
-        "summary": "分享样品  公共权限",
-        "operationId": "Sample_Share",
+      },
+      "put": {
+        "summary": "移入合成区",
+        "operationId": "Sample_MoveToCompositeZone",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -3585,29 +3581,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "editable": {
-                  "type": "boolean",
-                  "title": "是否可编辑",
-                  "required": [
-                    "editable"
-                  ]
-                },
-                "receiverId": {
-                  "type": "string",
-                  "format": "int64",
-                  "title": "接收人id",
-                  "required": [
-                    "receiverId"
-                  ]
-                }
-              },
-              "title": "分享样品请求",
-              "required": [
-                "editable",
-                "receiverId"
-              ]
+              "type": "object"
             }
           }
         ],
@@ -4366,8 +4340,8 @@
             "format": "int32"
           },
           {
-            "name": "no",
-            "description": "编码",
+            "name": "search",
+            "description": "编码 模糊查询 ^[0-9a-zA-Z]{2,10}$",
             "in": "query",
             "required": false,
             "type": "string"
@@ -5030,15 +5004,8 @@
             "format": "int32"
           },
           {
-            "name": "no",
-            "description": "编码模糊查询",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "name",
-            "description": "名称模糊查询",
+            "name": "search",
+            "description": "编码/名称 模糊查询 ^\\\\S{2,10}$",
             "in": "query",
             "required": false,
             "type": "string"
@@ -5217,14 +5184,25 @@
         }
       }
     },
+    "ListRequestMode": {
+      "type": "string",
+      "enum": [
+        "LIST",
+        "CREATE"
+      ],
+      "default": "LIST",
+      "title": "- LIST: 列表\n - CREATE: 创建"
+    },
     "ListRequestVisibility": {
       "type": "string",
       "enum": [
         "PUBLIC",
-        "PRIVATE"
+        "PRIVATE",
+        "FAVORITED",
+        "RECEIVED"
       ],
       "default": "PUBLIC",
-      "title": "- PUBLIC: 公开\n - PRIVATE: 私有"
+      "title": "- PUBLIC: 公开\n - PRIVATE: 私有\n - FAVORITED: 收藏\n - RECEIVED: 分享"
     },
     "NotifyRequestBody": {
       "type": "object",
@@ -6007,6 +5985,11 @@
           "format": "double",
           "title": "工厂控价"
         },
+        "listPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "建议售价"
+        },
         "quantityPerBox": {
           "type": "integer",
           "format": "int32",
@@ -6030,21 +6013,6 @@
       "required": [
         "imageUrls"
       ]
-    },
-    "apisamplev1ListFavoriteReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "samples": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1SampleReply"
-          }
-        }
-      }
     },
     "apisamplev1ListReply": {
       "type": "object",
@@ -7241,7 +7209,7 @@
           "$ref": "#/definitions/v1SampleReplyRange",
           "title": "售价段"
         },
-        "expectedShelfMonth": {
+        "expectedListMonth": {
           "type": "string",
           "title": "期望上架月份"
         },
@@ -7265,7 +7233,7 @@
     "v1SampleReplyDemand": {
       "type": "object",
       "properties": {
-        "Demander": {
+        "demander": {
           "$ref": "#/definitions/apicommonv1Account",
           "title": "需求人"
         },
@@ -7369,6 +7337,10 @@
           "type": "string",
           "title": "包装"
         },
+        "supplier": {
+          "$ref": "#/definitions/commonv1Supplier",
+          "title": "供应商"
+        },
         "articleNo": {
           "type": "string",
           "title": "货号"
@@ -7382,6 +7354,11 @@
           "type": "number",
           "format": "double",
           "title": "工厂控价"
+        },
+        "listPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "建议售价"
         },
         "quantityPerBox": {
           "type": "integer",
@@ -7468,13 +7445,23 @@
     "v1Share": {
       "type": "object",
       "properties": {
-        "editable": {
-          "type": "boolean",
-          "title": "是否可以编辑"
+        "createTime": {
+          "type": "string",
+          "title": "分享时间"
         },
-        "sample": {
-          "$ref": "#/definitions/v1SampleReply",
-          "title": "样品信息"
+        "sharerId": {
+          "type": "string",
+          "format": "int64",
+          "title": "分享人"
+        },
+        "receiver": {
+          "$ref": "#/definitions/apicommonv1Account",
+          "title": "接收人"
+        },
+        "sampleId": {
+          "type": "string",
+          "format": "int64",
+          "title": "样品id"
         }
       }
     },
@@ -7750,10 +7737,7 @@
           "items": {
             "type": "string"
           },
-          "title": "图片 1-100张",
-          "required": [
-            "imageUrls"
-          ]
+          "title": "图片 1-100张"
         },
         "categoryId": {
           "type": "string",
@@ -7843,6 +7827,11 @@
           "format": "double",
           "title": "工厂控价"
         },
+        "listPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "建议售价"
+        },
         "quantityPerBox": {
           "type": "integer",
           "format": "int32",
@@ -7862,10 +7851,7 @@
           "type": "string",
           "title": "质检报告编号"
         }
-      },
-      "required": [
-        "imageUrls"
-      ]
+      }
     },
     "v1UpdateRequestPurchase": {
       "type": "object",
