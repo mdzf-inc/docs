@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "suppliergroup/v1/suppliergroup.proto",
-    "version": "version not set"
+    "title": "摩登主妇 APIs",
+    "version": "v1"
   },
   "tags": [
     {
