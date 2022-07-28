@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "MDZF APIs Docs",
+    "title": "APIs docs",
     "version": "v1"
   },
   "tags": [
@@ -3033,8 +3033,8 @@
                   "format": "double",
                   "title": "运费 0-999999999.99"
                 },
-                "paymentStatus": {
-                  "$ref": "#/definitions/PurchaseOrderPaymentStatus",
+                "paymentMethod": {
+                  "$ref": "#/definitions/PaymentMethod",
                   "title": "付款方式"
                 },
                 "comment": {
@@ -3042,6 +3042,85 @@
                   "title": "备注 ^\\\\S{1,50}$"
                 }
               }
+            }
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      }
+    },
+    "/v1/purchase-orders/{purchaseOrderId}/actions/add-payment-record": {
+      "put": {
+        "summary": "添加付款记录",
+        "operationId": "PurchaseOrder_AddPaymentRecord",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purchaseOrderId",
+            "description": "采购单id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "title": "付款日期 yyyy-MM-dd",
+                  "required": [
+                    "date"
+                  ]
+                },
+                "amount": {
+                  "type": "number",
+                  "format": "double",
+                  "title": "付款金额 0-999999999.99",
+                  "required": [
+                    "amount"
+                  ]
+                },
+                "voucherUrl": {
+                  "type": "string",
+                  "title": "凭证",
+                  "required": [
+                    "voucherUrl"
+                  ]
+                },
+                "comment": {
+                  "type": "string",
+                  "title": "备注 ^\\\\S{1,50}$"
+                },
+                "isPaid": {
+                  "type": "boolean",
+                  "title": "是否已付清"
+                }
+              },
+              "required": [
+                "date",
+                "amount",
+                "voucherUrl"
+              ]
             }
           }
         ],
@@ -3276,6 +3355,10 @@
                 "package": {
                   "type": "string",
                   "title": "包装要求 2-20"
+                },
+                "comment": {
+                  "type": "string",
+                  "title": "备注 ^\\\\S{1,50}$"
                 }
               }
             }
@@ -5305,10 +5388,6 @@
                 "followerName": {
                   "type": "string",
                   "title": "跟进人"
-                },
-                "status": {
-                  "$ref": "#/definitions/v1UpdateRequestStatus",
-                  "title": "审核"
                 }
               }
             }
@@ -6137,17 +6216,17 @@
           "format": "int32",
           "title": "入库总量"
         },
-        "items": {
+        "productUnits": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PurchaseOrderDeliveryItem"
+            "$ref": "#/definitions/PurchaseOrderDeliveryProductUnit"
           },
-          "title": "入库记录"
+          "title": "到货明细"
         }
       },
       "title": "交付"
     },
-    "PurchaseOrderDeliveryItem": {
+    "PurchaseOrderDeliveryProductUnit": {
       "type": "object",
       "properties": {
         "no": {
@@ -7459,7 +7538,7 @@
           "type": "string"
         },
         "status": {
-          "type": "string"
+          "$ref": "#/definitions/v1SupplierStatus"
         },
         "thirdPartyId": {
           "type": "string",
@@ -8132,6 +8211,9 @@
           "format": "double"
         },
         "package": {
+          "type": "string"
+        },
+        "comment": {
           "type": "string"
         },
         "availableInventoryQuantity": {
@@ -8823,6 +8905,16 @@
         }
       }
     },
+    "v1SupplierStatus": {
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "REVIEWING"
+      ],
+      "default": "NORMAL",
+      "description": "- NORMAL: 正常\n - REVIEWING: 审核中",
+      "title": "状态"
+    },
     "v1SynclogReply": {
       "type": "object",
       "properties": {
@@ -9142,14 +9234,6 @@
         "start",
         "end"
       ]
-    },
-    "v1UpdateRequestStatus": {
-      "type": "string",
-      "enum": [
-        "PENDING",
-        "NORMAL"
-      ],
-      "default": "PENDING"
     },
     "v1UpdateRequestSupplier": {
       "type": "object",
