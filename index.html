@@ -1,36 +1,31 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <title>mdzf APIs docs</title>
-    <!-- needed for adaptive design -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700|Roboto:300,400,700"
-      rel="stylesheet"
-    />
-
-    <!--
-    Redoc doesn't change outer page styles
-    -->
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <!--
-    Redoc element with link to your OpenAPI definition
-    -->
-    <redoc spec-url="./api.swagger.json"></redoc>
-    <!-- <redoc spec-url="./openapi.yaml"></redoc> -->
-    <!--
-    Link to Redoc JavaScript on CDN for rendering standalone element
-    -->
-    <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
-    <!-- <script src="https://cdn.redoc.ly/reference-docs/latest/redocly-reference-docs.min.js"></script> -->
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <title>MDZF APIs docs</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="description" content="Description">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css" />
+</head>
+<body>
+<div id="app"></div>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-edit-on-github"></script>
+    <script>
+        window.$docsify = {
+            loadSidebar: true,
+            auto2top: true,
+            autoHeader: true,
+            name: 'MDZF',
+            repo: 'https://github.com/mdzf-inc/docs',
+            search: 'auto',
+            plugins: [
+                EditOnGithubPlugin.create('https://github.com/mdzf-inc/docs/blob/main/docs/')
+            ]
+        }
+    </script>
+</body>
+</html>
 </html>

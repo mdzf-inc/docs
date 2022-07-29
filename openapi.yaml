@@ -1,0 +1,5117 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: 摩登主妇ERP APIs
+    description: ERP系统接口RESTful APIs。工期截止日2022-11-15
+    version: v1
+paths:
+    /v1/_accounts:
+        get:
+            tags:
+                - Account
+                - 账号
+            summary: 导出
+            description: 导出账号表
+            operationId: Account_Export
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ExportReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts:
+        get:
+            tags:
+                - Account
+                - 账号
+            summary: 列表
+            description: 获取账号列表
+            operationId: Account_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+                - name: phoneNo
+                  in: query
+                  schema:
+                    type: string
+                - name: name
+                  in: query
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Account
+                - 账号
+            summary: 创建
+            description: 创建账号
+            operationId: Account_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}:
+        get:
+            tags:
+                - Account
+                - 账号
+            summary: 详情
+            description: 获取账号
+            operationId: Account_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/AccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Account
+                - 账号
+            summary: 更新
+            description: 更新账号信息
+            operationId: Account_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/favorite/products:
+        get:
+            tags:
+                - Product
+                - 产品
+            summary: 收藏列表
+            description: 收藏列表
+            operationId: Product_ListFavorite
+            parameters:
+                - name: id
+                  in: path
+                  description: 产品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListFavoriteReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/favorite/samples:
+        get:
+            tags:
+                - Sample
+                - 样品
+            summary: 收藏列表
+            description: 私有权限，不受权限组管控限制
+            operationId: Sample_ListFavorite
+            parameters:
+                - name: id
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListFavoriteReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/favorite/sku:
+        get:
+            tags:
+                - Sku
+                - SKU
+            summary: 收藏列表
+            description: 收藏列表
+            operationId: Sku_ListFavorite
+            parameters:
+                - name: id
+                  in: path
+                  description: sku id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListFavoriteReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/receive/samples:
+        get:
+            tags:
+                - Sample
+                - 样品
+            summary: 我收到的分享样品列表
+            description: 我收到的分享样品列表
+            operationId: Sample_ListReceive
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListShareReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/refresh-token:
+        put:
+            tags:
+                - Token
+                - 令牌
+            summary: 刷新令牌
+            description: 如果访问令牌过期，刷新令牌未过期，或访问令牌离过期时间还差小于等于15分钟，则会返回一个新令牌。否则什么也不返回
+            operationId: Token_Refresh
+            parameters:
+                - name: id
+                  in: path
+                  description: 账号id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/RefreshRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RefreshReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/samples/{sampleId}/favorite:
+        post:
+            tags:
+                - Sample
+                - 样品
+            summary: 收藏样品
+            description: 私有权限，不受权限组管控限制
+            operationId: Sample_Favorite
+            parameters:
+                - name: id
+                  in: path
+                  description: 账号id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: sampleId
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/FavoriteRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SampleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - Sample
+                - 样品
+            summary: 取消收藏
+            description: 私有权限，不受权限组管控限制
+            operationId: Sample_Unfavorite
+            parameters:
+                - name: id
+                  in: path
+                  description: 账号id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: sampleId
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SampleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/samples/{sampleId}/share:
+        delete:
+            tags:
+                - Sample
+                - 样品
+            summary: 取消分享
+            description: 取消分享
+            operationId: Sample_CancelShare
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: sampleId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/share/samples:
+        get:
+            tags:
+                - Sample
+                - 样品
+            summary: 我主动分享的样品列表
+            description: 我主动分享的样品列表
+            operationId: Sample_ListShare
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListShareReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/accounts/{id}/tokens:
+        get:
+            tags:
+                - Token
+                - 令牌
+            summary: 我的登录日志
+            description: 我的登录日志
+            operationId: Token_ListByAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/captcha:
+        get:
+            tags:
+                - Captcha
+                - 图形验证码
+            summary: 获取
+            description: 获取图形验证码
+            operationId: Captcha_Get
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/categories:
+        get:
+            tags:
+                - Category
+                - 类目
+            summary: 列表
+            description: 无需分页，依据pid获取子类目，无pid则返回一级类目。客户端树形结构展示
+            operationId: Category_List
+            parameters:
+                - name: pid
+                  in: query
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Category
+                - 类目
+            summary: 创建
+            description: 创建类目
+            operationId: Category_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Category'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/categories/{id}:
+        get:
+            tags:
+                - Category
+                - 类目
+            summary: 详情
+            description: 类目详情
+            operationId: Category_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Category'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Category
+                - 类目
+            summary: 更新
+            description: 更新类目
+            operationId: Category_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/categories/{id}/scopes:
+        get:
+            tags:
+                - Category
+                - 类目
+            summary: 获取一级分类下的产品适用范围
+            description: 适用范围仅跟一级类目绑定，其他级类目无适用范围配置
+            operationId: Category_GetScope
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetScopeReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Category
+                - 类目
+            summary: 新增适用范围
+            description: 仅一级类目绑定才可绑定适用范围
+            operationId: Category_CreateScope
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateScopeRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateScopeReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/categories/{id}/scopes/{scopeName}:
+        delete:
+            tags:
+                - Category
+                - 类目
+            summary: 删除某一级类目适用范围
+            description: 删除某一级类目下的某个适用范围
+            operationId: Category_DeleteScope
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: scopeName
+                  in: path
+                  description: 正则 ^\\S{2,10}$
+                  required: true
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channel-groups:
+        get:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 列表
+            description: 列表
+            operationId: ChannelGroup_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 创建
+            description: 创建
+            operationId: ChannelGroup_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ChannelGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channel-groups/{id}:
+        get:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 详情
+            description: 详情
+            operationId: ChannelGroup_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ChannelGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 删除
+            description: 删除
+            operationId: ChannelGroup_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 更新
+            description: 更新
+            operationId: ChannelGroup_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channel-groups/{id}/accounts:
+        post:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 添加账号
+            description: 添加账号
+            operationId: ChannelGroup_CreateAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channel-groups/{id}/accounts/{accountId}:
+        delete:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 删除账号
+            description: 删除账号
+            operationId: ChannelGroup_DeleteAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channel-groups/{id}/channels:
+        post:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 添加渠道
+            description: 添加渠道
+            operationId: ChannelGroup_CreateChannel
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateChannelRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateChannelReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channel-groups/{id}/channels/{channelId}:
+        delete:
+            tags:
+                - ChannelGroup
+                - 渠道组
+            summary: 删除渠道
+            description: 删除渠道
+            operationId: ChannelGroup_DeleteChannel
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: channelId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/channels:
+        get:
+            tags:
+                - Channel
+                - 渠道
+            summary: 列表
+            description: (全量返回)无需分页
+            operationId: Channel_List
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/dingtalk/notify:
+        post:
+            tags:
+                - Dingtalk
+                - 钉钉消息
+            summary: 钉钉消息(客户端无关)
+            description: 消息callback
+            operationId: Dingtalk_Notify
+            parameters:
+                - name: signature
+                  in: query
+                  schema:
+                    type: string
+                - name: timestamp
+                  in: query
+                  schema:
+                    type: string
+                - name: nonce
+                  in: query
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/NotifyRequest_Body'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/NotifyReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/hello:
+        get:
+            tags:
+                - Helloworld
+                - HelloWorld
+            summary: 列表
+            description: 这是一个描述2
+            operationId: Helloworld_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Helloworld
+                - HelloWorld
+            summary: 创建
+            description: 这是一个描述
+            operationId: Helloworld_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Request'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Reply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/items:
+        get:
+            tags:
+                - Item
+                - 宝贝
+            summary: 列表
+            description: 列表
+            operationId: Item_List
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Item
+                - 宝贝
+            summary: 创建
+            description: 创建
+            operationId: Item_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ItemReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/items/{id}:
+        get:
+            tags:
+                - Item
+                - 宝贝
+            summary: 详情
+            description: 详情
+            operationId: Item_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ItemReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Item
+                - 宝贝
+            summary: 更新
+            description: 更新
+            operationId: Item_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/items/{id}/duplicate:
+        post:
+            tags:
+                - Item
+                - 宝贝
+            summary: 复制创建新宝贝
+            description: 宝贝分不同渠道，复制信息创建便于操作，只需要指定另外渠道即可
+            operationId: Item_Duplicate
+            parameters:
+                - name: id
+                  in: path
+                  description: 宝贝id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DuplicateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ItemReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/items/{id}/modifications:
+        get:
+            tags:
+                - Item
+                - 宝贝
+            summary: 修改记录
+            description: 修改记录 不支持分页
+            operationId: Item_GetModification
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetModificationReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/price-groups:
+        get:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 列表
+            description: 列表
+            operationId: PriceGroup_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 创建
+            description: 创建
+            operationId: PriceGroup_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PriceGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/price-groups/{id}:
+        get:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 详情
+            description: 详情
+            operationId: PriceGroup_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PriceGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 删除
+            description: 删除
+            operationId: PriceGroup_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 更新
+            description: 更新
+            operationId: PriceGroup_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/price-groups/{id}/accounts:
+        post:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 添加账号
+            description: 添加账号
+            operationId: PriceGroup_CreateAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/price-groups/{id}/accounts/{accountId}:
+        delete:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 删除账号
+            description: 删除账号
+            operationId: PriceGroup_DeleteAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/price-groups/{id}/prices:
+        post:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 添加价格
+            description: 添加价格
+            operationId: PriceGroup_CreatePrice
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreatePriceRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreatePriceReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/price-groups/{id}/prices/{priceId}:
+        delete:
+            tags:
+                - PriceGroup
+                - 价格组
+            summary: 删除价格
+            description: 删除价格
+            operationId: PriceGroup_DeletePrice
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: priceId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/prices:
+        get:
+            tags:
+                - Price
+                - 价格
+            summary: 列表（全量返回）
+            description: 全量返回 不支持分页
+            operationId: Price_List
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/products:
+        get:
+            tags:
+                - Product
+                - 产品
+            summary: 列表
+            description: 列表
+            operationId: Product_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+                - name: supplierId
+                  in: query
+                  description: 供应商id
+                  schema:
+                    type: integer
+                    format: int64
+                - name: warehouseId
+                  in: query
+                  description: 仓库id
+                  schema:
+                    type: integer
+                    format: int64
+                - name: no
+                  in: query
+                  description: 编码
+                  schema:
+                    type: string
+                - name: name
+                  in: query
+                  description: 品名
+                  schema:
+                    type: string
+                - name: categoryPath
+                  in: query
+                  description: 类目路径
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Product
+                - 产品
+            summary: 创建
+            description: 创建
+            operationId: Product_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/products/{id}:
+        get:
+            tags:
+                - Product
+                - 产品
+            summary: 详情
+            description: 详情
+            operationId: Product_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Product
+                - 产品
+            summary: 更新
+            description: 更新
+            operationId: Product_Update
+            parameters:
+                - name: id
+                  in: path
+                  description: ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/products/{id}/favorite:
+        post:
+            tags:
+                - Product
+                - 产品
+            summary: 收藏产品
+            description: 收藏产品
+            operationId: Product_Favorite
+            parameters:
+                - name: id
+                  in: path
+                  description: 产品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/FavoriteRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - Product
+                - 产品
+            summary: 取消收藏
+            description: 取消收藏
+            operationId: Product_Unfavorite
+            parameters:
+                - name: id
+                  in: path
+                  description: 产品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/products/{id}/modifications:
+        get:
+            tags:
+                - Product
+                - 产品
+            summary: 修改记录
+            description: 全量返回
+            operationId: Product_GetModification
+            parameters:
+                - name: id
+                  in: path
+                  description: 产品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetModificationReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/products/{id}/move-to-composite-zone:
+        post:
+            tags:
+                - Product
+                - 产品
+            summary: 移到合成区
+            description: 移到合成区
+            operationId: Product_MoveToCompositeZone
+            parameters:
+                - name: id
+                  in: path
+                  description: 产品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MoveToCompositeZoneRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/products/{id}/purchase-plan:
+        post:
+            tags:
+                - Product
+                - 产品
+            summary: 加入采购计划
+            description: 加入采购计划
+            operationId: Product_JoinPurchasePlan
+            parameters:
+                - name: id
+                  in: path
+                  description: 产品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/JoinPurchasePlanRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Product'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/purchase-orders:
+        get:
+            tags:
+                - PurchaseOrder
+                - 采购单
+            summary: 列表
+            description: 列表
+            operationId: PurchaseOrder_List
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - PurchaseOrder
+                - 采购单
+            summary: 创建
+            description: 创建
+            operationId: PurchaseOrder_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PurchaseOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/purchase-orders/{id}:
+        get:
+            tags:
+                - PurchaseOrder
+                - 采购单
+            summary: 详情
+            description: 详情
+            operationId: PurchaseOrder_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/PurchaseOrderReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - PurchaseOrder
+                - 采购单
+            summary: 更新
+            description: 更新
+            operationId: PurchaseOrder_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/purchase-orders/{id}/modifications:
+        get:
+            tags:
+                - PurchaseOrder
+                - 采购单
+            summary: 修改记录
+            description: 全量返回
+            operationId: PurchaseOrder_GetModification
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetModificationReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/resources:
+        get:
+            tags:
+                - Resource
+                - 系统资源
+            summary: 列表
+            description: 全量返回
+            operationId: Resource_List
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/roles:
+        get:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 列表
+            description: 列表
+            operationId: Role_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 创建
+            description: 创建
+            operationId: Role_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RoleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/roles/{id}:
+        get:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 详情
+            description: 详情
+            operationId: Role_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/RoleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 删除
+            description: 删除
+            operationId: Role_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 更新
+            description: 更新
+            operationId: Role_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/roles/{id}/accounts/{accountId}:
+        post:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 添加账号
+            description: 添加账号
+            operationId: Role_CreateAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 删除账号
+            description: 删除账号
+            operationId: Role_DeleteAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/roles/{id}/resources/{resourceId}/permissions:
+        put:
+            tags:
+                - Role
+                - 角色(权限组)
+            summary: 更新权限
+            description: 更新权限
+            operationId: Role_PutPermission
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: resourceId
+                  in: path
+                  required: true
+                  schema:
+                    type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/PutPermissionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples:
+        get:
+            tags:
+                - Sample
+                - 样品
+            summary: 列表
+            description: 列表
+            operationId: Sample_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+                - name: visibility
+                  in: query
+                  schema:
+                    type: integer
+                    format: enum
+                - name: status
+                  in: query
+                  schema:
+                    type: integer
+                    format: enum
+                - name: supplierId
+                  in: query
+                  description: 供应商id
+                  schema:
+                    type: integer
+                    format: int64
+                - name: no
+                  in: query
+                  description: 编码 ^\\S{2,30}$
+                  schema:
+                    type: string
+                - name: name
+                  in: query
+                  description: 品名 模糊匹配 必须>=2个字符 ^\\S{2,10}$
+                  schema:
+                    type: string
+                - name: categoryPath
+                  in: query
+                  description: 分类路径
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Sample
+                - 样品
+            summary: 创建
+            description: 这是一个描述
+            operationId: Sample_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SampleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples/{id}:
+        get:
+            tags:
+                - Sample
+                - 样品
+            summary: 详情
+            description: 详情
+            operationId: Sample_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SampleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Sample
+                - 样品
+            summary: 更新
+            description: （特殊处理 非角色权限控制，业务控制）
+            operationId: Sample_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples/{id}/attachments:
+        post:
+            tags:
+                - Sample
+                - 样品
+            summary: 新增附件
+            description: 新增附件
+            operationId: Sample_CrateAttachment
+            parameters:
+                - name: id
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAttachmentRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Attachment'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples/{id}/deprecate:
+        post:
+            tags:
+                - Sample
+                - 样品
+            summary: 废弃样品
+            description: 废弃样品
+            operationId: Sample_Deprecate
+            parameters:
+                - name: id
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/DeprecateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SampleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples/{id}/modifications:
+        get:
+            tags:
+                - Sample
+                - 样品
+            summary: 修改记录
+            description: 全量返回 不支持分页
+            operationId: Sample_GetModification
+            parameters:
+                - name: id
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetModificationReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples/{id}/move-to-composite-zone:
+        post:
+            tags:
+                - Sample
+                - 样品
+            summary: 移到合成区
+            description: 移到合成区
+            operationId: Sample_MoveToCompositeZone
+            parameters:
+                - name: id
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MoveToCompositeZoneRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SampleReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/samples/{id}/share:
+        post:
+            tags:
+                - Sample
+                - 样品
+            summary: 分享样品
+            description: 公共权限
+            operationId: Sample_Share
+            parameters:
+                - name: id
+                  in: path
+                  description: 样品id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/ShareRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/skus:
+        get:
+            tags:
+                - Sku
+                - SKU
+            summary: 列表
+            description: 列表
+            operationId: Sku_List
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pageSize
+                  in: query
+                  schema:
+                    type: integer
+                    format: int32
+                - name: no
+                  in: query
+                  description: 编码
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Sku
+                - SKU
+            summary: 创建
+            description: 创建
+            operationId: Sku_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SkuReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/skus/{id}:
+        get:
+            tags:
+                - Sku
+                - SKU
+            summary: 详情
+            description: 详情
+            operationId: Sku_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SkuReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Sku
+                - SKU
+            summary: 更新
+            description: 更新
+            operationId: Sku_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/skus/{id}/favorite:
+        post:
+            tags:
+                - Sku
+                - SKU
+            summary: 收藏
+            description: 收藏
+            operationId: Sku_Favorite
+            parameters:
+                - name: id
+                  in: path
+                  description: sku id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/FavoriteRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SkuReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - Sku
+                - SKU
+            summary: 取消收藏
+            description: 取消收藏
+            operationId: Sku_Unfavorite
+            parameters:
+                - name: id
+                  in: path
+                  description: sku id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SkuReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/skus/{id}/modifications:
+        get:
+            tags:
+                - Sku
+                - SKU
+            summary: 修改记录
+            description: 全量返回，不支持分页
+            operationId: Sku_GetModification
+            parameters:
+                - name: id
+                  in: path
+                  description: sku id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetModificationReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/skus/{id}/move-to-composite-zone:
+        post:
+            tags:
+                - Sku
+                - SKU
+            summary: 移到合成区
+            description: 移到合成区
+            operationId: Sku_MoveToCompositeZone
+            parameters:
+                - name: id
+                  in: path
+                  description: sku id
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/MoveToCompositeZoneRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SkuReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/sms:
+        post:
+            tags:
+                - Sms
+                - 短信
+            summary: 发送
+            description: 须获取图形验证码后再发送短信
+            operationId: Sms_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/supplier-groups:
+        get:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 列表
+            description: 列表
+            operationId: SupplierGroup_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 创建
+            description: 创建
+            operationId: SupplierGroup_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SupplierGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/supplier-groups/{id}:
+        get:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 详情
+            description: 详情
+            operationId: SupplierGroup_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SupplierGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 删除
+            description: 删除
+            operationId: SupplierGroup_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 更新
+            description: 更新
+            operationId: SupplierGroup_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/supplier-groups/{id}/accounts:
+        post:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 添加账号
+            description: 添加账号
+            operationId: SupplierGroup_CreateAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/supplier-groups/{id}/accounts/{accountId}:
+        delete:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 删除账号
+            description: 删除账号
+            operationId: SupplierGroup_DeleteAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/supplier-groups/{id}/suppliers:
+        post:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 添加供应商
+            description: 添加供应商
+            operationId: SupplierGroup_CreateSupplier
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateSupplierRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateSupplierReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/supplier-groups/{id}/suppliers/{supplierId}:
+        delete:
+            tags:
+                - SupplierGroup
+                - 供应商组
+            summary: 删除供应商
+            description: 删除供应商
+            operationId: SupplierGroup_DeleteSupplier
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: supplierId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/suppliers:
+        get:
+            tags:
+                - Supplier
+                - 供应商
+            summary: 列表
+            description: 列表
+            operationId: Supplier_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+                - name: no
+                  in: query
+                  description: 编码
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Supplier
+                - 供应商
+            summary: 创建
+            description: 创建
+            operationId: Supplier_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SupplierReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/suppliers/{id}:
+        get:
+            tags:
+                - Supplier
+                - 供应商
+            summary: 详情
+            description: 详情
+            operationId: Supplier_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/SupplierReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Supplier
+                - 供应商
+            summary: 更新
+            description: 更新
+            operationId: Supplier_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/synclogs:
+        get:
+            tags:
+                - Synclog
+                - 旺店通同步日志
+            summary: 列表
+            description: 列表
+            operationId: Synclog_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/tokens:
+        get:
+            tags:
+                - Token
+                - 令牌
+            summary: 登录日志
+            description: 登录日志
+            operationId: Token_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - Token
+                - 令牌
+            summary: 创建（登录）
+            description: 创建（登录）
+            operationId: Token_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/uploads:
+        post:
+            tags:
+                - Upload
+                - 文件
+            summary: 上传
+            description: 文件上传文件服务器，与其余请求base_url不同
+            operationId: Upload_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouse-groups:
+        get:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 列表
+            description: 列表
+            operationId: WarehouseGroup_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        post:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 创建
+            description: 创建
+            operationId: WarehouseGroup_Create
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WarehouseGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouse-groups/{id}:
+        get:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 详情
+            description: 详情
+            operationId: WarehouseGroup_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WarehouseGroupReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        delete:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 删除
+            description: 删除
+            operationId: WarehouseGroup_Delete
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 更新
+            description: 更新
+            operationId: WarehouseGroup_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouse-groups/{id}/accounts:
+        post:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 添加账号
+            description: 添加账号
+            operationId: WarehouseGroup_CreateAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateAccountRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateAccountReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouse-groups/{id}/accounts/{accountId}:
+        delete:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 删除账号
+            description: 删除账号
+            operationId: WarehouseGroup_DeleteAccount
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: accountId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouse-groups/{id}/warehouses:
+        post:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 添加仓库
+            description: 添加仓库
+            operationId: WarehouseGroup_CreateWarehouse
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CreateWarehouseRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/CreateWarehouseReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouse-groups/{id}/warehouses/{warehouseId}:
+        delete:
+            tags:
+                - WarehouseGroup
+                - 仓库组
+            summary: 删除仓库
+            description: 删除仓库
+            operationId: WarehouseGroup_DeleteWarehouse
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                - name: warehouseId
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouses:
+        get:
+            tags:
+                - Warehouse
+                - 仓库
+            summary: 列表
+            description: 列表
+            operationId: Warehouse_List
+            parameters:
+                - name: pagination.page
+                  in: query
+                  description: 页数
+                  schema:
+                    type: integer
+                    format: int32
+                - name: pagination.size
+                  in: query
+                  description: 每页数据量 20/30/50/100
+                  schema:
+                    type: integer
+                    format: int32
+                - name: no
+                  in: query
+                  description: 编码模糊查询
+                  schema:
+                    type: string
+                - name: name
+                  in: query
+                  description: 名称模糊查询
+                  schema:
+                    type: string
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /v1/warehouses/{id}:
+        get:
+            tags:
+                - Warehouse
+                - 仓库
+            summary: 详情
+            description: 详情
+            operationId: Warehouse_Get
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/WarehouseReply'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+        patch:
+            tags:
+                - Warehouse
+                - 仓库
+            summary: 更新
+            description: 只能更新费用相关
+            operationId: Warehouse_Update
+            parameters:
+                - name: id
+                  in: path
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/UpdateRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content: {}
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        Account:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+        AccountReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createdTime:
+                    type: string
+                updateTime:
+                    type: string
+                super:
+                    type: boolean
+                name:
+                    type: string
+                phoneNo:
+                    type: string
+                disabled:
+                    type: boolean
+                comment:
+                    type: string
+                roles:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountReply_Role'
+                suppliers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountReply_Supplier'
+                warehouses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountReply_Warehouse'
+                channels:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountReply_Channel'
+                prices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/AccountReply_Price'
+        AccountReply_Channel:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                No:
+                    type: string
+                Name:
+                    type: string
+        AccountReply_Price:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                Name:
+                    type: string
+        AccountReply_Role:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                permissions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Role_Permission'
+        AccountReply_Supplier:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                No:
+                    type: string
+        AccountReply_Warehouse:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                No:
+                    type: string
+                Name:
+                    type: string
+        Attachment:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                url:
+                    type: string
+                createTime:
+                    type: string
+        Category:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                    description: 分类名称
+                path:
+                    type: string
+                    description: 分类路径
+                isLeaf:
+                    type: boolean
+                    description: 是否为叶子级
+        Channel:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: id
+                    format: int64
+                name:
+                    type: string
+                    description: 渠道名称
+        ChannelGroupReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Account'
+                channels:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Channel'
+        CreateAccountReply:
+            type: object
+            properties:
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Account'
+        CreateAccountRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                accountId:
+                    type: integer
+                    format: int64
+        CreateAttachmentRequest:
+            required:
+                - name
+                - url
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 产品id
+                    format: int64
+                name:
+                    type: string
+                    description: 附件名 1-30
+                url:
+                    type: string
+                    description: 附件地址
+        CreateChannelReply:
+            type: object
+            properties:
+                channels:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Channel'
+        CreateChannelRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                channelId:
+                    type: integer
+                    format: int64
+        CreatePriceReply:
+            type: object
+            properties:
+                prices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Price'
+        CreatePriceRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                priceId:
+                    type: integer
+                    format: int64
+        CreateReply:
+            type: object
+            properties:
+                tokenType:
+                    type: string
+                    description: Cookie 类型，固定为Bearer
+                accessToken:
+                    type: string
+                    description: Cookie 令牌：Header['Authorization'] = token_type + ' '+ access_token
+                expiresIn:
+                    type: integer
+                    description: Cookie 有效期
+                    format: int32
+                refreshToken:
+                    type: string
+                    description: Cookie 刷新令牌
+                accountId:
+                    type: integer
+                    description: Cookie 账号id
+                    format: int64
+        CreateRequest:
+            type: object
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+        CreateScopeReply:
+            type: object
+            properties:
+                scopes:
+                    type: array
+                    items:
+                        type: string
+        CreateScopeRequest:
+            required:
+                - scopeName
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                scopeName:
+                    type: string
+                    description: 正则 ^\\S{2,10}$
+        CreateSupplierReply:
+            type: object
+            properties:
+                suppliers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Supplier'
+        CreateSupplierRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                supplierId:
+                    type: integer
+                    format: int64
+        CreateWarehouseReply:
+            type: object
+            properties:
+                warehouses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Warehouse'
+        CreateWarehouseRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                warehouseId:
+                    type: integer
+                    format: int64
+        DeprecateRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 样品id
+                    format: int64
+        DuplicateRequest:
+            required:
+                - channelId
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 宝贝id
+                    format: int64
+                channelId:
+                    type: integer
+                    description: 渠道id
+                    format: int64
+        ExportReply:
+            type: object
+            properties: {}
+        FavoriteRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 产品id
+                    format: int64
+        GetModificationReply:
+            type: object
+            properties:
+                totalSize:
+                    type: integer
+                    format: int32
+                modifications:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Modification'
+        GetReply:
+            type: object
+            properties:
+                id:
+                    type: string
+                base64Image:
+                    type: string
+                    description: basse64 编码的图片数据
+        GetScopeReply:
+            type: object
+            properties:
+                scopes:
+                    type: array
+                    items:
+                        type: string
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ItemReply:
+            type: object
+            properties: {}
+        JoinPurchasePlanRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 产品id
+                    format: int64
+        ListFavoriteReply:
+            type: object
+            properties:
+                totalSize:
+                    type: integer
+                    format: int32
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product'
+        ListReply:
+            type: object
+            properties:
+                totalSize:
+                    type: integer
+                    format: int32
+                supplierGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/SupplierGroupReply'
+        ListShareReply:
+            type: object
+            properties:
+                totalSize:
+                    type: integer
+                    format: int32
+                shares:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Share'
+        Modification:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                modifier:
+                    $ref: '#/components/schemas/Account'
+                description:
+                    type: string
+        MoveToCompositeZoneRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 产品id
+                    format: int64
+        NotifyReply:
+            type: object
+            properties:
+                msg_signature:
+                    type: string
+                timeStamp:
+                    type: string
+                nonce:
+                    type: string
+                encrypt:
+                    type: string
+        NotifyRequest_Body:
+            type: object
+            properties:
+                encrypt:
+                    type: string
+        Price:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                table:
+                    type: string
+                column:
+                    type: string
+                description:
+                    type: string
+        PriceGroupReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Account'
+                prices:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Price'
+        Product:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                category:
+                    $ref: '#/components/schemas/Category'
+                name:
+                    type: string
+                copywriting:
+                    type: string
+                no:
+                    type: string
+                imageUrls:
+                    type: array
+                    items:
+                        type: string
+                scopes:
+                    type: array
+                    items:
+                        type: string
+                specification:
+                    type: string
+                specificationCode:
+                    type: string
+                barcode:
+                    type: string
+                length:
+                    type: number
+                    format: double
+                width:
+                    type: number
+                    format: double
+                height:
+                    type: number
+                    format: double
+                netWeight:
+                    type: number
+                    format: double
+                capacity:
+                    type: number
+                    format: double
+                unit:
+                    type: string
+                material:
+                    type: string
+                craftsmanship:
+                    type: string
+                color:
+                    type: string
+                package:
+                    type: string
+                attachments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Attachment'
+                tags:
+                    type: array
+                    items:
+                        type: string
+                status:
+                    type: string
+                costPrice:
+                    type: number
+                    description: 成本价
+                    format: double
+                minControlPrice:
+                    type: number
+                    description: 最低控价
+                    format: double
+                suggestedRetailPrice:
+                    type: number
+                    description: 建议售价
+                    format: double
+                comment:
+                    type: string
+                    description: 备注
+                purchasePlan:
+                    $ref: '#/components/schemas/Product_ProductPurchasePlan'
+                suppliers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product_ProductSupplier'
+                warehouses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product_ProductWarehouse'
+        ProductWarehouse_PurchaseStat:
+            type: object
+            properties:
+                receivedQuantity:
+                    type: integer
+                    description: 采购到货量
+                    format: int32
+                inTransitQuantity:
+                    type: integer
+                    description: 采购在途量
+                    format: int32
+                exchangeQuantity:
+                    type: integer
+                    description: 采购换货量
+                    format: int32
+                returnQuantity:
+                    type: integer
+                    description: 采购退货量
+                    format: int32
+        ProductWarehouse_SaleStat:
+            type: object
+            properties:
+                today:
+                    type: integer
+                    description: 今日销量
+                    format: int32
+                seven:
+                    type: integer
+                    description: 7天销量
+                    format: int32
+                fourteen:
+                    type: integer
+                    description: 14天销量
+                    format: int32
+                thirty:
+                    type: integer
+                    description: 30天销量
+                    format: int32
+                total:
+                    type: integer
+                    description: 总销量
+                    format: int32
+            description: 销售统计
+        Product_ProductPurchasePlan:
+            type: object
+            properties:
+                purchaser:
+                    $ref: '#/components/schemas/Account'
+                createTime:
+                    type: string
+        Product_ProductSupplier:
+            type: object
+            properties:
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                supplier:
+                    $ref: '#/components/schemas/Supplier'
+                articleNo:
+                    type: string
+                    description: 货号
+                unitPrice:
+                    type: number
+                    description: 单价
+                    format: double
+                controlPrice:
+                    type: number
+                    description: 控价
+                    format: double
+                listPrice:
+                    type: number
+                    description: 建议零售价
+                    format: double
+                quantityPerBox:
+                    type: integer
+                    description: 装箱率
+                    format: int32
+                productionCycle:
+                    type: integer
+                    description: 生产周期
+                    format: int32
+                minOrderQuantity:
+                    type: integer
+                    description: 起订量
+                    format: int32
+                qualityReportNo:
+                    type: string
+                    description: 质检报告编号
+        Product_ProductWarehouse:
+            type: object
+            properties:
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                warehouse:
+                    $ref: '#/components/schemas/Warehouse'
+                saleStat:
+                    $ref: '#/components/schemas/ProductWarehouse_SaleStat'
+                purchaseStat:
+                    $ref: '#/components/schemas/ProductWarehouse_PurchaseStat'
+        PurchaseOrderReply:
+            type: object
+            properties: {}
+        PutPermissionRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                resourceId:
+                    type: string
+                allowQuery:
+                    type: boolean
+                allowCreate:
+                    type: boolean
+                allowUpdate:
+                    type: boolean
+                allowDelete:
+                    type: boolean
+                allowExport:
+                    type: boolean
+        RefreshReply:
+            type: object
+            properties:
+                accessToken:
+                    type: string
+                expiresIn:
+                    type: integer
+                    format: int32
+                refreshToken:
+                    type: string
+                accountId:
+                    type: integer
+                    format: int64
+        RefreshRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 账号id
+                    format: int64
+                refreshToken:
+                    type: string
+                    description: 刷新令牌
+        Reply:
+            type: object
+            properties:
+                id:
+                    type: string
+                base64Image:
+                    type: string
+                    description: basse64 编码的图片数据
+            description: 实验响应
+        Request:
+            title: This is an overridden message schema title
+            type: object
+            properties:
+                user:
+                    $ref: '#/components/schemas/Request_User'
+                type:
+                    type: string
+                    description: required
+            description: 实验请求
+        Request_User:
+            required:
+                - age
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 名字
+                age:
+                    type: integer
+                    description: 年龄
+                    format: int32
+        ResourceGroup:
+            type: object
+            properties:
+                name:
+                    type: string
+                description:
+                    type: string
+                permissions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ResourceGroup_Permission'
+        ResourceGroup_Permission:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                allowQuery:
+                    type: boolean
+                    description: 查询
+                allowCreate:
+                    type: boolean
+                    description: 新增
+                allowUpdate:
+                    type: boolean
+                    description: 修改
+                allowDelete:
+                    type: boolean
+                    description: 删除
+                allowExport:
+                    type: boolean
+                    description: 导出
+                resource:
+                    $ref: '#/components/schemas/ResourceGroup_Resource'
+        ResourceGroup_Resource:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                action:
+                    $ref: '#/components/schemas/Resource_Action'
+        Resource_Action:
+            type: object
+            properties:
+                query:
+                    type: boolean
+                create:
+                    type: boolean
+                update:
+                    type: boolean
+                delete:
+                    type: boolean
+                export:
+                    type: boolean
+        RoleReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Account'
+                resourceGroups:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/ResourceGroup'
+        Role_Permission:
+            type: object
+            properties:
+                allowQuery:
+                    type: boolean
+        SampleReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                owner:
+                    $ref: '#/components/schemas/Account'
+                ownerType:
+                    type: integer
+                    description: 拥有人类型 内部/供应商
+                    format: enum
+                demand:
+                    $ref: '#/components/schemas/SampleReply_Demand'
+                detail:
+                    $ref: '#/components/schemas/SampleReply_Detail'
+                sourceType:
+                    type: integer
+                    description: 来源
+                    format: enum
+                tags:
+                    type: string
+                    description: 标签
+                status:
+                    type: integer
+                    description: 状态 PENDING/COMPOSITE/COMPLETED/DEPRECATED
+                    format: enum
+                selectDate:
+                    type: string
+                    description: 选品日期
+                arrivalDate:
+                    type: string
+                    description: 到样日期
+                purpose:
+                    type: string
+                    description: 拿货目的
+                priceRange:
+                    $ref: '#/components/schemas/SampleReply_Range'
+                salesPriceRange:
+                    $ref: '#/components/schemas/SampleReply_Range'
+                expectedShelfMonth:
+                    type: string
+                    description: 期望上架月份
+                purchase:
+                    $ref: '#/components/schemas/SampleReply_Purchase'
+                comment:
+                    type: string
+                    description: 备注
+        SampleReply_Demand:
+            type: object
+            properties:
+                Demander:
+                    $ref: '#/components/schemas/Account'
+                level:
+                    type: integer
+                    description: 需求等级
+                    format: enum
+                date:
+                    type: string
+                    description: 需求日期
+        SampleReply_Detail:
+            type: object
+            properties:
+                name:
+                    type: string
+                    description: 名称 1-30
+                copywriting:
+                    type: string
+                    description: 文案 1-30
+                no:
+                    type: string
+                    description: 编码 1-30
+                imageUrls:
+                    type: array
+                    items:
+                        type: string
+                    description: 图片 1-100张
+                category:
+                    $ref: '#/components/schemas/Category'
+                scopes:
+                    type: array
+                    items:
+                        type: string
+                    description: 适用范围 0-20
+                specification:
+                    type: string
+                    description: 规格
+                specificationCode:
+                    type: string
+                    description: 规格码
+                barcode:
+                    type: string
+                    description: 条形码
+                length:
+                    type: number
+                    description: 长度 cm 0-1000
+                    format: double
+                width:
+                    type: number
+                    description: 宽度 cm 0-1000
+                    format: double
+                height:
+                    type: number
+                    description: 高度 cm 0-1000
+                    format: double
+                netWeight:
+                    type: number
+                    description: 净重 g 0 -100000
+                    format: double
+                capacity:
+                    type: number
+                    description: 容量
+                    format: double
+                unit:
+                    type: string
+                    description: 单位
+                material:
+                    type: string
+                    description: 材质
+                craftsmanship:
+                    type: string
+                    description: 工艺
+                color:
+                    type: string
+                    description: 颜色
+                package:
+                    type: string
+                    description: 包装
+                articleNo:
+                    type: string
+                    description: 货号
+                unitPrice:
+                    type: number
+                    description: 单价
+                    format: double
+                controlPrice:
+                    type: number
+                    description: 工厂控价
+                    format: double
+                quantityPerBox:
+                    type: integer
+                    description: 装箱率：单箱可装件数 0-999999999
+                    format: int32
+                productionCycle:
+                    type: integer
+                    description: 生产周期 0 -1000 天
+                    format: int32
+                minOrderQuantity:
+                    type: integer
+                    description: 最小起订量 0- 999999999
+                    format: int32
+                qualityReportNo:
+                    type: string
+                    description: 质检报告编号
+                attachments:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Attachment'
+                    description: 附件 最多100个附件
+        SampleReply_Purchase:
+            type: object
+            properties:
+                Purchaser:
+                    $ref: '#/components/schemas/Account'
+                costPrice:
+                    type: number
+                    description: 成本
+                    format: double
+                isArrived:
+                    type: boolean
+                    description: 是否到样
+                isInStock:
+                    type: boolean
+                    description: 是否现货
+                arrivalQuantity:
+                    type: integer
+                    description: 到样数量
+                    format: int32
+                isSampleReturned:
+                    type: boolean
+                    description: 样品是否要退
+                result:
+                    type: string
+                    description: 结果
+        SampleReply_Range:
+            type: object
+            properties:
+                start:
+                    type: number
+                    description: 开始
+                    format: double
+                end:
+                    type: number
+                    description: 结束
+                    format: double
+        Share:
+            type: object
+            properties:
+                editable:
+                    type: boolean
+                    description: 是否可以编辑
+                sample:
+                    $ref: '#/components/schemas/SampleReply'
+        ShareRequest:
+            required:
+                - id
+                - editable
+                - receiverId
+            type: object
+            properties:
+                id:
+                    type: integer
+                    description: 样品id
+                    format: int64
+                editable:
+                    type: boolean
+                    description: 是否可编辑
+                receiverId:
+                    type: integer
+                    description: 接收人id
+                    format: int64
+            description: 分享样品请求
+        SkuProduct:
+            type: object
+            properties:
+                product:
+                    $ref: '#/components/schemas/SkuProduct_Product'
+                quantity:
+                    type: integer
+                    description: 数量
+                    format: int32
+        SkuProduct_Product:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+        SkuReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                no:
+                    type: string
+                    description: 编码
+                imageUrl:
+                    type: string
+                    description: 图片
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/SkuProduct'
+                    description: 产品
+                totalCostPrice:
+                    type: number
+                    description: 总成本价：多产品同步过来总和（按数量）不可修改！
+                    format: double
+                suggestedRetailPrice:
+                    type: number
+                    description: 建议售价:多产品同步过来总和（按数量）
+                    format: double
+                fixedPrice:
+                    type: number
+                    description: 一口价
+                    format: double
+                guidePrice:
+                    type: number
+                    description: 指导价
+                    format: double
+                guidePriceGrossProfitRate:
+                    type: number
+                    description: 指导价毛利率
+                    format: double
+                activityPrice:
+                    type: number
+                    description: 活动价
+                    format: double
+                activityPriceGrossProfitRate:
+                    type: number
+                    description: 活动价毛利率
+                    format: double
+                clearancePrice:
+                    type: number
+                    description: 清仓价
+                    format: double
+                clearancePriceGrossProfitRate:
+                    type: number
+                    description: 清仓价毛利率
+                    format: double
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+        Supplier:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                no:
+                    type: string
+        SupplierGroupReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Account'
+                suppliers:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Supplier'
+        SupplierReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                no:
+                    type: string
+                followerName:
+                    type: string
+                status:
+                    type: string
+                thirdPartyId:
+                    type: integer
+                    format: int64
+        UpdateRequest:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                name:
+                    type: string
+                description:
+                    type: string
+        Warehouse:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                no:
+                    type: string
+                name:
+                    type: string
+        WarehouseGroupReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                accounts:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Account'
+                warehouses:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Warehouse'
+        WarehouseReply:
+            type: object
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                createTime:
+                    type: string
+                updateTime:
+                    type: string
+                name:
+                    type: string
+                no:
+                    type: string
+                province:
+                    type: string
+                city:
+                    type: string
+                district:
+                    type: string
+                address:
+                    type: string
+                zip:
+                    type: string
+                contact:
+                    type: string
+                phoneNo:
+                    type: string
+                telNo:
+                    type: string
+                comment:
+                    type: string
+                thirdPartyId:
+                    type: integer
+                    format: int64
+                shippingCost:
+                    type: number
+                    format: double
+                operatingCost:
+                    type: number
+                    format: double
+                packagingCost:
+                    type: number
+                    format: double
+    securitySchemes:
+        Bearer:
+            type: https
+            scheme: bearer
+tags:
+    - name: API说明
+      description: |-
+        ### 1.接口服务/文件服务，文件直接上传文件服务器，客户端无需考虑鉴权。
+         ### 2.接口权限设置为HTTP Header[Authorization] = Bearer+' '+accsss_token，注意有空格拼接
+    - name: Account
+      description: 账号
+    - name: Captcha
+      description: 图形验证码
+    - name: Category
+    - name: Channel
+      description: 渠道
+    - name: ChannelGroup
+      description: 渠道组
+    - name: Dingtalk
+      description: 钉钉消息
+    - name: Helloworld
+    - name: Item
+      description: 宝贝
+    - name: Price
+      description: 价格
+    - name: PriceGroup
+      description: 价格组
+    - name: Product
+      description: 产品
+    - name: PurchaseOrder
+      description: 采购单
+    - name: Resource
+      description: 系统资源
+    - name: Role
+      description: 角色（权限组）
+    - name: Sample
+    - name: Sku
+      description: SKU
+    - name: Sms
+      description: 短信
+    - name: Supplier
+      description: 供应商
+    - name: SupplierGroup
+      description: 供应商组
+    - name: Synclog
+      description: 旺店通同步日志
+    - name: Token
+      description: 令牌
+    - name: Upload
+      description: 文件
+    - name: Warehouse
+      description: 仓库
+    - name: WarehouseGroup
+      description: 仓库组

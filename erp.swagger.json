@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "APIs docs",
-    "version": "v1"
+    "title": "suppliergroup/v1/suppliergroup.proto",
+    "version": "version not set"
   },
   "tags": [
     {
@@ -3102,10 +3102,7 @@
                 },
                 "voucherUrl": {
                   "type": "string",
-                  "title": "凭证",
-                  "required": [
-                    "voucherUrl"
-                  ]
+                  "title": "凭证"
                 },
                 "comment": {
                   "type": "string",
@@ -3118,8 +3115,7 @@
               },
               "required": [
                 "date",
-                "amount",
-                "voucherUrl"
+                "amount"
               ]
             }
           }
