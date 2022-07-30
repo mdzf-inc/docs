@@ -30,13 +30,10 @@
       "name": "PurchaseOrder"
     },
     {
-      "name": "Sms"
+      "name": "User"
     },
     {
       "name": "Product"
-    },
-    {
-      "name": "Captcha"
     },
     {
       "name": "Channel"
@@ -526,29 +523,6 @@
         ],
         "tags": [
           "Account"
-        ]
-      }
-    },
-    "/v1/captcha": {
-      "get": {
-        "summary": "获取",
-        "operationId": "Captcha_Get",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "tags": [
-          "Captcha"
         ]
       }
     },
@@ -4847,39 +4821,6 @@
         ]
       }
     },
-    "/v1/sms": {
-      "post": {
-        "summary": "发送",
-        "operationId": "Sms_Create",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apismsv1CreateReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/apismsv1CreateRequest"
-            }
-          }
-        ],
-        "tags": [
-          "Sms"
-        ]
-      }
-    },
     "/v1/supplier-groups": {
       "get": {
         "summary": "列表",
@@ -5540,6 +5481,38 @@
         ]
       }
     },
+    "/v1/user/info": {
+      "get": {
+        "summary": "自己的信息",
+        "operationId": "User_GetInfo",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1UserInfo"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
     "/v1/warehouse-groups": {
       "get": {
         "summary": "列表",
@@ -6062,37 +6035,6 @@
         }
       }
     },
-    "CreateRequestAccountType": {
-      "type": "string",
-      "enum": [
-        "ERP",
-        "SUPPLIER"
-      ],
-      "default": "ERP",
-      "title": "- ERP: ERP 账号\n - SUPPLIER: 供应商账号"
-    },
-    "CreateRequestDingtalk": {
-      "type": "object",
-      "properties": {
-        "authCode": {
-          "type": "string",
-          "title": "授权码"
-        }
-      }
-    },
-    "CreateRequestMobile": {
-      "type": "object",
-      "properties": {
-        "phoneNo": {
-          "type": "string",
-          "title": "手机号 ^1[0-9]{10}$"
-        },
-        "sms": {
-          "type": "string",
-          "title": "验证码 ^[\\\\d]{4,4}$"
-        }
-      }
-    },
     "DeliveryStockinStatus": {
       "type": "string",
       "enum": [
@@ -6336,26 +6278,6 @@
       ],
       "default": "UNPAID",
       "title": "- UNPAID: 未付款\n - PARTIAL_PAID: 部分付款\n - PAID: 已付款"
-    },
-    "RequestUser": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "名字"
-        },
-        "age": {
-          "type": "integer",
-          "format": "int32",
-          "title": "年龄",
-          "required": [
-            "age"
-          ]
-        }
-      },
-      "required": [
-        "age"
-      ]
     },
     "ResourceGroupResourceAction": {
       "type": "object",
@@ -7039,30 +6961,6 @@
         }
       }
     },
-    "apismsv1CreateReply": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "apismsv1CreateRequest": {
-      "type": "object",
-      "properties": {
-        "phoneNo": {
-          "type": "string"
-        },
-        "captchaId": {
-          "type": "string",
-          "title": "CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart\n(全自动区分计算机和人类的图灵测试)"
-        },
-        "inputCaptchaCode": {
-          "type": "string",
-          "title": "用户输入的验证码"
-        }
-      }
-    },
     "apisuppliergroupv1CreateAccountReply": {
       "type": "object",
       "properties": {
@@ -7191,17 +7089,9 @@
     "apitokenv1CreateRequest": {
       "type": "object",
       "properties": {
-        "accountType": {
-          "$ref": "#/definitions/CreateRequestAccountType",
-          "title": "账号类型"
-        },
-        "dingtalk": {
-          "$ref": "#/definitions/CreateRequestDingtalk",
-          "title": "钉钉扫码"
-        },
-        "mobile": {
-          "$ref": "#/definitions/CreateRequestMobile",
-          "title": "手机号"
+        "authCode": {
+          "type": "string",
+          "title": "授权码"
         }
       }
     },
@@ -7933,18 +7823,6 @@
     "v1ExportReply": {
       "type": "object"
     },
-    "v1GetReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "base64Image": {
-          "type": "string",
-          "title": "basse64 编码的图片数据"
-        }
-      }
-    },
     "v1GetScopeReply": {
       "type": "object",
       "properties": {
@@ -8320,7 +8198,7 @@
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/RequestUser"
+          "$ref": "#/definitions/v1RequestUser"
         },
         "type": {
           "type": "string",
@@ -8328,6 +8206,26 @@
         }
       },
       "title": "实验请求"
+    },
+    "v1RequestUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "名字"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32",
+          "title": "年龄",
+          "required": [
+            "age"
+          ]
+        }
+      },
+      "required": [
+        "age"
+      ]
     },
     "v1ResourceGroup": {
       "type": "object",
@@ -9270,6 +9168,17 @@
         "bankNo",
         "bankAddress"
       ]
+    },
+    "v1UserInfo": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
     },
     "v1WarehouseGroupReply": {
       "type": "object",
