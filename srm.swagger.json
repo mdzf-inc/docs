@@ -1,12 +1,15 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "SRM",
+    "title": "SRM HTTP APIs",
     "version": "v1"
   },
   "tags": [
     {
       "name": "Token"
+    },
+    {
+      "name": "PurchaseOrder"
     },
     {
       "name": "Sms"
@@ -48,6 +51,227 @@
         ]
       }
     },
+    "/v1/purchase-orders": {
+      "get": {
+        "summary": "列表",
+        "operationId": "PurchaseOrder_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apipurchaseorderv1ListReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "status",
+            "description": "采购单状态\n\n - PURCHASER_CONFIRMING: 待采购确认\n - SUPPLIER_CONFIRMING: 待供应商确认\n - CONFIRMED: 已确认\n - DEPRECATED: 已作废",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "PURCHASER_CONFIRMING",
+              "SUPPLIER_CONFIRMING",
+              "CONFIRMED",
+              "DEPRECATED"
+            ],
+            "default": "PURCHASER_CONFIRMING"
+          },
+          {
+            "name": "paymentStatus",
+            "description": "付款状态\n\n - UNPAID: 未付款\n - PARTIAL_PAID: 部分付款\n - PAID: 已付款",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "UNPAID",
+              "PARTIAL_PAID",
+              "PAID"
+            ],
+            "default": "UNPAID"
+          },
+          {
+            "name": "no",
+            "description": "采购编号 ^\\\\S{2,20}$",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "startDate",
+            "description": "开始日期 yyyy-MM-dd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "endDate",
+            "description": "结束日期 yyyy-MM-dd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      }
+    },
+    "/v1/purchase-orders/{purchaseOrderId}": {
+      "get": {
+        "summary": "详情",
+        "operationId": "PurchaseOrder_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PurchaseOrder"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purchaseOrderId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      },
+      "patch": {
+        "summary": "更新",
+        "operationId": "PurchaseOrder_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purchaseOrderId",
+            "description": "采购单id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "supplier": {
+                  "$ref": "#/definitions/v1UpdateRequestSupplier"
+                },
+                "freightPrice": {
+                  "type": "number",
+                  "format": "double",
+                  "title": "运费 0-999999999.99"
+                },
+                "paymentMethod": {
+                  "$ref": "#/definitions/PaymentMethod",
+                  "title": "付款方式"
+                },
+                "comment": {
+                  "type": "string",
+                  "title": "备注 ^\\\\S{1,50}$"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      }
+    },
+    "/v1/purchase-orders/{purchaseOrderId}/actions/send-purchaser-confirm": {
+      "put": {
+        "summary": "发送采购确认",
+        "operationId": "PurchaseOrder_SendPurchaserConfirm",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "purchaseOrderId",
+            "description": "采购单id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "PurchaseOrder"
+        ]
+      }
+    },
     "/v1/samples": {
       "get": {
         "summary": "列表",
@@ -56,7 +280,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListReply"
+              "$ref": "#/definitions/apisamplev1ListReply"
             }
           },
           "default": {
@@ -444,6 +668,168 @@
     }
   },
   "definitions": {
+    "DeliveryStockinStatus": {
+      "type": "string",
+      "enum": [
+        "UNSTOCKIN",
+        "PARTIAL",
+        "STOCKIN",
+        "STOP"
+      ],
+      "default": "UNSTOCKIN",
+      "title": "- UNSTOCKIN: 未入库\n - PARTIAL: 部分入库\n - STOCKIN: 已入库\n - STOP: 停止入库"
+    },
+    "PaymentMethod": {
+      "type": "string",
+      "enum": [
+        "NOW",
+        "ARRIVED",
+        "CREDIT"
+      ],
+      "default": "NOW",
+      "title": "- NOW: 现付\n - ARRIVED: 到付\n - CREDIT: 挂帐"
+    },
+    "PurchaseOrderDelivery": {
+      "type": "object",
+      "properties": {
+        "syncTime": {
+          "type": "string",
+          "title": "数据同步时间"
+        },
+        "status": {
+          "$ref": "#/definitions/DeliveryStockinStatus",
+          "title": "入库状态"
+        },
+        "stockinQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "入库总量"
+        },
+        "productUnits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PurchaseOrderDeliveryProductUnit"
+          },
+          "title": "到货明细"
+        }
+      },
+      "title": "交付"
+    },
+    "PurchaseOrderDeliveryProductUnit": {
+      "type": "object",
+      "properties": {
+        "no": {
+          "type": "string",
+          "title": "商品编码"
+        },
+        "name": {
+          "type": "string",
+          "title": "商品名称"
+        },
+        "imageUrl": {
+          "type": "string",
+          "title": "图片"
+        },
+        "specificationCode": {
+          "type": "string",
+          "title": "规格码"
+        },
+        "purchaseQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "采购数量"
+        },
+        "arrivedQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "到货数量"
+        },
+        "lackQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "未到数量"
+        },
+        "arrivedMoreQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "多到数量"
+        },
+        "stockinQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "入库数量"
+        },
+        "stopWaitQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "停止等待数量"
+        },
+        "settleQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "结算数量"
+        }
+      },
+      "title": "采购商品入库记录"
+    },
+    "PurchaseOrderPayment": {
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "number",
+          "format": "double"
+        },
+        "method": {
+          "$ref": "#/definitions/PaymentMethod",
+          "title": "付款方式"
+        },
+        "status": {
+          "$ref": "#/definitions/PurchaseOrderPaymentStatus",
+          "title": "付款状态"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PurchaseOrderPaymentItem"
+          },
+          "title": "付款记录"
+        }
+      },
+      "title": "付款"
+    },
+    "PurchaseOrderPaymentItem": {
+      "type": "object",
+      "properties": {
+        "date": {
+          "type": "string",
+          "title": "付款日期"
+        },
+        "amount": {
+          "type": "number",
+          "format": "double",
+          "title": "付款金额"
+        },
+        "voucherUrl": {
+          "type": "string",
+          "title": "凭证"
+        },
+        "comment": {
+          "type": "string",
+          "title": "备注"
+        }
+      },
+      "title": "付款记录"
+    },
+    "PurchaseOrderPaymentStatus": {
+      "type": "string",
+      "enum": [
+        "UNPAID",
+        "PARTIAL_PAID",
+        "PAID"
+      ],
+      "default": "UNPAID",
+      "title": "- UNPAID: 未付款\n - PARTIAL_PAID: 部分付款\n - PAID: 已付款"
+    },
     "SampleReplyDemand": {
       "type": "object",
       "properties": {
@@ -528,6 +914,21 @@
       ],
       "default": "COMPETITOR_PRODUCT",
       "title": "- COMPETITOR_PRODUCT: 竞店新品\n - PLANNING: 规划"
+    },
+    "apipurchaseorderv1ListReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PurchaseOrder"
+          }
+        }
+      }
     },
     "apisamplev1CreateRequest": {
       "type": "object",
@@ -671,6 +1072,21 @@
         "imageUrls"
       ]
     },
+    "apisamplev1ListReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SampleReply"
+          }
+        }
+      }
+    },
     "apismsv1CreateReply": {
       "type": "object",
       "properties": {
@@ -729,6 +1145,51 @@
           "title": "验证码 ^[\\\\d]{4,4}$"
         }
       }
+    },
+    "commonv1Supplier": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "no": {
+          "type": "string"
+        },
+        "followerName": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SupplierStatus"
+        },
+        "thirdPartyId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "payee": {
+          "type": "string",
+          "title": "收款人"
+        },
+        "bankName": {
+          "type": "string",
+          "title": "银行名称"
+        },
+        "bankNo": {
+          "type": "string",
+          "title": "银行账号"
+        },
+        "bankAddress": {
+          "type": "string",
+          "title": "开户行地址"
+        }
+      },
+      "title": "供应商"
     },
     "googleprotobufAny": {
       "type": "object",
@@ -836,21 +1297,6 @@
         }
       }
     },
-    "v1ListReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1SampleReply"
-          }
-        }
-      }
-    },
     "v1Pagination": {
       "type": "object",
       "properties": {
@@ -875,6 +1321,186 @@
         "page",
         "size"
       ]
+    },
+    "v1PurchaseOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "no": {
+          "type": "string",
+          "title": "采购合同号"
+        },
+        "purchaser": {
+          "$ref": "#/definitions/v1Account",
+          "title": "采购人"
+        },
+        "supplier": {
+          "$ref": "#/definitions/commonv1Supplier",
+          "title": "供应商"
+        },
+        "warehouse": {
+          "$ref": "#/definitions/v1Warehouse",
+          "title": "缺货仓库"
+        },
+        "productUnits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1PurchaseOrderProductUnit"
+          },
+          "title": "商品单元集"
+        },
+        "productPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "货款总额"
+        },
+        "freightPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "运费"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "合计；总金额"
+        },
+        "status": {
+          "$ref": "#/definitions/v1PurchaseOrderStatus",
+          "title": "采购单状态"
+        },
+        "payment": {
+          "$ref": "#/definitions/PurchaseOrderPayment"
+        },
+        "delivery": {
+          "$ref": "#/definitions/PurchaseOrderDelivery"
+        },
+        "comment": {
+          "type": "string",
+          "title": "备注"
+        }
+      },
+      "title": "采购单"
+    },
+    "v1PurchaseOrderProductUnit": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/v1PurchaseOrderProductUnitProduct"
+        },
+        "controlPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "listPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "quantityPerBox": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "box": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "package": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "availableInventoryQuantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "salesSevenDays": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "salesFourteenDays": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "salesThirtyDays": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "salesTotal": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "retailPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "lowestPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "profitRate": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "采购商品单元"
+    },
+    "v1PurchaseOrderProductUnitProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "no": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string"
+        },
+        "specification": {
+          "type": "string"
+        },
+        "specificationCode": {
+          "type": "string"
+        }
+      },
+      "title": "商品信息"
+    },
+    "v1PurchaseOrderStatus": {
+      "type": "string",
+      "enum": [
+        "PURCHASER_CONFIRMING",
+        "SUPPLIER_CONFIRMING",
+        "CONFIRMED",
+        "DEPRECATED"
+      ],
+      "default": "PURCHASER_CONFIRMING",
+      "description": "- PURCHASER_CONFIRMING: 待采购确认\n - SUPPLIER_CONFIRMING: 待供应商确认\n - CONFIRMED: 已确认\n - DEPRECATED: 已作废",
+      "title": "采购单状态"
     },
     "v1RefreshRequest": {
       "type": "object",
@@ -1061,7 +1687,7 @@
           "title": "包装"
         },
         "supplier": {
-          "$ref": "#/definitions/v1Supplier",
+          "$ref": "#/definitions/commonv1Supplier",
           "title": "供应商"
         },
         "articleNo": {
@@ -1114,51 +1740,6 @@
       ],
       "default": "PENDING",
       "title": "- PENDING: 待处理\n - COMPOSITING: 待合成\n - COMPLETED: 已完成\n - DEPRECATED: 已废弃"
-    },
-    "v1Supplier": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "createTime": {
-          "type": "string"
-        },
-        "updateTime": {
-          "type": "string"
-        },
-        "no": {
-          "type": "string"
-        },
-        "followerName": {
-          "type": "string"
-        },
-        "status": {
-          "$ref": "#/definitions/v1SupplierStatus"
-        },
-        "thirdPartyId": {
-          "type": "string",
-          "format": "int64"
-        },
-        "payee": {
-          "type": "string",
-          "title": "收款人"
-        },
-        "bankName": {
-          "type": "string",
-          "title": "银行名称"
-        },
-        "bankNo": {
-          "type": "string",
-          "title": "银行账号"
-        },
-        "bankAddress": {
-          "type": "string",
-          "title": "开户行地址"
-        }
-      },
-      "title": "供应商"
     },
     "v1SupplierStatus": {
       "type": "string",
@@ -1305,6 +1886,114 @@
           "title": "质检报告编号"
         }
       }
+    },
+    "v1UpdateRequestSupplier": {
+      "type": "object",
+      "properties": {
+        "payee": {
+          "type": "string",
+          "title": "收款人 ^\\\\S{1,30}$",
+          "required": [
+            "payee"
+          ]
+        },
+        "bankName": {
+          "type": "string",
+          "title": "银行名称 ^\\\\S{1,30}$",
+          "required": [
+            "bankName"
+          ]
+        },
+        "bankNo": {
+          "type": "string",
+          "title": "银行账号 ^[0-9]{1,30}$",
+          "required": [
+            "bankNo"
+          ]
+        },
+        "bankAddress": {
+          "type": "string",
+          "title": "开户行地址 ^\\\\S{1,30}$",
+          "required": [
+            "bankAddress"
+          ]
+        }
+      },
+      "title": "供应商付款信息",
+      "required": [
+        "payee",
+        "bankName",
+        "bankNo",
+        "bankAddress"
+      ]
+    },
+    "v1Warehouse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "no": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "district": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "string"
+        },
+        "phoneNo": {
+          "type": "string"
+        },
+        "telNo": {
+          "type": "string"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "thirdPartyId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "shippingCost": {
+          "type": "number",
+          "format": "double",
+          "title": "模版运费"
+        },
+        "operatingCost": {
+          "type": "number",
+          "format": "double",
+          "title": "模版操作费"
+        },
+        "packagingCost": {
+          "type": "number",
+          "format": "double",
+          "title": "模版包装费"
+        }
+      },
+      "title": "仓库"
     }
   }
 }
