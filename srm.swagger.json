@@ -13,6 +13,9 @@
     },
     {
       "name": "Captcha"
+    },
+    {
+      "name": "Sample"
     }
   ],
   "consumes": [
@@ -77,7 +80,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListReply"
+              "$ref": "#/definitions/apitokenv1ListReply"
             }
           },
           "default": {
@@ -119,7 +122,7 @@
     },
     "/v1/captcha": {
       "get": {
-        "summary": "获取",
+        "summary": "获取图形验证码",
         "operationId": "Captcha_Get",
         "responses": {
           "200": {
@@ -137,6 +140,301 @@
         },
         "tags": [
           "Captcha"
+        ]
+      }
+    },
+    "/v1/samples": {
+      "get": {
+        "summary": "列表",
+        "operationId": "Sample_List",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apisamplev1ListReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "sampleId",
+            "description": "ID",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "status",
+            "description": " - PENDING: 待处理\n - COMPOSITING: 待合成\n - COMPLETED: 已完成\n - DEPRECATED: 已废弃",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "PENDING",
+              "COMPOSITING",
+              "COMPLETED",
+              "DEPRECATED"
+            ],
+            "default": "PENDING"
+          },
+          {
+            "name": "no",
+            "description": "编码 ^\\\\S{2,30}$",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "description": "品名 模糊匹配 必须\u003e=2个字符 ^\\\\S{2,10}$",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "categoryPath",
+            "description": "分类路径",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      },
+      "post": {
+        "summary": "创建",
+        "operationId": "Sample_Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SampleReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apisamplev1CreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/samples/{sampleId}": {
+      "get": {
+        "summary": "详情",
+        "operationId": "Sample_Get",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SampleReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sampleId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      },
+      "patch": {
+        "summary": "更新",
+        "operationId": "Sample_Update",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sampleId",
+            "description": "样品ID",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "detail": {
+                  "$ref": "#/definitions/v1UpdateRequestDetail",
+                  "title": "详情"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/samples/{sampleId}/actions/duplicate": {
+      "post": {
+        "summary": "复制一份样品创建新样品",
+        "operationId": "Sample_Duplicate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1SampleReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sampleId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/samples/{sampleId}/attachments": {
+      "put": {
+        "summary": "添加附件",
+        "operationId": "Sample_AddAttachment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "title": "附件名 1-30",
+                  "required": [
+                    "name"
+                  ]
+                },
+                "url": {
+                  "type": "string",
+                  "title": "附件地址",
+                  "required": [
+                    "url"
+                  ]
+                }
+              },
+              "required": [
+                "name",
+                "url"
+              ]
+            }
+          }
+        ],
+        "tags": [
+          "Sample"
         ]
       }
     },
@@ -181,7 +479,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListReply"
+              "$ref": "#/definitions/apitokenv1ListReply"
             }
           },
           "default": {
@@ -247,6 +545,248 @@
     }
   },
   "definitions": {
+    "SampleReplyDemand": {
+      "type": "object",
+      "properties": {
+        "demander": {
+          "$ref": "#/definitions/v1Account",
+          "title": "需求人"
+        },
+        "level": {
+          "$ref": "#/definitions/v1DemandLevel",
+          "title": "需求等级"
+        },
+        "date": {
+          "type": "string",
+          "title": "需求日期"
+        }
+      }
+    },
+    "SampleReplyOwnerType": {
+      "type": "string",
+      "enum": [
+        "ERP",
+        "SUPPLIER"
+      ],
+      "default": "ERP",
+      "title": "- ERP: ERP 账号\n - SUPPLIER: 供应商"
+    },
+    "SampleReplyPurchase": {
+      "type": "object",
+      "properties": {
+        "purchaser": {
+          "$ref": "#/definitions/v1Account",
+          "title": "采购人"
+        },
+        "costPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "成本"
+        },
+        "isArrived": {
+          "type": "boolean",
+          "title": "是否到样"
+        },
+        "isInStock": {
+          "type": "boolean",
+          "title": "是否现货"
+        },
+        "arrivalQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "到样数量"
+        },
+        "isSampleReturned": {
+          "type": "boolean",
+          "title": "样品是否要退"
+        },
+        "result": {
+          "type": "string",
+          "title": "结果"
+        }
+      }
+    },
+    "SampleReplyRange": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "number",
+          "format": "double",
+          "title": "开始"
+        },
+        "end": {
+          "type": "number",
+          "format": "double",
+          "title": "结束"
+        }
+      }
+    },
+    "SampleReplySourceType": {
+      "type": "string",
+      "enum": [
+        "COMPETITOR_PRODUCT",
+        "PLANNING"
+      ],
+      "default": "COMPETITOR_PRODUCT",
+      "title": "- COMPETITOR_PRODUCT: 竞店新品\n - PLANNING: 规划"
+    },
+    "apisamplev1CreateRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "名称 1-30"
+        },
+        "copywriting": {
+          "type": "string",
+          "title": "文案 1-30"
+        },
+        "no": {
+          "type": "string",
+          "title": "编码 1-30"
+        },
+        "imageUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "图片 1-100张",
+          "required": [
+            "imageUrls"
+          ]
+        },
+        "categoryId": {
+          "type": "string",
+          "format": "int64",
+          "title": "类别"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "适用范围 0-20"
+        },
+        "specification": {
+          "type": "string",
+          "title": "规格"
+        },
+        "specificationCode": {
+          "type": "string",
+          "title": "规格码"
+        },
+        "barcode": {
+          "type": "string",
+          "title": "条形码"
+        },
+        "length": {
+          "type": "number",
+          "format": "double",
+          "title": "长度 cm 0-1000"
+        },
+        "width": {
+          "type": "number",
+          "format": "double",
+          "title": "宽度 cm 0-1000"
+        },
+        "height": {
+          "type": "number",
+          "format": "double",
+          "title": "高度 cm 0-1000"
+        },
+        "netWeight": {
+          "type": "number",
+          "format": "double",
+          "title": "净重 g 0 -100000"
+        },
+        "capacity": {
+          "type": "number",
+          "format": "double",
+          "title": "容量"
+        },
+        "unit": {
+          "type": "string",
+          "title": "单位"
+        },
+        "material": {
+          "type": "string",
+          "title": "材质"
+        },
+        "craftsmanship": {
+          "type": "string",
+          "title": "工艺"
+        },
+        "color": {
+          "type": "string",
+          "title": "颜色"
+        },
+        "package": {
+          "type": "string",
+          "title": "包装"
+        },
+        "supplierId": {
+          "type": "string",
+          "format": "int64",
+          "title": "供应商id"
+        },
+        "articleNo": {
+          "type": "string",
+          "title": "货号"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "单价"
+        },
+        "controlPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "工厂控价"
+        },
+        "listPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "建议售价"
+        },
+        "quantityPerBox": {
+          "type": "integer",
+          "format": "int32",
+          "title": "装箱率：单箱可装件数 0-999999999"
+        },
+        "productionCycle": {
+          "type": "integer",
+          "format": "int32",
+          "title": "生产周期 0 -1000 天"
+        },
+        "minOrderQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "最小起订量 0- 999999999"
+        },
+        "qualityReportNo": {
+          "type": "string",
+          "title": "质检报告编号"
+        }
+      },
+      "required": [
+        "imageUrls"
+      ]
+    },
+    "apisamplev1ListReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1SampleReply"
+          }
+        }
+      }
+    },
     "apismsv1CreateReply": {
       "type": "object",
       "properties": {
@@ -265,7 +805,7 @@
           "type": "string",
           "title": "CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart\n(全自动区分计算机和人类的图灵测试)"
         },
-        "inputCaptchaCode": {
+        "captchaCode": {
           "type": "string",
           "title": "用户输入的验证码"
         }
@@ -311,6 +851,21 @@
         }
       }
     },
+    "apitokenv1ListReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1TokenReply"
+          }
+        }
+      }
+    },
     "googleprotobufAny": {
       "type": "object",
       "properties": {
@@ -340,6 +895,71 @@
         }
       }
     },
+    "v1Account": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "账号ID"
+        },
+        "name": {
+          "type": "string",
+          "title": "姓名"
+        }
+      },
+      "title": "账号"
+    },
+    "v1Attachment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "string"
+        }
+      },
+      "title": "附件"
+    },
+    "v1Category": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "title": "分类名称"
+        },
+        "path": {
+          "type": "string",
+          "title": "分类路径"
+        },
+        "isLeaf": {
+          "type": "boolean",
+          "title": "是否为叶子级"
+        }
+      },
+      "title": "分类"
+    },
+    "v1DemandLevel": {
+      "type": "string",
+      "enum": [
+        "A",
+        "S",
+        "D"
+      ],
+      "default": "A"
+    },
     "v1GetReply": {
       "type": "object",
       "properties": {
@@ -349,21 +969,6 @@
         "base64Image": {
           "type": "string",
           "title": "basse64 编码的图片数据"
-        }
-      }
-    },
-    "v1ListReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TokenReply"
-          }
         }
       }
     },
@@ -411,6 +1016,291 @@
         }
       }
     },
+    "v1SampleReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "owner": {
+          "$ref": "#/definitions/v1Account",
+          "title": "拥有人"
+        },
+        "ownerType": {
+          "$ref": "#/definitions/SampleReplyOwnerType",
+          "title": "拥有人类型 ERP/供应商"
+        },
+        "demand": {
+          "$ref": "#/definitions/SampleReplyDemand",
+          "title": "需求"
+        },
+        "detail": {
+          "$ref": "#/definitions/v1SampleReplyDetail",
+          "title": "商品详细"
+        },
+        "sourceType": {
+          "$ref": "#/definitions/SampleReplySourceType",
+          "title": "来源"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "标签"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SampleReplyStatus",
+          "title": "状态 PENDING/COMPOSITE/COMPLETED/DEPRECATED"
+        },
+        "selectDate": {
+          "type": "string",
+          "title": "选品日期"
+        },
+        "arrivalDate": {
+          "type": "string",
+          "title": "到样日期"
+        },
+        "purpose": {
+          "type": "string",
+          "title": "拿货目的"
+        },
+        "priceRange": {
+          "$ref": "#/definitions/SampleReplyRange",
+          "title": "价位段"
+        },
+        "salesPriceRange": {
+          "$ref": "#/definitions/SampleReplyRange",
+          "title": "售价段"
+        },
+        "expectedListMonth": {
+          "type": "string",
+          "title": "期望上架月份"
+        },
+        "purchase": {
+          "$ref": "#/definitions/SampleReplyPurchase",
+          "title": "采购"
+        },
+        "comment": {
+          "type": "string",
+          "title": "备注"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1Attachment"
+          },
+          "title": "附件 最多100个附件"
+        }
+      }
+    },
+    "v1SampleReplyDetail": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "名称 1-30"
+        },
+        "copywriting": {
+          "type": "string",
+          "title": "文案 1-30"
+        },
+        "no": {
+          "type": "string",
+          "title": "编码 1-30"
+        },
+        "imageUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "图片 1-100张"
+        },
+        "category": {
+          "$ref": "#/definitions/v1Category",
+          "title": "类别"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "适用范围 0-20"
+        },
+        "specification": {
+          "type": "string",
+          "title": "规格"
+        },
+        "specificationCode": {
+          "type": "string",
+          "title": "规格码"
+        },
+        "barcode": {
+          "type": "string",
+          "title": "条形码"
+        },
+        "length": {
+          "type": "number",
+          "format": "double",
+          "title": "长度 cm 0-1000"
+        },
+        "width": {
+          "type": "number",
+          "format": "double",
+          "title": "宽度 cm 0-1000"
+        },
+        "height": {
+          "type": "number",
+          "format": "double",
+          "title": "高度 cm 0-1000"
+        },
+        "netWeight": {
+          "type": "number",
+          "format": "double",
+          "title": "净重 g 0 -100000"
+        },
+        "capacity": {
+          "type": "number",
+          "format": "double",
+          "title": "容量"
+        },
+        "unit": {
+          "type": "string",
+          "title": "单位"
+        },
+        "material": {
+          "type": "string",
+          "title": "材质"
+        },
+        "craftsmanship": {
+          "type": "string",
+          "title": "工艺"
+        },
+        "color": {
+          "type": "string",
+          "title": "颜色"
+        },
+        "package": {
+          "type": "string",
+          "title": "包装"
+        },
+        "supplier": {
+          "$ref": "#/definitions/v1Supplier",
+          "title": "供应商"
+        },
+        "articleNo": {
+          "type": "string",
+          "title": "货号"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "单价"
+        },
+        "controlPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "工厂控价"
+        },
+        "listPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "建议售价"
+        },
+        "quantityPerBox": {
+          "type": "integer",
+          "format": "int32",
+          "title": "装箱率：单箱可装件数 0-999999999"
+        },
+        "productionCycle": {
+          "type": "integer",
+          "format": "int32",
+          "title": "生产周期 0 -1000 天"
+        },
+        "minOrderQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "最小起订量 0- 999999999"
+        },
+        "qualityReportNo": {
+          "type": "string",
+          "title": "质检报告编号"
+        }
+      }
+    },
+    "v1SampleReplyStatus": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "COMPOSITING",
+        "COMPLETED",
+        "DEPRECATED"
+      ],
+      "default": "PENDING",
+      "title": "- PENDING: 待处理\n - COMPOSITING: 待合成\n - COMPLETED: 已完成\n - DEPRECATED: 已废弃"
+    },
+    "v1Supplier": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "no": {
+          "type": "string"
+        },
+        "followerName": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/v1SupplierStatus"
+        },
+        "thirdPartyId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "payee": {
+          "type": "string",
+          "title": "收款人"
+        },
+        "bankName": {
+          "type": "string",
+          "title": "银行名称"
+        },
+        "bankNo": {
+          "type": "string",
+          "title": "银行账号"
+        },
+        "bankAddress": {
+          "type": "string",
+          "title": "开户行地址"
+        }
+      },
+      "title": "供应商"
+    },
+    "v1SupplierStatus": {
+      "type": "string",
+      "enum": [
+        "NORMAL",
+        "REVIEWING"
+      ],
+      "default": "NORMAL",
+      "description": "- NORMAL: 正常\n - REVIEWING: 审核中",
+      "title": "状态"
+    },
     "v1TokenReply": {
       "type": "object",
       "properties": {
@@ -441,6 +1331,142 @@
         "accountName": {
           "type": "string",
           "title": "账号名"
+        }
+      }
+    },
+    "v1UpdateRequestDetail": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "名称 1-30"
+        },
+        "copywriting": {
+          "type": "string",
+          "title": "文案 1-30"
+        },
+        "no": {
+          "type": "string",
+          "title": "编码 1-30"
+        },
+        "imageUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "图片 1-100张"
+        },
+        "categoryId": {
+          "type": "string",
+          "format": "int64",
+          "title": "类别"
+        },
+        "scopes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "适用范围 0-20"
+        },
+        "specification": {
+          "type": "string",
+          "title": "规格"
+        },
+        "specificationCode": {
+          "type": "string",
+          "title": "规格码"
+        },
+        "barcode": {
+          "type": "string",
+          "title": "条形码"
+        },
+        "length": {
+          "type": "number",
+          "format": "double",
+          "title": "长度 cm 0-1000"
+        },
+        "width": {
+          "type": "number",
+          "format": "double",
+          "title": "宽度 cm 0-1000"
+        },
+        "height": {
+          "type": "number",
+          "format": "double",
+          "title": "高度 cm 0-1000"
+        },
+        "netWeight": {
+          "type": "number",
+          "format": "double",
+          "title": "净重 g 0 -100000"
+        },
+        "capacity": {
+          "type": "number",
+          "format": "double",
+          "title": "容量"
+        },
+        "unit": {
+          "type": "string",
+          "title": "单位"
+        },
+        "material": {
+          "type": "string",
+          "title": "材质"
+        },
+        "craftsmanship": {
+          "type": "string",
+          "title": "工艺"
+        },
+        "color": {
+          "type": "string",
+          "title": "颜色"
+        },
+        "supplierId": {
+          "type": "string",
+          "format": "int64",
+          "title": "供应商id"
+        },
+        "package": {
+          "type": "string",
+          "title": "包装"
+        },
+        "articleNo": {
+          "type": "string",
+          "title": "货号"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "单价"
+        },
+        "controlPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "工厂控价"
+        },
+        "listPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "建议售价"
+        },
+        "quantityPerBox": {
+          "type": "integer",
+          "format": "int32",
+          "title": "装箱率：单箱可装件数 0-999999999"
+        },
+        "productionCycle": {
+          "type": "integer",
+          "format": "int32",
+          "title": "生产周期 0 -1000 天"
+        },
+        "minOrderQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "最小起订量 0- 999999999"
+        },
+        "qualityReportNo": {
+          "type": "string",
+          "title": "质检报告编号"
         }
       }
     }
