@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "ERP",
-    "version": "v1"
+    "version": "version 1.0"
   },
   "tags": [
     {
@@ -221,53 +221,6 @@
         ]
       }
     },
-    "/v1/accounts/{accountId}/refresh-token": {
-      "put": {
-        "summary": "刷新令牌",
-        "operationId": "Token_Refresh",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1RefreshReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "accountId",
-            "description": "账号id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "refreshToken": {
-                  "type": "string",
-                  "title": "刷新令牌"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "Token"
-        ]
-      }
-    },
     "/v1/accounts/{accountId}/suppliers": {
       "get": {
         "summary": "我的供应商列表",
@@ -321,54 +274,6 @@
         ],
         "tags": [
           "Supplier"
-        ]
-      }
-    },
-    "/v1/accounts/{accountId}/tokens": {
-      "get": {
-        "summary": "我的登录日志",
-        "operationId": "Token_ListByAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apitokenv1ListReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 20/30/50/100",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Token"
         ]
       }
     },
@@ -5240,45 +5145,6 @@
       }
     },
     "/v1/tokens": {
-      "get": {
-        "summary": "登录日志",
-        "operationId": "Token_List",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apitokenv1ListReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 20/30/50/100",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Token"
-        ]
-      },
       "post": {
         "summary": "创建（登录）",
         "operationId": "Token_Create",
@@ -5303,6 +5169,39 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/apitokenv1CreateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Token"
+        ]
+      }
+    },
+    "/v1/tokens/refresh": {
+      "post": {
+        "summary": "刷新令牌",
+        "operationId": "Token_Refresh",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apitokenv1CreateReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RefreshRequest"
             }
           }
         ],
@@ -7077,21 +6976,6 @@
         }
       }
     },
-    "apitokenv1ListReply": {
-      "type": "object",
-      "properties": {
-        "totalSize": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1TokenReply"
-          }
-        }
-      }
-    },
     "apiuploadv1CreateReply": {
       "type": "object",
       "properties": {
@@ -7550,14 +7434,6 @@
         "ip": {
           "type": "string",
           "title": "ip"
-        },
-        "userId": {
-          "type": "string",
-          "title": "账号"
-        },
-        "userName": {
-          "type": "string",
-          "title": "账号名"
         }
       }
     },
@@ -7574,7 +7450,7 @@
         "updateTime": {
           "type": "string"
         },
-        "super": {
+        "root": {
           "type": "boolean"
         },
         "name": {
@@ -8192,22 +8068,12 @@
       "description": "- PURCHASER_CONFIRMING: 待采购确认\n - SUPPLIER_CONFIRMING: 待供应商确认\n - CONFIRMED: 已确认\n - DEPRECATED: 已作废",
       "title": "采购单状态"
     },
-    "v1RefreshReply": {
+    "v1RefreshRequest": {
       "type": "object",
       "properties": {
-        "accessToken": {
-          "type": "string"
-        },
-        "expiresIn": {
-          "type": "integer",
-          "format": "int32"
-        },
         "refreshToken": {
-          "type": "string"
-        },
-        "accountId": {
           "type": "string",
-          "format": "int64"
+          "title": "刷新令牌"
         }
       }
     },
@@ -8871,39 +8737,6 @@
         }
       }
     },
-    "v1TokenReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "createdTime": {
-          "type": "string",
-          "title": "登录时间"
-        },
-        "device": {
-          "type": "string",
-          "title": "设备"
-        },
-        "client": {
-          "type": "string",
-          "title": "客户端"
-        },
-        "ip": {
-          "type": "string",
-          "title": "ip"
-        },
-        "accountId": {
-          "type": "string",
-          "title": "账号"
-        },
-        "accountName": {
-          "type": "string",
-          "title": "账号名"
-        }
-      }
-    },
     "v1UpdateRequestDemand": {
       "type": "object",
       "properties": {
@@ -9203,7 +9036,8 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "name": {
           "type": "string"
