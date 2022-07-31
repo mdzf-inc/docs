@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "token/v1/token.proto",
-    "version": "version not set"
+    "title": "SRM",
+    "version": "v1"
   },
   "tags": [
     {
@@ -1323,14 +1323,6 @@
         "ip": {
           "type": "string",
           "title": "ip"
-        },
-        "accountId": {
-          "type": "string",
-          "title": "账号"
-        },
-        "accountName": {
-          "type": "string",
-          "title": "账号名"
         }
       }
     },

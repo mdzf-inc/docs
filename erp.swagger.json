@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "suppliergroup/v1/suppliergroup.proto",
-    "version": "version not set"
+    "title": "ERP",
+    "version": "v1"
   },
   "tags": [
     {
@@ -218,54 +218,6 @@
         ],
         "tags": [
           "Account"
-        ]
-      }
-    },
-    "/v1/accounts/{accountId}/actions/share/samples": {
-      "get": {
-        "summary": "我的分享记录",
-        "operationId": "Sample_ListShare",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListShareReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 20/30/50/100",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "Sample"
         ]
       }
     },
@@ -979,92 +931,6 @@
         ]
       }
     },
-    "/v1/channel-groups/{channelGroupId}/accounts": {
-      "post": {
-        "summary": "添加账号",
-        "operationId": "ChannelGroup_CreateAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apichannelgroupv1CreateAccountReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "channelGroupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "accountId": {
-                  "type": "string",
-                  "format": "int64"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "ChannelGroup"
-        ]
-      }
-    },
-    "/v1/channel-groups/{channelGroupId}/accounts/{accountId}": {
-      "delete": {
-        "summary": "删除账号",
-        "operationId": "ChannelGroup_DeleteAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "channelGroupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "ChannelGroup"
-        ]
-      }
-    },
     "/v1/channel-groups/{channelGroupId}/channels": {
       "post": {
         "summary": "添加渠道",
@@ -1140,6 +1006,92 @@
           },
           {
             "name": "channelId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ChannelGroup"
+        ]
+      }
+    },
+    "/v1/channel-groups/{channelGroupId}/users": {
+      "post": {
+        "summary": "添加账号",
+        "operationId": "ChannelGroup_CreateAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apichannelgroupv1CreateAccountReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "channelGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "ChannelGroup"
+        ]
+      }
+    },
+    "/v1/channel-groups/{channelGroupId}/users/{userId}": {
+      "delete": {
+        "summary": "删除账号",
+        "operationId": "ChannelGroup_DeleteAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "channelGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -1704,92 +1656,6 @@
         ]
       }
     },
-    "/v1/price-groups/{priceGroupId}/accounts": {
-      "post": {
-        "summary": "添加账号",
-        "operationId": "PriceGroup_CreateAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apipricegroupv1CreateAccountReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "priceGroupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "accountId": {
-                  "type": "string",
-                  "format": "int64"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "PriceGroup"
-        ]
-      }
-    },
-    "/v1/price-groups/{priceGroupId}/accounts/{accountId}": {
-      "delete": {
-        "summary": "删除账号",
-        "operationId": "PriceGroup_DeleteAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "priceGroupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "PriceGroup"
-        ]
-      }
-    },
     "/v1/price-groups/{priceGroupId}/prices": {
       "post": {
         "summary": "添加价格",
@@ -1865,6 +1731,92 @@
           },
           {
             "name": "priceId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "PriceGroup"
+        ]
+      }
+    },
+    "/v1/price-groups/{priceGroupId}/users": {
+      "post": {
+        "summary": "添加账号",
+        "operationId": "PriceGroup_CreateAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apipricegroupv1CreateAccountReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "priceGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "PriceGroup"
+        ]
+      }
+    },
+    "/v1/price-groups/{priceGroupId}/users/{userId}": {
+      "delete": {
+        "summary": "删除账号",
+        "operationId": "PriceGroup_DeleteAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "priceGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -2339,14 +2291,6 @@
             "required": true,
             "type": "string",
             "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "description": "账号Id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
           }
         ],
         "tags": [
@@ -2385,14 +2329,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "accountId": {
-                  "type": "string",
-                  "format": "int64",
-                  "title": "账号Id"
-                }
-              }
+              "type": "object"
             }
           }
         ],
@@ -4171,14 +4108,6 @@
             "required": true,
             "type": "string",
             "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "description": "账号id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
           }
         ],
         "tags": [
@@ -4217,14 +4146,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "accountId": {
-                  "type": "string",
-                  "format": "int64",
-                  "title": "账号id"
-                }
-              }
+              "type": "object"
             }
           }
         ],
@@ -4268,14 +4190,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "accountId": {
-                  "type": "string",
-                  "format": "int64",
-                  "title": "账号id",
-                  "required": [
-                    "accountId"
-                  ]
-                },
                 "receiverId": {
                   "type": "string",
                   "format": "int64",
@@ -4287,60 +4201,9 @@
               },
               "title": "分享样品请求",
               "required": [
-                "accountId",
                 "receiverId"
               ]
             }
-          }
-        ],
-        "tags": [
-          "Sample"
-        ]
-      }
-    },
-    "/v1/samples/{sampleId}/actions/share/receivers/{receiverId}": {
-      "delete": {
-        "summary": "取消分享",
-        "operationId": "Sample_CancelShare",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "sampleId",
-            "description": "样品id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "receiverId",
-            "description": "接收人id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "description": "分享人id",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
           }
         ],
         "tags": [
@@ -5003,92 +4866,6 @@
         ]
       }
     },
-    "/v1/supplier-groups/{supplierGroupId}/accounts": {
-      "post": {
-        "summary": "添加账号",
-        "operationId": "SupplierGroup_CreateAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apisuppliergroupv1CreateAccountReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "supplierGroupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "accountId": {
-                  "type": "string",
-                  "format": "int64"
-                }
-              }
-            }
-          }
-        ],
-        "tags": [
-          "SupplierGroup"
-        ]
-      }
-    },
-    "/v1/supplier-groups/{supplierGroupId}/accounts/{accountId}": {
-      "delete": {
-        "summary": "删除账号",
-        "operationId": "SupplierGroup_DeleteAccount",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "supplierGroupId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "accountId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
-        "tags": [
-          "SupplierGroup"
-        ]
-      }
-    },
     "/v1/supplier-groups/{supplierGroupId}/suppliers": {
       "post": {
         "summary": "添加供应商",
@@ -5164,6 +4941,92 @@
           },
           {
             "name": "supplierId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "SupplierGroup"
+        ]
+      }
+    },
+    "/v1/supplier-groups/{supplierGroupId}/users": {
+      "post": {
+        "summary": "添加账号",
+        "operationId": "SupplierGroup_CreateAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apisuppliergroupv1CreateAccountReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "supplierGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "string",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "SupplierGroup"
+        ]
+      }
+    },
+    "/v1/supplier-groups/{supplierGroupId}/users/{userId}": {
+      "delete": {
+        "summary": "删除账号",
+        "operationId": "SupplierGroup_DeleteAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "supplierGroupId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -5481,6 +5344,47 @@
         ]
       }
     },
+    "/v1/user/access-logs": {
+      "get": {
+        "summary": "登录日志",
+        "operationId": "User_ListAccessLog",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListAccessLogReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "User"
+        ]
+      }
+    },
     "/v1/user/info": {
       "get": {
         "summary": "自己的信息",
@@ -5510,6 +5414,89 @@
         ],
         "tags": [
           "User"
+        ]
+      }
+    },
+    "/v1/user/share/samples": {
+      "get": {
+        "summary": "我的分享记录",
+        "operationId": "Sample_ListShare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListShareReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 20/30/50/100",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Sample"
+        ]
+      }
+    },
+    "/v1/user/share/samples/{sampleId}/receivers/{receiverId}": {
+      "delete": {
+        "summary": "取消分享",
+        "operationId": "Sample_CancelShare",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "sampleId",
+            "description": "样品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "receiverId",
+            "description": "接收人id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Sample"
         ]
       }
     },
@@ -5695,7 +5682,7 @@
         ]
       }
     },
-    "/v1/warehouse-groups/{warehouseGroupId}/accounts": {
+    "/v1/warehouse-groups/{warehouseGroupId}/users": {
       "post": {
         "summary": "添加账号",
         "operationId": "WarehouseGroup_CreateAccount",
@@ -5728,7 +5715,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "accountId": {
+                "userId": {
                   "type": "string",
                   "format": "int64"
                 }
@@ -5741,7 +5728,7 @@
         ]
       }
     },
-    "/v1/warehouse-groups/{warehouseGroupId}/accounts/{accountId}": {
+    "/v1/warehouse-groups/{warehouseGroupId}/users/{userId}": {
       "delete": {
         "summary": "删除账号",
         "operationId": "WarehouseGroup_DeleteAccount",
@@ -5769,7 +5756,7 @@
             "format": "int64"
           },
           {
-            "name": "accountId",
+            "name": "userId",
             "in": "path",
             "required": true,
             "type": "string",
@@ -6377,7 +6364,7 @@
     "apichannelgroupv1CreateAccountReply": {
       "type": "object",
       "properties": {
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -6482,7 +6469,7 @@
     "apipricegroupv1CreateAccountReply": {
       "type": "object",
       "properties": {
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -6964,7 +6951,7 @@
     "apisuppliergroupv1CreateAccountReply": {
       "type": "object",
       "properties": {
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -7078,11 +7065,6 @@
         "refreshToken": {
           "type": "string",
           "title": "Cookie 刷新令牌"
-        },
-        "accountId": {
-          "type": "string",
-          "format": "int64",
-          "title": "Cookie 账号id"
         }
       }
     },
@@ -7145,7 +7127,7 @@
     "apiwarehousegroupv1CreateAccountReply": {
       "type": "object",
       "properties": {
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -7546,6 +7528,39 @@
         }
       }
     },
+    "v1AccessLog": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdTime": {
+          "type": "string",
+          "title": "登录时间"
+        },
+        "device": {
+          "type": "string",
+          "title": "设备"
+        },
+        "client": {
+          "type": "string",
+          "title": "客户端"
+        },
+        "ip": {
+          "type": "string",
+          "title": "ip"
+        },
+        "userId": {
+          "type": "string",
+          "title": "账号"
+        },
+        "userName": {
+          "type": "string",
+          "title": "账号名"
+        }
+      }
+    },
     "v1AccountReply": {
       "type": "object",
       "properties": {
@@ -7717,7 +7732,7 @@
         "description": {
           "type": "string"
         },
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -7852,6 +7867,21 @@
     "v1ItemReply": {
       "type": "object"
     },
+    "v1ListAccessLogReply": {
+      "type": "object",
+      "properties": {
+        "totalSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1AccessLog"
+          }
+        }
+      }
+    },
     "v1ListReplyAction": {
       "type": "object",
       "properties": {
@@ -7959,7 +7989,7 @@
         "description": {
           "type": "string"
         },
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -8785,7 +8815,7 @@
         "description": {
           "type": "string"
         },
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
@@ -9196,7 +9226,7 @@
         "description": {
           "type": "string"
         },
-        "accounts": {
+        "users": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/commonv1Account"
