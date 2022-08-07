@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "SRM HTTP APIs",
+    "title": "SRM",
     "version": "v1"
   },
   "tags": [
@@ -668,17 +668,6 @@
     }
   },
   "definitions": {
-    "DeliveryStockinStatus": {
-      "type": "string",
-      "enum": [
-        "UNSTOCKIN",
-        "PARTIAL",
-        "STOCKIN",
-        "STOP"
-      ],
-      "default": "UNSTOCKIN",
-      "title": "- UNSTOCKIN: 未入库\n - PARTIAL: 部分入库\n - STOCKIN: 已入库\n - STOP: 停止入库"
-    },
     "PaymentMethod": {
       "type": "string",
       "enum": [
@@ -688,89 +677,6 @@
       ],
       "default": "NOW",
       "title": "- NOW: 现付\n - ARRIVED: 到付\n - CREDIT: 挂帐"
-    },
-    "PurchaseOrderDelivery": {
-      "type": "object",
-      "properties": {
-        "syncTime": {
-          "type": "string",
-          "title": "数据同步时间"
-        },
-        "status": {
-          "$ref": "#/definitions/DeliveryStockinStatus",
-          "title": "入库状态"
-        },
-        "stockinQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "入库总量"
-        },
-        "productUnits": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/PurchaseOrderDeliveryProductUnit"
-          },
-          "title": "到货明细"
-        }
-      },
-      "title": "交付"
-    },
-    "PurchaseOrderDeliveryProductUnit": {
-      "type": "object",
-      "properties": {
-        "no": {
-          "type": "string",
-          "title": "商品编码"
-        },
-        "name": {
-          "type": "string",
-          "title": "商品名称"
-        },
-        "imageUrl": {
-          "type": "string",
-          "title": "图片"
-        },
-        "specificationCode": {
-          "type": "string",
-          "title": "规格码"
-        },
-        "purchaseQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "采购数量"
-        },
-        "arrivedQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "到货数量"
-        },
-        "lackQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "未到数量"
-        },
-        "arrivedMoreQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "多到数量"
-        },
-        "stockinQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "入库数量"
-        },
-        "stopWaitQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "停止等待数量"
-        },
-        "settleQuantity": {
-          "type": "integer",
-          "format": "int32",
-          "title": "结算数量"
-        }
-      },
-      "title": "采购商品入库记录"
     },
     "PurchaseOrderPayment": {
       "type": "object",
@@ -829,6 +735,100 @@
       ],
       "default": "UNPAID",
       "title": "- UNPAID: 未付款\n - PARTIAL_PAID: 部分付款\n - PAID: 已付款"
+    },
+    "PurchaseOrderStockin": {
+      "type": "object",
+      "properties": {
+        "syncTime": {
+          "type": "string",
+          "title": "数据同步时间"
+        },
+        "status": {
+          "$ref": "#/definitions/PurchaseOrderStockinStatus",
+          "title": "入库状态"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "入库总量"
+        },
+        "productUnits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PurchaseOrderStockinProductUnit"
+          },
+          "title": "到货明细"
+        }
+      },
+      "title": "交付"
+    },
+    "PurchaseOrderStockinProductUnit": {
+      "type": "object",
+      "properties": {
+        "no": {
+          "type": "string",
+          "title": "商品编码"
+        },
+        "name": {
+          "type": "string",
+          "title": "商品名称"
+        },
+        "imageUrl": {
+          "type": "string",
+          "title": "图片"
+        },
+        "specificationCode": {
+          "type": "string",
+          "title": "规格码"
+        },
+        "purchaseQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "采购数量"
+        },
+        "arrivedQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "到货数量"
+        },
+        "lackQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "未到数量"
+        },
+        "arrivedMoreQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "多到数量"
+        },
+        "stockinQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "入库数量"
+        },
+        "stopWaitQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "停止等待数量"
+        },
+        "settleQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "结算数量"
+        }
+      },
+      "title": "采购商品入库记录"
+    },
+    "PurchaseOrderStockinStatus": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "PARTIAL",
+        "COMPLETED",
+        "STOP"
+      ],
+      "default": "PENDING",
+      "title": "- PENDING: 未入库\n - PARTIAL: 部分入库\n - COMPLETED: 已入库\n - STOP: 停止入库"
     },
     "SampleReplyDemand": {
       "type": "object",
@@ -1099,17 +1099,31 @@
       "type": "object",
       "properties": {
         "phoneNo": {
-          "type": "string"
+          "type": "string",
+          "required": [
+            "phoneNo"
+          ]
         },
         "captchaId": {
           "type": "string",
-          "title": "CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart\n(全自动区分计算机和人类的图灵测试)"
+          "title": "CAPTCHA项目是Completely Automated Public Turing Test to Tell Computers and Humans Apart\n(全自动区分计算机和人类的图灵测试)",
+          "required": [
+            "captchaId"
+          ]
         },
         "captchaCode": {
           "type": "string",
-          "title": "用户输入的验证码"
+          "title": "用户输入的验证码",
+          "required": [
+            "captchaCode"
+          ]
         }
-      }
+      },
+      "required": [
+        "phoneNo",
+        "captchaId",
+        "captchaCode"
+      ]
     },
     "apitokenv1CreateReply": {
       "type": "object",
@@ -1138,13 +1152,23 @@
       "properties": {
         "phoneNo": {
           "type": "string",
-          "title": "手机号 ^1[0-9]{10}$"
+          "title": "手机号 ^1[0-9]{10}$",
+          "required": [
+            "phoneNo"
+          ]
         },
         "sms": {
           "type": "string",
-          "title": "验证码 ^[\\\\d]{4,4}$"
+          "title": "验证码 ^[\\\\d]{4,4}$",
+          "required": [
+            "sms"
+          ]
         }
-      }
+      },
+      "required": [
+        "phoneNo",
+        "sms"
+      ]
     },
     "commonv1Supplier": {
       "type": "object",
@@ -1380,8 +1404,8 @@
         "payment": {
           "$ref": "#/definitions/PurchaseOrderPayment"
         },
-        "delivery": {
-          "$ref": "#/definitions/PurchaseOrderDelivery"
+        "stockin": {
+          "$ref": "#/definitions/PurchaseOrderStockin"
         },
         "comment": {
           "type": "string",
@@ -1507,9 +1531,15 @@
       "properties": {
         "refreshToken": {
           "type": "string",
-          "title": "刷新令牌"
+          "title": "刷新令牌",
+          "required": [
+            "refreshToken"
+          ]
         }
-      }
+      },
+      "required": [
+        "refreshToken"
+      ]
     },
     "v1SampleReply": {
       "type": "object",
