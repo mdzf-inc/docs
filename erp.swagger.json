@@ -18,9 +18,6 @@
       "name": "Helloworld"
     },
     {
-      "name": "ResourceGroup"
-    },
-    {
       "name": "Schedule"
     },
     {
@@ -76,6 +73,9 @@
     },
     {
       "name": "Synclog"
+    },
+    {
+      "name": "Resource"
     }
   ],
   "consumes": [
@@ -1093,7 +1093,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apifilev1CreateReply"
+              "$ref": "#/definitions/v1CreateReply"
             }
           },
           "default": {
@@ -3583,10 +3583,10 @@
         ]
       }
     },
-    "/v1/resource-groups": {
+    "/v1/resources": {
       "get": {
         "summary": "列表(全量返回)",
-        "operationId": "ResourceGroup_List",
+        "operationId": "Resource_List",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -3602,7 +3602,7 @@
           }
         },
         "tags": [
-          "ResourceGroup"
+          "Resource"
         ]
       }
     },
@@ -3653,7 +3653,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1RoleReply"
+              "$ref": "#/definitions/commonv1Role"
             }
           },
           "default": {
@@ -3686,7 +3686,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1RoleReply"
+              "$ref": "#/definitions/commonv1Role"
             }
           },
           "default": {
@@ -4816,7 +4816,7 @@
                   "items": {
                     "type": "string"
                   },
-                  "title": "// 排期名称\noptional string name = 10 [(validate.rules).string.pattern = \"^\\\\S{1,50}\", (google.api.field_behavior) = REQUIRED];\n// 需求描述\noptional string description = 11 [(validate.rules).string.pattern = \"^\\\\S{1,200}\", (google.api.field_behavior) = REQUIRED];\n关键字 1-5个 ^\\\\S{1,20}$",
+                  "title": "关键字 1-5个 ^\\\\S{1,20}$",
                   "required": [
                     "keywords"
                   ]
@@ -5892,7 +5892,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apitokenv1CreateReply"
+              "$ref": "#/definitions/v1TokenReply"
             }
           },
           "default": {
@@ -5915,17 +5915,15 @@
         "tags": [
           "Token"
         ]
-      }
-    },
-    "/v1/tokens/refresh": {
-      "post": {
+      },
+      "put": {
         "summary": "刷新令牌",
         "operationId": "Token_Refresh",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apitokenv1CreateReply"
+              "$ref": "#/definitions/v1TokenReply"
             }
           },
           "default": {
@@ -5968,24 +5966,6 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 20/30/50/100",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          }
-        ],
         "tags": [
           "User"
         ]
@@ -6009,15 +5989,29 @@
             }
           }
         },
-        "parameters": [
-          {
-            "name": "id",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/v1/user/permissions": {
+      "get": {
+        "summary": "获取权限",
+        "operationId": "User_ListPermission",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListPermissionReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
           }
-        ],
+        },
         "tags": [
           "User"
         ]
@@ -6602,46 +6596,11 @@
     }
   },
   "definitions": {
-    "AccountReplyRole": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "permissions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/AccountReplyRolePermission"
-          }
-        }
-      }
-    },
     "AccountReplyRolePermission": {
       "type": "object",
       "properties": {
         "allowQuery": {
           "type": "boolean"
-        }
-      }
-    },
-    "ListReplyGroup": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "resources": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1ListReplyResource"
-          }
         }
       }
     },
@@ -6872,7 +6831,7 @@
       "default": "PENDING",
       "title": "- PENDING: 未入库\n - PARTIAL: 部分入库\n - COMPLETED: 已入库\n - STOP: 停止入库"
     },
-    "ResourceGroupResourceAction": {
+    "ResourceAction": {
       "type": "object",
       "properties": {
         "query": {
@@ -7049,18 +7008,6 @@
       },
       "title": "修改日志"
     },
-    "apifilev1CreateReply": {
-      "type": "object",
-      "properties": {
-        "path": {
-          "type": "string"
-        },
-        "needSave": {
-          "type": "boolean",
-          "title": "服务器是否存储过该文件，文件服务器依据该字段判断是否要保存文件"
-        }
-      }
-    },
     "apifilev1CreateRequest": {
       "type": "object",
       "properties": {
@@ -7089,7 +7036,15 @@
       }
     },
     "apihelloworldv1ListReply": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "kv": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
     },
     "apiitemv1CreateRequest": {
       "type": "object",
@@ -7376,7 +7331,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ListReplyGroup"
+            "$ref": "#/definitions/v1Resource"
           }
         }
       }
@@ -7421,7 +7376,7 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v1RoleReply"
+            "$ref": "#/definitions/commonv1Role"
           }
         }
       }
@@ -7891,28 +7846,6 @@
         }
       }
     },
-    "apitokenv1CreateReply": {
-      "type": "object",
-      "properties": {
-        "tokenType": {
-          "type": "string",
-          "title": "Cookie 类型，固定为Bearer"
-        },
-        "accessToken": {
-          "type": "string",
-          "title": "Cookie 令牌：Header['Authorization'] = token_type + ' '+ access_token"
-        },
-        "expiresIn": {
-          "type": "integer",
-          "format": "int32",
-          "title": "Cookie 有效期"
-        },
-        "refreshToken": {
-          "type": "string",
-          "title": "Cookie 刷新令牌"
-        }
-      }
-    },
     "apitokenv1CreateRequest": {
       "type": "object",
       "properties": {
@@ -8003,6 +7936,39 @@
         }
       },
       "title": "渠道"
+    },
+    "commonv1Permission": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "allowQuery": {
+          "type": "boolean",
+          "title": "查询"
+        },
+        "allowCreate": {
+          "type": "boolean",
+          "title": "新增"
+        },
+        "allowUpdate": {
+          "type": "boolean",
+          "title": "修改"
+        },
+        "allowDelete": {
+          "type": "boolean",
+          "title": "删除"
+        },
+        "allowExport": {
+          "type": "boolean",
+          "title": "导出"
+        },
+        "resource": {
+          "$ref": "#/definitions/v1Resource",
+          "title": "资源"
+        }
+      }
     },
     "commonv1Price": {
       "type": "object",
@@ -8190,6 +8156,36 @@
         }
       },
       "title": "产品"
+    },
+    "commonv1Role": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "accounts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonv1Account"
+          }
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/commonv1Permission"
+          }
+        }
+      }
     },
     "commonv1Sku": {
       "type": "object",
@@ -8435,17 +8431,13 @@
           "type": "string",
           "format": "int64"
         },
-        "createdTime": {
+        "createTime": {
           "type": "string",
           "title": "登录时间"
         },
         "device": {
           "type": "string",
           "title": "设备"
-        },
-        "client": {
-          "type": "string",
-          "title": "客户端"
         },
         "ip": {
           "type": "string",
@@ -8460,7 +8452,7 @@
           "type": "string",
           "format": "int64"
         },
-        "createdTime": {
+        "createTime": {
           "type": "string"
         },
         "updateTime": {
@@ -8484,7 +8476,7 @@
         "roles": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/AccountReplyRole"
+            "$ref": "#/definitions/v1AccountReplyRole"
           }
         },
         "suppliers": {
@@ -8537,6 +8529,24 @@
         },
         "Name": {
           "type": "string"
+        }
+      }
+    },
+    "v1AccountReplyRole": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AccountReplyRolePermission"
+          }
         }
       }
     },
@@ -8675,6 +8685,18 @@
           "items": {
             "$ref": "#/definitions/commonv1Price"
           }
+        }
+      }
+    },
+    "v1CreateReply": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "needSave": {
+          "type": "boolean",
+          "title": "服务器是否存储过该文件，文件服务器依据该字段判断是否要保存文件"
         }
       }
     },
@@ -8897,37 +8919,18 @@
         }
       }
     },
-    "v1ListReplyAction": {
+    "v1ListPermissionReply": {
       "type": "object",
       "properties": {
-        "query": {
-          "type": "boolean"
+        "root": {
+          "type": "boolean",
+          "title": "是否为超级管理员"
         },
-        "create": {
-          "type": "boolean"
-        },
-        "update": {
-          "type": "boolean"
-        },
-        "delete": {
-          "type": "boolean"
-        },
-        "export": {
-          "type": "boolean"
-        }
-      }
-    },
-    "v1ListReplyResource": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "action": {
-          "$ref": "#/definitions/v1ListReplyAction"
+        "permissions": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/commonv1Permission"
+          }
         }
       }
     },
@@ -9225,6 +9228,19 @@
         "base64Image": {
           "type": "string",
           "title": "basse64 编码的图片数据"
+        },
+        "kv": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "any": {
+          "$ref": "#/definitions/googleprotobufAny"
+        },
+        "b": {
+          "type": "string",
+          "format": "byte"
         }
       },
       "title": "实验响应"
@@ -9269,97 +9285,20 @@
         "age"
       ]
     },
-    "v1ResourceGroup": {
+    "v1Resource": {
       "type": "object",
       "properties": {
+        "id": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
         },
         "description": {
-          "type": "string"
-        },
-        "permissions": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1ResourceGroupPermission"
-          }
-        }
-      }
-    },
-    "v1ResourceGroupPermission": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "allowQuery": {
-          "type": "boolean",
-          "title": "查询"
-        },
-        "allowCreate": {
-          "type": "boolean",
-          "title": "新增"
-        },
-        "allowUpdate": {
-          "type": "boolean",
-          "title": "修改"
-        },
-        "allowDelete": {
-          "type": "boolean",
-          "title": "删除"
-        },
-        "allowExport": {
-          "type": "boolean",
-          "title": "导出"
-        },
-        "resource": {
-          "$ref": "#/definitions/v1ResourceGroupResource",
-          "title": "资源"
-        }
-      }
-    },
-    "v1ResourceGroupResource": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
           "type": "string"
         },
         "action": {
-          "$ref": "#/definitions/ResourceGroupResourceAction"
-        }
-      }
-    },
-    "v1RoleReply": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "createTime": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "accounts": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/commonv1Account"
-          }
-        },
-        "resourceGroups": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1ResourceGroup"
-          }
+          "$ref": "#/definitions/ResourceAction"
         }
       }
     },
@@ -9921,6 +9860,38 @@
         "updateCount": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "v1TokenReply": {
+      "type": "object",
+      "properties": {
+        "tokenType": {
+          "type": "string",
+          "title": "Cookie 类型，固定为Bearer"
+        },
+        "accessToken": {
+          "type": "string",
+          "title": "Cookie 令牌：Header['Authorization'] = token_type + ' '+ access_token"
+        },
+        "expiresIn": {
+          "type": "string",
+          "format": "int64",
+          "title": "Cookie 有效期"
+        },
+        "refreshToken": {
+          "type": "string",
+          "title": "Cookie 刷新令牌"
+        },
+        "refreshTokenExpiresIn": {
+          "type": "string",
+          "format": "int64",
+          "title": "refresh_token 有效期"
+        },
+        "createTimestamp": {
+          "type": "string",
+          "format": "int64",
+          "title": "创建时间 毫秒时间戳"
         }
       }
     },
