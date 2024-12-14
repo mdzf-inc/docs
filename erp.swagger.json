@@ -213,9 +213,6 @@
       "name": "BaseService"
     },
     {
-      "name": "QcService"
-    },
-    {
       "name": "ArchivePurchaseOrderService"
     },
     {
@@ -1321,74 +1318,6 @@
         ],
         "tags": [
           "PurchaseTransactionService"
-        ]
-      }
-    },
-    "/v1/__qc/products/actions/update-quality-inspection-level": {
-      "put": {
-        "summary": "修改商品质检等级【支持批量,需审核权限】",
-        "operationId": "QcService_UpdateProductQualityInspectionLevel",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateProductQualityInspectionLevelRequest"
-            }
-          }
-        ],
-        "tags": [
-          "QcService"
-        ]
-      }
-    },
-    "/v1/__qc/products/actions/update-warning-rule": {
-      "put": {
-        "summary": "修改商品预警规则【支持批量,需审核权限】",
-        "operationId": "QcService_UpdateProductWarningRule",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "type": "object",
-              "properties": {}
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1UpdateProductWarningRuleRequest"
-            }
-          }
-        ],
-        "tags": [
-          "QcService"
         ]
       }
     },
@@ -12752,6 +12681,74 @@
         ]
       }
     },
+    "/v1/products/actions/update-quality-inspection-level": {
+      "put": {
+        "summary": "修改商品质检等级【支持批量,需审核权限】",
+        "operationId": "Product_UpdateProductQualityInspectionLevel",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateProductQualityInspectionLevelRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/actions/update-warning-rule": {
+      "put": {
+        "summary": "修改商品预警规则【支持批量,需审核权限】",
+        "operationId": "Product_UpdateProductWarningRule",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1UpdateProductWarningRuleRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
     "/v1/products/batch": {
       "delete": {
         "operationId": "Product_DeleteBatch",
@@ -13187,6 +13184,134 @@
             "schema": {
               "$ref": "#/definitions/v1UpdateSaleLabelRequest"
             }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/stockin-order": {
+      "get": {
+        "summary": "获取商品入库质检列表",
+        "operationId": "Product_ListProductStockinOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductStockinOrderReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "nos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "supplierId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "warehouseId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/warnings": {
+      "get": {
+        "summary": "获取商品预警列表",
+        "operationId": "Product_ListProductWarning",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductWarningReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "nos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
@@ -18176,208 +18301,6 @@
         ],
         "tags": [
           "PurchaseTransactionService"
-        ]
-      }
-    },
-    "/v1/qc/products": {
-      "get": {
-        "summary": "获取商品列表",
-        "operationId": "QcService_ListProduct",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/apiqcv1ListProductReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 \u003c200",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "supplierId",
-            "description": "供应商id",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "nos",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "categoryId",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "saleLabel",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "material",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "specificationCode",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "barcode",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "qualityProblemRates",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "badReviewRates",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "breakageRates",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "number",
-              "format": "double"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "qualityInspectionLevel",
-            "in": "query",
-            "required": false,
-            "type": "integer",
-            "format": "int32"
-          },
-          {
-            "name": "qualityProblemUpdateTimes",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "tags": [
-          "QcService"
-        ]
-      }
-    },
-    "/v1/qc/products/warnings": {
-      "get": {
-        "summary": "获取商品预警列表",
-        "operationId": "QcService_ListProductWarning",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListProductWarningReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 \u003c200",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "nos",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "required": false,
-            "type": "string"
-          }
-        ],
-        "tags": [
-          "QcService"
         ]
       }
     },
@@ -32625,21 +32548,6 @@
         }
       }
     },
-    "apiqcv1ListProductReply": {
-      "type": "object",
-      "properties": {
-        "total": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/apicommonv1Product"
-          }
-        }
-      }
-    },
     "apiqualityproblemorderv1CreateRequest": {
       "type": "object",
       "properties": {
@@ -39754,6 +39662,21 @@
         }
       }
     },
+    "v1ListProductStockinOrderReply": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ProductStockinOrder"
+          }
+        }
+      }
+    },
     "v1ListProductUnitReply": {
       "type": "object",
       "properties": {
@@ -41608,6 +41531,54 @@
       "default": "PRODUCT_STATUS_OFF_SALE",
       "title": "- PRODUCT_STATUS_OFF_SALE: 下架\n - PRODUCT_STATUS_ON_SALE: 上架"
     },
+    "v1ProductStockinOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "stockinTime": {
+          "type": "string"
+        },
+        "stockinId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "stockinNo": {
+          "type": "string"
+        },
+        "purchaseOrderNo": {
+          "type": "string"
+        },
+        "operatorName": {
+          "type": "string"
+        },
+        "warehouseId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "warehouseName": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "positionNo": {
+          "type": "string"
+        },
+        "product": {
+          "$ref": "#/definitions/apicommonv1Product"
+        }
+      }
+    },
     "v1ProductSupplyPrice": {
       "type": "object",
       "properties": {
@@ -41686,6 +41657,11 @@
         "operateResult": {
           "type": "string",
           "title": "操作结果"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "数量"
         },
         "product": {
           "$ref": "#/definitions/apicommonv1Product"
