@@ -30610,6 +30610,14 @@
           "type": "string",
           "title": "预警规则"
         },
+        "qualityProblemWarningTime": {
+          "type": "string",
+          "title": "QualityProblemWarningTime 质量问题预警时间"
+        },
+        "isQualityProblemWarning": {
+          "type": "boolean",
+          "title": "质量问题正在预警"
+        },
         "skuQuantity": {
           "type": "integer",
           "format": "int32"
@@ -41726,37 +41734,58 @@
           "type": "string"
         },
         "stockinTime": {
-          "type": "string"
+          "type": "string",
+          "title": "入库时间"
         },
         "stockinId": {
           "type": "string",
           "format": "int64"
         },
         "stockinNo": {
-          "type": "string"
+          "type": "string",
+          "title": "入库单"
         },
         "purchaseOrderNo": {
-          "type": "string"
+          "type": "string",
+          "title": "采购单"
         },
         "operatorName": {
-          "type": "string"
+          "type": "string",
+          "title": "操作人"
         },
         "warehouseId": {
           "type": "string",
           "format": "int64"
         },
         "warehouseName": {
-          "type": "string"
+          "type": "string",
+          "title": "仓库名称"
         },
         "quantity": {
           "type": "integer",
-          "format": "int32"
+          "format": "int32",
+          "title": "数量"
         },
         "positionNo": {
-          "type": "string"
+          "type": "string",
+          "title": "货位"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "title": "0未检 1已检"
+        },
+        "checkTime": {
+          "type": "string",
+          "title": "质检时间"
+        },
+        "checkerName": {
+          "type": "string",
+          "title": "质检人"
         },
         "product": {
-          "$ref": "#/definitions/apicommonv1Product"
+          "$ref": "#/definitions/apicommonv1Product",
+          "title": "产品"
         }
       },
       "title": "产品入库清单"
@@ -46867,6 +46896,17 @@
     "v1UpdateProductAfterSalesWarningRuleRequest": {
       "type": "object",
       "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UpdateProductAfterSalesWarningRuleRequestItem"
+          }
+        }
+      }
+    },
+    "v1UpdateProductAfterSalesWarningRuleRequestItem": {
+      "type": "object",
+      "properties": {
         "id": {
           "type": "string",
           "format": "int64",
@@ -46883,6 +46923,17 @@
       }
     },
     "v1UpdateProductQualityInspectionLevelRequest": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1UpdateProductQualityInspectionLevelRequestItem"
+          }
+        }
+      }
+    },
+    "v1UpdateProductQualityInspectionLevelRequestItem": {
       "type": "object",
       "properties": {
         "id": {
