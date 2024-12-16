@@ -12750,6 +12750,241 @@
         ]
       }
     },
+    "/v1/products/after-sales/orders": {
+      "get": {
+        "summary": "获取商品售后单列表",
+        "operationId": "Product_ListProductAfterSalesOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductAfterSalesOrderReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "productIds",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "int64"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "productNos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "types",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/after-sales/warnings": {
+      "get": {
+        "summary": "获取商品预警列表",
+        "operationId": "Product_ListProductAfterSalesWarning",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductAfterSalesWarningReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "productIds",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "int64"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "productNos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "qualityProblemRateGte",
+            "description": "质量问题率大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "qualityProblemQuantityGte",
+            "description": "质量问题数大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "badReviewRateGte",
+            "description": "中差评率大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "badReviewQuantityGte",
+            "description": "中差评数大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "breakageRateGte",
+            "description": "破损率大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "breakageQuantityGte",
+            "description": "破损数大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sevenDaysSalesGte",
+            "description": "7天销量大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fourteenDaysSalesGte",
+            "description": "14天销量大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "thirtyDaysSalesGte",
+            "description": "30天销量大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "unitPriceGte",
+            "description": "采购价大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
     "/v1/products/batch": {
       "delete": {
         "summary": "批量更新",
@@ -13160,6 +13395,121 @@
         ]
       }
     },
+    "/v1/products/quality/statistics": {
+      "get": {
+        "summary": "产品质检统计",
+        "operationId": "Product_GetProductQualityStatistics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetProductQualityStatisticsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "qualityProblemRateGte",
+            "description": "质量问题率大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "qualityProblemQuantityGte",
+            "description": "质量问题数大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "badReviewRateGte",
+            "description": "中差评率大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "badReviewQuantityGte",
+            "description": "中差评数大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "breakageRateGte",
+            "description": "破损率大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          },
+          {
+            "name": "breakageQuantityGte",
+            "description": "破损数大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sevenDaysSalesGte",
+            "description": "7天销量大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fourteenDaysSalesGte",
+            "description": "14天销量大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "thirtyDaysSalesGte",
+            "description": "30天销量大于等于",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "unitPriceGte",
+            "description": "采购价大于等于",
+            "in": "query",
+            "required": false,
+            "type": "number",
+            "format": "double"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
     "/v1/products/sale-label/actions/batch-update": {
       "patch": {
         "summary": "更新标签",
@@ -13187,6 +13537,234 @@
             "schema": {
               "$ref": "#/definitions/v1UpdateSaleLabelRequest"
             }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/statistics/analyze": {
+      "get": {
+        "summary": "产品统计",
+        "operationId": "Product_GetProductStatistics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetProductStatisticsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/stock/statistics/detail/position": {
+      "get": {
+        "summary": "产品入库统计按货位聚合明细",
+        "operationId": "Product_GetProductStockinStatisticsDetailByPosition",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetProductStockinStatisticsDetailByPositionReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "warehouseId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "types",
+            "description": "空则不限制 0-未检 1-已检",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/stock/statistics/detail/product": {
+      "get": {
+        "summary": "产品入库统计按产品聚合明细",
+        "operationId": "Product_GetProductStockinStatisticsDetailByProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetProductStockinStatisticsDetailByProductReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "warehouseId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "types",
+            "description": "空则不限制 0-未检 1-已检",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/stockin/orders": {
+      "get": {
+        "summary": "获取商品入库列表",
+        "operationId": "Product_ListProductStockinOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductStockinOrderReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "productIds",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "int64"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "productNos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "purchaseOrderNo",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "warehouseId",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -13464,187 +14042,6 @@
                 }
               }
             }
-          }
-        ],
-        "tags": [
-          "Product"
-        ]
-      }
-    },
-    "/v1/products/{productId}/after-sales-order": {
-      "get": {
-        "summary": "获取商品售后单列表",
-        "operationId": "Product_ListProductAfterSalesOrder",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListProductAfterSalesOrderReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 \u003c200",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "dateRange",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "tags": [
-          "Product"
-        ]
-      }
-    },
-    "/v1/products/{productId}/after-sales-warning": {
-      "get": {
-        "summary": "获取商品预警列表",
-        "operationId": "Product_ListProductAfterSalesWarning",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListProductAfterSalesWarningReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 \u003c200",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "dateRange",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          }
-        ],
-        "tags": [
-          "Product"
-        ]
-      }
-    },
-    "/v1/products/{productId}/stockin-order": {
-      "get": {
-        "summary": "获取商品入库列表",
-        "operationId": "Product_ListProductStockinOrder",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1ListProductStockinOrderReply"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "productId",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.page",
-            "description": "页数",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "pagination.size",
-            "description": "每页数据量 \u003c200",
-            "in": "query",
-            "required": true,
-            "type": "string",
-            "format": "int64"
-          },
-          {
-            "name": "dateRange",
-            "in": "query",
-            "required": false,
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "collectionFormat": "multi"
-          },
-          {
-            "name": "warehouseId",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "format": "int64"
           }
         ],
         "tags": [
@@ -37906,6 +38303,105 @@
         }
       }
     },
+    "v1GetProductQualityStatisticsReply": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1GetProductQualityStatisticsReplyItem"
+          }
+        }
+      }
+    },
+    "v1GetProductQualityStatisticsReplyItem": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/apicommonv1Product"
+        },
+        "warningCount": {
+          "type": "integer",
+          "format": "int32",
+          "title": "预警次数"
+        }
+      }
+    },
+    "v1GetProductStatisticsReply": {
+      "type": "object",
+      "properties": {
+        "afterSalesWarningCount": {
+          "type": "integer",
+          "format": "int32",
+          "title": "售后预警次数"
+        },
+        "stockinTotal": {
+          "type": "integer",
+          "format": "int32",
+          "title": "入库总数"
+        },
+        "stockinCheckedCount": {
+          "type": "integer",
+          "format": "int32",
+          "title": "已质检数量"
+        },
+        "qualityProblemCount": {
+          "type": "integer",
+          "format": "int32",
+          "title": "质检问题待审单数"
+        }
+      }
+    },
+    "v1GetProductStockinStatisticsDetailByPositionReply": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1GetProductStockinStatisticsDetailByPositionReplyItem"
+          }
+        }
+      }
+    },
+    "v1GetProductStockinStatisticsDetailByPositionReplyItem": {
+      "type": "object",
+      "properties": {
+        "positionNo": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "v1GetProductStockinStatisticsDetailByProductReply": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1GetProductStockinStatisticsDetailByProductReplyItem"
+          }
+        }
+      }
+    },
+    "v1GetProductStockinStatisticsDetailByProductReplyItem": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/apicommonv1Product"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "v1GetStatisticBankReply": {
       "type": "object",
       "properties": {
@@ -39711,7 +40207,10 @@
           "format": "int32"
         },
         "items": {
-          "$ref": "#/definitions/v1ProductAfterSalesOrder"
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ProductAfterSalesOrder"
+          }
         }
       }
     },
@@ -41448,6 +41947,10 @@
         },
         "auditorName": {
           "type": "string"
+        },
+        "product": {
+          "$ref": "#/definitions/apicommonv1Product",
+          "title": "产品"
         }
       }
     },
@@ -41478,8 +41981,71 @@
           "type": "string",
           "title": "规则快照"
         },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "快照单价"
+        },
+        "sevenDaysSales": {
+          "type": "integer",
+          "format": "int32",
+          "title": "7天销量"
+        },
+        "fourteenDaysSales": {
+          "type": "integer",
+          "format": "int32",
+          "title": "14天销量"
+        },
+        "thirtyDaysSales": {
+          "type": "integer",
+          "format": "int32",
+          "title": "30天销量"
+        },
+        "qualityProblemQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "质量问题数量"
+        },
+        "qualityProblemRate": {
+          "type": "number",
+          "format": "double",
+          "title": "质量问题率"
+        },
+        "badReviewQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "差评数量"
+        },
+        "badReviewRate": {
+          "type": "number",
+          "format": "double",
+          "title": "差评率"
+        },
+        "breakageQuantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "破损数量"
+        },
+        "breakageRate": {
+          "type": "number",
+          "format": "double",
+          "title": "破损率"
+        },
+        "qualityProblemUpdateTime": {
+          "type": "string"
+        },
+        "qualityInspectionLevel": {
+          "type": "integer",
+          "format": "int32",
+          "title": "质检等级: 1全检 2抽检 3免检"
+        },
+        "qualityProblemWarningRule": {
+          "type": "string",
+          "title": "预警规则"
+        },
         "product": {
-          "$ref": "#/definitions/apicommonv1Product"
+          "$ref": "#/definitions/apicommonv1Product",
+          "title": "产品"
         }
       },
       "title": "售后预警"
