@@ -260,7 +260,7 @@
       }
     },
     "/open/authenticate/refresh": {
-      "post": {
+      "put": {
         "summary": "刷新登录(每次重启时调用该接口)",
         "operationId": "AuthenticateService_RefreshAuthenticate",
         "responses": {
@@ -14004,7 +14004,7 @@
     },
     "/v1/products/stockin/orders": {
       "get": {
-        "summary": "获取商品入库列表",
+        "summary": "获取商品入库待检列表",
         "operationId": "Product_ListProductStockinOrder",
         "responses": {
           "200": {
@@ -14050,6 +14050,7 @@
           },
           {
             "name": "productNos",
+            "description": "产品no数组",
             "in": "query",
             "required": false,
             "type": "array",
@@ -14059,6 +14060,25 @@
             "collectionFormat": "multi"
           },
           {
+            "name": "positionNos",
+            "description": "货位数组",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "status",
+            "description": "状态 0-未检 1-已检",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
             "name": "purchaseOrderNo",
             "in": "query",
             "required": false,
@@ -14066,6 +14086,7 @@
           },
           {
             "name": "dateRange",
+            "description": "日期范围",
             "in": "query",
             "required": false,
             "type": "array",
@@ -14076,6 +14097,7 @@
           },
           {
             "name": "warehouseId",
+            "description": "仓库id",
             "in": "query",
             "required": false,
             "type": "string",
