@@ -14,40 +14,11 @@
         body {
             margin: 0;
             padding: 0;
-        }
-        #redoc-container {
-            width: 100%;
-            height: 100vh;
-        }
+        } 
     </style>
   </head>
   <body>
-<!--     <redoc spec-url="./erp.swagger.json"></redoc> -->
-
-    <div id="redoc-container"></div>
+    <redoc spec-url="./erp.swagger.json"></redoc> 
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script> 
-
-    <script>
-        Redoc.init("erp.swagger.json", {
-            theme: {
-                colors: {
-                    primary: '#FF5733'
-                },
-                typography: {
-                    fontSize: '16px',
-                    fontFamily: 'Arial, sans-serif'
-                },
-                sidebar: {
-                    backgroundColor: '#F7F7F7',
-                    width: '300px'
-                }
-                // logo: {
-                //     url: 'https://example.com/logo.png',
-                //     backgroundColor: '#FFFFFF',
-                //     altText: 'My API Logo'
-                // }
-            }
-        }, document.getElementById('redoc-container'));
-    </script>
   </body>
 </html>
