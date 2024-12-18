@@ -21,5 +21,28 @@
     <redoc spec-url="./erp.swagger.json"></redoc>
 
     <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+
+    <script>
+        Redoc.init("api.json", {
+            theme: {
+                colors: {
+                    primary: '#FF5733'
+                },
+                typography: {
+                    fontSize: '16px',
+                    fontFamily: 'Arial, sans-serif'
+                },
+                sidebar: {
+                    backgroundColor: '#F7F7F7',
+                    width: '300px'
+                }
+                // logo: {
+                //     url: 'https://example.com/logo.png',
+                //     backgroundColor: '#FFFFFF',
+                //     altText: 'My API Logo'
+                // }
+            }
+        }, document.getElementById('redoc-container'));
+    </script>
   </body>
 </html>
