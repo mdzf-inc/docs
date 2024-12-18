@@ -259,6 +259,39 @@
         ]
       }
     },
+    "/open/authenticate/refresh": {
+      "post": {
+        "summary": "刷新登录(每次重启时调用该接口)",
+        "operationId": "AuthenticateService_RefreshAuthenticate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1Authentication"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1RefreshAuthenticateRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AuthenticateService"
+        ]
+      }
+    },
     "/open/print": {
       "post": {
         "summary": "打印样品",
@@ -13387,6 +13420,249 @@
               "required": [
                 "name"
               ]
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/quality/problems": {
+      "get": {
+        "summary": "获取商品质量问题列表",
+        "operationId": "Product_ListProductQualityProblem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductQualityProblemReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "productIds",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "int64"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "productNos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "types",
+            "description": " - UNKNOWN: 未知\n - PRODUCT_BROKEN: 产品破损\n - PRODUCT_DEFECT: 产品次品\n - PRODUCT_MISSING_PARTS: 产品少配件\n - PRODUCT_MISSING_GOODS: 产品少货\n - PRODUCT_WRONG: 产品错误\n - PACKAGE_STRENGTH: 包装强度差\n - PACKAGE_SEALING: 包装封口不严\n - PACKAGE_PRINTING: 包装印刷不合格\n - PACKAGE_SIZE: 包装尺寸不合格\n - PACKAGE_OTHER: 包装其他\n - PRODUCT_LABEL_BARCODE_MISSING: 产品标签条码缺少\n - PRODUCT_LABEL_BARCODE_WRONG: 产品标签条码错误\n - PRODUCT_LABEL_BARCODE_DUPLICATE: 产品标签条码重复\n - PRODUCT_LABEL_MISSING_69: 产品标签少69码\n - PRODUCT_LABEL_OTHER: 产品标签其他\n - BOX_CODE_MISSING: 箱码缺少\n - BOX_CODE_WRONG: 箱码错误\n - BOX_CODE_INCONSISTENT: 箱码不一致\n - BOX_CODE_POSITION: 箱码位置错误\n - BOX_CODE_OTHER: 箱码其他\n - OTHER: 其他",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "UNKNOWN",
+                "PRODUCT_BROKEN",
+                "PRODUCT_DEFECT",
+                "PRODUCT_MISSING_PARTS",
+                "PRODUCT_MISSING_GOODS",
+                "PRODUCT_WRONG",
+                "PACKAGE_STRENGTH",
+                "PACKAGE_SEALING",
+                "PACKAGE_PRINTING",
+                "PACKAGE_SIZE",
+                "PACKAGE_OTHER",
+                "PRODUCT_LABEL_BARCODE_MISSING",
+                "PRODUCT_LABEL_BARCODE_WRONG",
+                "PRODUCT_LABEL_BARCODE_DUPLICATE",
+                "PRODUCT_LABEL_MISSING_69",
+                "PRODUCT_LABEL_OTHER",
+                "BOX_CODE_MISSING",
+                "BOX_CODE_WRONG",
+                "BOX_CODE_INCONSISTENT",
+                "BOX_CODE_POSITION",
+                "BOX_CODE_OTHER",
+                "OTHER"
+              ]
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      },
+      "post": {
+        "summary": "提交商品质量问题",
+        "operationId": "Product_CreateProductQualityProblem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ProductQualityProblem"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1CreateProductQualityProblemRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/quality/problems/{problemId}": {
+      "delete": {
+        "summary": "删除商品质量问题",
+        "operationId": "Product_DeleteProductQualityProblem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "problemId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      },
+      "put": {
+        "summary": "修改商品质量问题",
+        "operationId": "Product_UpdateProductQualityProblem",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ProductQualityProblem"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "problemId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "warehouseId": {
+                  "type": "string",
+                  "format": "int64",
+                  "title": "仓库id"
+                },
+                "quantity": {
+                  "type": "integer",
+                  "format": "int32",
+                  "title": "数量"
+                },
+                "type": {
+                  "$ref": "#/definitions/v1ProductQualityProblemType",
+                  "title": "问题类型"
+                },
+                "description": {
+                  "type": "string",
+                  "title": "具体描述"
+                },
+                "imageUrls": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "图片urls"
+                }
+              }
             }
           }
         ],
@@ -35486,24 +35762,9 @@
           "type": "string",
           "title": "Cookie 令牌：Header['Authorization'] = token_type + ' '+ access_token"
         },
-        "expiresIn": {
-          "type": "string",
-          "format": "int64",
-          "title": "Cookie 有效期"
-        },
         "refreshToken": {
           "type": "string",
           "title": "Cookie 刷新令牌"
-        },
-        "refreshTokenExpiresIn": {
-          "type": "string",
-          "format": "int64",
-          "title": "refresh_token 有效期"
-        },
-        "createTimestamp": {
-          "type": "string",
-          "format": "int64",
-          "title": "创建时间 毫秒时间戳"
         }
       }
     },
@@ -37087,6 +37348,41 @@
       "properties": {
         "name": {
           "type": "string"
+        }
+      }
+    },
+    "v1CreateProductQualityProblemRequest": {
+      "type": "object",
+      "properties": {
+        "warehouseId": {
+          "type": "string",
+          "format": "int64",
+          "title": "仓库id"
+        },
+        "productId": {
+          "type": "string",
+          "format": "int64",
+          "title": "产品ID"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "数量"
+        },
+        "type": {
+          "$ref": "#/definitions/v1ProductQualityProblemType",
+          "title": "问题类型"
+        },
+        "description": {
+          "type": "string",
+          "title": "具体描述"
+        },
+        "imageUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "图片urls"
         }
       }
     },
@@ -40229,6 +40525,21 @@
         }
       }
     },
+    "v1ListProductQualityProblemReply": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ProductQualityProblem"
+          }
+        }
+      }
+    },
     "v1ListProductSaleStatReply": {
       "type": "object",
       "properties": {
@@ -42277,6 +42588,105 @@
         }
       }
     },
+    "v1ProductQualityProblem": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "warehouseId": {
+          "type": "string",
+          "format": "int64",
+          "title": "仓库id"
+        },
+        "supplierId": {
+          "type": "string",
+          "format": "int64",
+          "title": "供应商ID"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "数量"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "double",
+          "title": "单价"
+        },
+        "totalPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "type": {
+          "$ref": "#/definitions/v1ProductQualityProblemType"
+        },
+        "description": {
+          "type": "string",
+          "title": "具体描述"
+        },
+        "imageUrls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "title": "图片"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "title": "0未处理 1已处理"
+        },
+        "auditTime": {
+          "type": "string",
+          "title": "审核时间"
+        },
+        "auditorName": {
+          "type": "string",
+          "title": "审核人"
+        },
+        "product": {
+          "$ref": "#/definitions/apicommonv1Product",
+          "title": "产品"
+        }
+      }
+    },
+    "v1ProductQualityProblemType": {
+      "type": "string",
+      "enum": [
+        "UNKNOWN",
+        "PRODUCT_BROKEN",
+        "PRODUCT_DEFECT",
+        "PRODUCT_MISSING_PARTS",
+        "PRODUCT_MISSING_GOODS",
+        "PRODUCT_WRONG",
+        "PACKAGE_STRENGTH",
+        "PACKAGE_SEALING",
+        "PACKAGE_PRINTING",
+        "PACKAGE_SIZE",
+        "PACKAGE_OTHER",
+        "PRODUCT_LABEL_BARCODE_MISSING",
+        "PRODUCT_LABEL_BARCODE_WRONG",
+        "PRODUCT_LABEL_BARCODE_DUPLICATE",
+        "PRODUCT_LABEL_MISSING_69",
+        "PRODUCT_LABEL_OTHER",
+        "BOX_CODE_MISSING",
+        "BOX_CODE_WRONG",
+        "BOX_CODE_INCONSISTENT",
+        "BOX_CODE_POSITION",
+        "BOX_CODE_OTHER",
+        "OTHER"
+      ],
+      "default": "UNKNOWN",
+      "title": "- UNKNOWN: 未知\n - PRODUCT_BROKEN: 产品破损\n - PRODUCT_DEFECT: 产品次品\n - PRODUCT_MISSING_PARTS: 产品少配件\n - PRODUCT_MISSING_GOODS: 产品少货\n - PRODUCT_WRONG: 产品错误\n - PACKAGE_STRENGTH: 包装强度差\n - PACKAGE_SEALING: 包装封口不严\n - PACKAGE_PRINTING: 包装印刷不合格\n - PACKAGE_SIZE: 包装尺寸不合格\n - PACKAGE_OTHER: 包装其他\n - PRODUCT_LABEL_BARCODE_MISSING: 产品标签条码缺少\n - PRODUCT_LABEL_BARCODE_WRONG: 产品标签条码错误\n - PRODUCT_LABEL_BARCODE_DUPLICATE: 产品标签条码重复\n - PRODUCT_LABEL_MISSING_69: 产品标签少69码\n - PRODUCT_LABEL_OTHER: 产品标签其他\n - BOX_CODE_MISSING: 箱码缺少\n - BOX_CODE_WRONG: 箱码错误\n - BOX_CODE_INCONSISTENT: 箱码不一致\n - BOX_CODE_POSITION: 箱码位置错误\n - BOX_CODE_OTHER: 箱码其他\n - OTHER: 其他"
+    },
     "v1ProductStatus": {
       "type": "string",
       "enum": [
@@ -44164,6 +44574,15 @@
       ],
       "default": "RED_PACKET_STATUS_CANCELED",
       "title": "- RED_PACKET_STATUS_CANCELED: 已经取消\n - RED_PACKET_STATUS_REVIEWING: 审核中\n - RED_PACKET_STATUS_REVIEWED: 已审核"
+    },
+    "v1RefreshAuthenticateRequest": {
+      "type": "object",
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "title": "刷新令牌"
+        }
+      }
     },
     "v1RefreshRequest": {
       "type": "object",
@@ -47295,26 +47714,11 @@
         },
         "accessToken": {
           "type": "string",
-          "title": "Cookie 令牌：Header['Authorization'] = token_type + ' '+ access_token"
-        },
-        "expiresIn": {
-          "type": "string",
-          "format": "int64",
-          "title": "Cookie 有效期"
+          "title": "Cookie 令牌：Header['Authorization'] = token_type + 空格 + access_token"
         },
         "refreshToken": {
           "type": "string",
           "title": "Cookie 刷新令牌"
-        },
-        "refreshTokenExpiresIn": {
-          "type": "string",
-          "format": "int64",
-          "title": "refresh_token 有效期"
-        },
-        "createTimestamp": {
-          "type": "string",
-          "format": "int64",
-          "title": "创建时间 毫秒时间戳"
         }
       }
     },
