@@ -42725,10 +42725,17 @@
           "format": "int64",
           "title": "仓库id"
         },
+        "warehouseName": {
+          "type": "string"
+        },
         "supplierId": {
           "type": "string",
           "format": "int64",
           "title": "供应商ID"
+        },
+        "supplierNo": {
+          "type": "string",
+          "title": "供应商no"
         },
         "quantity": {
           "type": "integer",
