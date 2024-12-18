@@ -14109,6 +14109,40 @@
         ]
       }
     },
+    "/v1/products/stockin/orders/status/completed": {
+      "put": {
+        "summary": "标记商品入库待检记录未已完成",
+        "operationId": "Product_MarkProductStockinOrderAsCompleted",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/v1MarkProductStockinOrderAsCompletedRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
     "/v1/products/{productId}": {
       "get": {
         "summary": "获取产品详情",
@@ -41374,6 +41408,25 @@
           "type": "string"
         }
       }
+    },
+    "v1MarkProductStockinOrderAsCompletedRequest": {
+      "type": "object",
+      "properties": {
+        "stockinIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          },
+          "title": "待检记录ID数组",
+          "required": [
+            "stockinIds"
+          ]
+        }
+      },
+      "required": [
+        "stockinIds"
+      ]
     },
     "v1MoveSampleLocationRequest": {
       "type": "object",
