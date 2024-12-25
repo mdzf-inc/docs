@@ -12599,7 +12599,17 @@
             "collectionFormat": "multi"
           },
           {
-            "name": "productIds",
+            "name": "productNos",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "shopIds",
             "in": "query",
             "required": false,
             "type": "array",
@@ -12917,7 +12927,7 @@
           },
           {
             "name": "productIds",
-            "description": "产品id",
+            "description": "产品no",
             "in": "query",
             "required": false,
             "type": "array",
@@ -12926,6 +12936,96 @@
               "format": "int64"
             },
             "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/after-sales/warnings/stats/trend": {
+      "get": {
+        "summary": "统计售后预警趋势",
+        "operationId": "Product_StatsProductAfterSalesWarningTrend",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1StatsProductAfterSalesWarningTrendReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "description": " - DAY: 按天\n - WEEK: 按周\n - MONTH: 按月",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "DAY",
+              "WEEK",
+              "MONTH"
+            ],
+            "default": "DAY"
+          },
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "productNos",
+            "description": "产品no",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/barcode/{barcode}": {
+      "get": {
+        "summary": "依据主条码查找商品",
+        "operationId": "Product_GetByBarcode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apicommonv1Product"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "tags": [
@@ -13678,13 +13778,12 @@
             "collectionFormat": "multi"
           },
           {
-            "name": "productIds",
+            "name": "productNos",
             "in": "query",
             "required": false,
             "type": "array",
             "items": {
-              "type": "string",
-              "format": "int64"
+              "type": "string"
             },
             "collectionFormat": "multi"
           }
@@ -13992,6 +14091,89 @@
             "type": "array",
             "items": {
               "type": "string"
+            },
+            "collectionFormat": "multi"
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/statistics/pre-after-sales/trend": {
+      "get": {
+        "summary": "产品售前跟售后趋势统计",
+        "operationId": "Product_GetProductPreAndAfterSalesTrendStatistics",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1GetProductPreAndAfterSalesTrendStatisticsReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "description": " - DAY: 按天\n - WEEK: 按周\n - MONTH: 按月",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "enum": [
+              "DAY",
+              "WEEK",
+              "MONTH"
+            ],
+            "default": "DAY"
+          },
+          {
+            "name": "dateRange",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "shopIds",
+            "description": "店铺",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "int64"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "productNos",
+            "description": "产品no",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "collectionFormat": "multi"
+          },
+          {
+            "name": "afterSalesOrderTypes",
+            "description": "售后问题类型",
+            "in": "query",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
             },
             "collectionFormat": "multi"
           }
@@ -14552,6 +14734,47 @@
                 }
               }
             }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/{productId}/stocks": {
+      "get": {
+        "summary": "获取产品货位库存列表",
+        "operationId": "Product_ListProductStocks",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductStocksReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "productId",
+            "description": "产品id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "warehouseId",
+            "description": "仓库id",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -37449,13 +37672,24 @@
         "warehouseId": {
           "type": "string",
           "format": "int64",
-          "title": "仓库id"
+          "title": "仓库id",
+          "required": [
+            "warehouseId"
+          ]
         },
-        "productNo": {
+        "positionNo": {
           "type": "string",
+          "title": "货位编号",
+          "required": [
+            "positionNo"
+          ]
+        },
+        "productId": {
+          "type": "string",
+          "format": "int64",
           "title": "产品条码",
           "required": [
-            "productNo"
+            "productId"
           ]
         },
         "quantity": {
@@ -37480,7 +37714,9 @@
         }
       },
       "required": [
-        "productNo"
+        "warehouseId",
+        "positionNo",
+        "productId"
       ]
     },
     "v1CreateProjectRequest": {
@@ -38660,6 +38896,62 @@
           "type": "string"
         }
       }
+    },
+    "v1GetProductPreAndAfterSalesTrendStatisticsReply": {
+      "type": "object",
+      "properties": {
+        "xAxis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "salesAmount": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "afterSalesAmount": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "salesProductQuantity": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "afterSalesProductQuantity": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "afterSalesRate": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      }
+    },
+    "v1GetProductPreAndAfterSalesTrendStatisticsRequestType": {
+      "type": "string",
+      "enum": [
+        "DAY",
+        "WEEK",
+        "MONTH"
+      ],
+      "default": "DAY",
+      "title": "- DAY: 按天\n - WEEK: 按周\n - MONTH: 按月"
     },
     "v1GetProductPriceHistoryReply": {
       "type": "object",
@@ -40744,6 +41036,45 @@
         }
       }
     },
+    "v1ListProductStocksReply": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ListProductStocksReplyItem"
+          }
+        }
+      }
+    },
+    "v1ListProductStocksReplyItem": {
+      "type": "object",
+      "properties": {
+        "warehouseId": {
+          "type": "string",
+          "format": "int64",
+          "title": "仓库id"
+        },
+        "zoneNo": {
+          "type": "string",
+          "title": "货区【前端显示】"
+        },
+        "positionNo": {
+          "type": "string",
+          "title": "货位 【前端显示】"
+        },
+        "stockNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "库存量 【前端显示】"
+        },
+        "reserveNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "占用库存量 【前端显示】"
+        }
+      }
+    },
     "v1ListProductUnitReply": {
       "type": "object",
       "properties": {
@@ -42803,6 +43134,14 @@
         "updateTime": {
           "type": "string"
         },
+        "creatorId": {
+          "type": "string",
+          "format": "int64",
+          "title": "登记人"
+        },
+        "creatorName": {
+          "type": "string"
+        },
         "warehouseId": {
           "type": "string",
           "format": "int64",
@@ -42810,6 +43149,10 @@
         },
         "warehouseName": {
           "type": "string"
+        },
+        "positionNo": {
+          "type": "string",
+          "title": "货位"
         },
         "supplierId": {
           "type": "string",
@@ -42869,6 +43212,18 @@
         "auditorName": {
           "type": "string",
           "title": "审核人"
+        },
+        "stockTransferStatus": {
+          "type": "integer",
+          "format": "int32",
+          "title": "调拨状态: 0-未调拨 1-已调拨 [小程序显示]"
+        },
+        "stockTransferNo": {
+          "type": "string",
+          "title": "调拨单号"
+        },
+        "stockTransferTime": {
+          "type": "string"
         },
         "product": {
           "$ref": "#/definitions/apicommonv1Product",
@@ -47361,6 +47716,41 @@
           "format": "int32"
         }
       }
+    },
+    "v1StatsProductAfterSalesWarningTrendReply": {
+      "type": "object",
+      "properties": {
+        "xAxis": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warningCount": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "productCount": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "v1StatsProductAfterSalesWarningTrendRequestType": {
+      "type": "string",
+      "enum": [
+        "DAY",
+        "WEEK",
+        "MONTH"
+      ],
+      "default": "DAY",
+      "title": "- DAY: 按天\n - WEEK: 按周\n - MONTH: 按月"
     },
     "v1StatsProductReply": {
       "type": "object",
