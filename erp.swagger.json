@@ -24368,6 +24368,13 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "onlyQualityInspection",
+            "description": "是否只查看质检仓库",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
           }
         ],
         "tags": [
