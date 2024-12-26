@@ -14741,9 +14741,9 @@
         ]
       }
     },
-    "/v1/products/{productId}/stocks": {
+    "/v1/products/{productId}/position-stocks": {
       "get": {
-        "summary": "获取产品货位库存列表",
+        "summary": "获取产品库存货位",
         "operationId": "Product_ListProductStocks",
         "responses": {
           "200": {
@@ -41046,6 +41046,10 @@
     "v1ListProductStocksReply": {
       "type": "object",
       "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
         "items": {
           "type": "array",
           "items": {
