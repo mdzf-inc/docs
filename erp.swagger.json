@@ -14744,12 +14744,12 @@
     "/v1/products/{productId}/position-stocks": {
       "get": {
         "summary": "获取产品库存货位",
-        "operationId": "Product_ListProductStocks",
+        "operationId": "Product_ListProductPositionStocks",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListProductStocksReply"
+              "$ref": "#/definitions/v1ListProductPositionStocksReply"
             }
           },
           "default": {
@@ -14765,6 +14765,22 @@
             "description": "产品id",
             "in": "path",
             "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.page",
+            "description": "页数",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "pagination.size",
+            "description": "每页数据量 \u003c200",
+            "in": "query",
+            "required": false,
             "type": "string",
             "format": "int64"
           },
@@ -35473,6 +35489,31 @@
         }
       }
     },
+    "commonv1Pagination": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "string",
+          "format": "int64",
+          "title": "页数",
+          "required": [
+            "page"
+          ]
+        },
+        "size": {
+          "type": "string",
+          "format": "int64",
+          "title": "每页数据量 \u003c200",
+          "required": [
+            "size"
+          ]
+        }
+      },
+      "required": [
+        "page",
+        "size"
+      ]
+    },
     "commonv1Permission": {
       "type": "object",
       "properties": {
@@ -40910,6 +40951,64 @@
         }
       }
     },
+    "v1ListProductPositionStocksReply": {
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ListProductPositionStocksReplyItem"
+          }
+        }
+      }
+    },
+    "v1ListProductPositionStocksReplyItem": {
+      "type": "object",
+      "properties": {
+        "warehouseId": {
+          "type": "string",
+          "format": "int64",
+          "title": "仓库id"
+        },
+        "zoneNo": {
+          "type": "string",
+          "title": "货区【前端显示】"
+        },
+        "positionNo": {
+          "type": "string",
+          "title": "货位 【前端显示】"
+        },
+        "stockNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "库存量 【前端显示】"
+        },
+        "reserveNum": {
+          "type": "integer",
+          "format": "int32",
+          "title": "占用库存量 【前端显示】"
+        }
+      }
+    },
+    "v1ListProductPositionStocksRequestPagination": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "string",
+          "format": "int64",
+          "title": "页数"
+        },
+        "size": {
+          "type": "string",
+          "format": "int64",
+          "title": "每页数据量 \u003c200"
+        }
+      }
+    },
     "v1ListProductQualityProblemCostStatisticsByTypeReply": {
       "type": "object",
       "properties": {
@@ -41040,49 +41139,6 @@
         "quantity": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "v1ListProductStocksReply": {
-      "type": "object",
-      "properties": {
-        "total": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/v1ListProductStocksReplyItem"
-          }
-        }
-      }
-    },
-    "v1ListProductStocksReplyItem": {
-      "type": "object",
-      "properties": {
-        "warehouseId": {
-          "type": "string",
-          "format": "int64",
-          "title": "仓库id"
-        },
-        "zoneNo": {
-          "type": "string",
-          "title": "货区【前端显示】"
-        },
-        "positionNo": {
-          "type": "string",
-          "title": "货位 【前端显示】"
-        },
-        "stockNum": {
-          "type": "integer",
-          "format": "int32",
-          "title": "库存量 【前端显示】"
-        },
-        "reserveNum": {
-          "type": "integer",
-          "format": "int32",
-          "title": "占用库存量 【前端显示】"
         }
       }
     },
@@ -42365,31 +42421,6 @@
           "title": "样品ID"
         }
       }
-    },
-    "v1Pagination": {
-      "type": "object",
-      "properties": {
-        "page": {
-          "type": "string",
-          "format": "int64",
-          "title": "页数",
-          "required": [
-            "page"
-          ]
-        },
-        "size": {
-          "type": "string",
-          "format": "int64",
-          "title": "每页数据量 \u003c200",
-          "required": [
-            "size"
-          ]
-        }
-      },
-      "required": [
-        "page",
-        "size"
-      ]
     },
     "v1Payment": {
       "type": "object",
