@@ -37932,6 +37932,14 @@
           "type": "integer",
           "format": "int32",
           "title": "0 入库质检 1 日常巡检"
+        },
+        "isNotify": {
+          "type": "boolean",
+          "title": "是否机器人发送钉钉群通知消息"
+        },
+        "isTransferStock": {
+          "type": "boolean",
+          "title": "是否移出当前货位库存"
         }
       },
       "required": [
@@ -43505,6 +43513,14 @@
           "type": "integer",
           "format": "int32",
           "title": "调拨回往正品仓的状态"
+        },
+        "isNotify": {
+          "type": "boolean",
+          "title": "是否机器人发送钉钉群通知消息"
+        },
+        "isTransferStock": {
+          "type": "boolean",
+          "title": "是否移出当前货位库存"
         },
         "product": {
           "$ref": "#/definitions/apicommonv1Product",
