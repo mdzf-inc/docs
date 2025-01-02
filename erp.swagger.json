@@ -37931,7 +37931,7 @@
         "source": {
           "type": "integer",
           "format": "int32",
-          "title": "0 入库质检 1 日常巡检"
+          "title": "来源 0-入库质检 1-日常巡检 2-上门质检"
         },
         "isNotify": {
           "type": "boolean",
@@ -43442,7 +43442,7 @@
         "source": {
           "type": "integer",
           "format": "int32",
-          "title": "来源"
+          "title": "来源 0-入库质检 1-日常巡检 2-上门质检"
         },
         "status": {
           "type": "integer",
