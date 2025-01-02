@@ -13744,11 +13744,11 @@
             "schema": {
               "type": "object",
               "properties": {
-                "auditOpinion": {
+                "remark": {
                   "type": "string",
-                  "title": "处理意见",
+                  "title": "备注",
                   "required": [
-                    "auditOpinion"
+                    "remark"
                   ]
                 },
                 "stockTransferToDefectiveQuantity": {
@@ -13763,9 +13763,41 @@
                 }
               },
               "required": [
-                "auditOpinion"
+                "remark"
               ]
             }
+          }
+        ],
+        "tags": [
+          "Product"
+        ]
+      }
+    },
+    "/v1/products/quality/problems/{problemId}/stock-transfers": {
+      "get": {
+        "summary": "获取商品质量问题调拨记录",
+        "operationId": "Product_ListProductQualityProblemTransfer",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1ListProductQualityProblemTransferReply"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "problemId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -37911,7 +37943,10 @@
         "quantity": {
           "type": "integer",
           "format": "int32",
-          "title": "数量"
+          "title": "数量",
+          "required": [
+            "quantity"
+          ]
         },
         "type": {
           "$ref": "#/definitions/v1ProductQualityProblemType",
@@ -37945,7 +37980,8 @@
       "required": [
         "warehouseId",
         "positionNo",
-        "productId"
+        "productId",
+        "quantity"
       ]
     },
     "v1CreateProjectRequest": {
@@ -41262,6 +41298,17 @@
       "default": "ALL",
       "title": "- ALL: 所有数据\n - ME: 自己的数据"
     },
+    "v1ListProductQualityProblemTransferReply": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v1ProductQualityProblemStockTransfer"
+          }
+        }
+      }
+    },
     "v1ListProductSaleStatReply": {
       "type": "object",
       "properties": {
@@ -43449,70 +43496,15 @@
           "format": "int32",
           "title": "0未处理 1已处理"
         },
-        "auditTime": {
-          "type": "string",
-          "title": "审核时间"
-        },
-        "auditOpinion": {
-          "type": "string",
-          "title": "处理意见"
-        },
-        "auditorId": {
-          "type": "string",
-          "format": "int64",
-          "title": "审核人id"
-        },
-        "auditorName": {
-          "type": "string",
-          "title": "审核人"
-        },
-        "stockTransferStatus": {
-          "type": "integer",
-          "format": "int32",
-          "title": "调拨状态: 0-未调拨 1-已调拨 [小程序显示]"
-        },
-        "stockTransferNo": {
-          "type": "string",
-          "title": "调拨单号"
-        },
-        "stockTransferTime": {
-          "type": "string"
-        },
         "stockTransferToDefectiveQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "调拨前往亏损仓的数量"
         },
-        "stockTransferToDefectiveNo": {
-          "type": "string",
-          "title": "调拨前往亏损仓的单号"
-        },
-        "stockTransferToDefectiveTime": {
-          "type": "string",
-          "title": "调拨前往亏损仓的时间"
-        },
-        "stockTransferToDefectiveStatus": {
-          "type": "integer",
-          "format": "int32",
-          "title": "调拨前往亏损仓的状态"
-        },
         "stockTransferToNormalQuantity": {
           "type": "integer",
           "format": "int32",
           "title": "调拨回往正品仓的数量"
-        },
-        "stockTransferToNormalNo": {
-          "type": "string",
-          "title": "调拨回往正品仓的单号"
-        },
-        "stockTransferToNormalTime": {
-          "type": "string",
-          "title": "调拨回往正品仓的时间"
-        },
-        "stockTransferToNormalStatus": {
-          "type": "integer",
-          "format": "int32",
-          "title": "调拨回往正品仓的状态"
         },
         "isNotify": {
           "type": "boolean",
@@ -43525,6 +43517,87 @@
         "product": {
           "$ref": "#/definitions/apicommonv1Product",
           "title": "产品"
+        }
+      }
+    },
+    "v1ProductQualityProblemStockTransfer": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createTime": {
+          "type": "string"
+        },
+        "updateTime": {
+          "type": "string"
+        },
+        "creatorId": {
+          "type": "string",
+          "format": "int64",
+          "title": "制单人"
+        },
+        "creatorName": {
+          "type": "string"
+        },
+        "fromWarehouseId": {
+          "type": "string",
+          "format": "int64",
+          "title": "仓库id"
+        },
+        "fromPositionNo": {
+          "type": "string",
+          "title": "货位编号"
+        },
+        "toWarehouseId": {
+          "type": "string",
+          "format": "int64",
+          "title": "调拨至仓库id"
+        },
+        "toPositionNo": {
+          "type": "string",
+          "title": "调拨至货位编号"
+        },
+        "supplierId": {
+          "type": "string",
+          "format": "int64",
+          "title": "供应商id"
+        },
+        "productId": {
+          "type": "string",
+          "format": "int64",
+          "title": "商品id"
+        },
+        "productNo": {
+          "type": "string",
+          "title": "商品编号"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32",
+          "title": "数量"
+        },
+        "remark": {
+          "type": "string",
+          "title": "beizhu"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态: -1失败 0-未处理 1-成功"
+        },
+        "stockTransferNo": {
+          "type": "string",
+          "title": "调拨单号"
+        },
+        "stockTransferTime": {
+          "type": "string",
+          "title": "调拨时间"
+        },
+        "stockTransferResult": {
+          "type": "string",
+          "title": "调拨结果"
         }
       }
     },
